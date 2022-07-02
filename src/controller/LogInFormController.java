@@ -15,22 +15,16 @@ public class LogInFormController implements Initializable {
 
     @FXML
     private RadioButton loginEnglishRadio;
-
     @FXML
     private RadioButton loginFrenchRadio;
-
     @FXML
     private ToggleGroup loginLanguageSelect;
-
     @FXML
     private Label loginLocationLabel;
-
     @FXML
     private TextField loginPasswordTextBox;
-
     @FXML
     private Label loginTimeLabel;
-
     @FXML
     private TextField loginUserTextBox;
 
