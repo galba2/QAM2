@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="933.0" spacing="7.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="933.0" spacing="7.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AppointmentsFormController">
    <children>
       <Label text="Appointments" underline="true">
          <font>
@@ -24,11 +24,11 @@
          <children>
             <RadioButton fx:id="aRAllRadio" mnemonicParsing="false" selected="true" text="All">
                <toggleGroup>
-                  <ToggleGroup fx:id="View" />
+                  <ToggleGroup fx:id="appViewToggle" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="aRMonthlyRadio" mnemonicParsing="false" text="Monthly" toggleGroup="$View" />
-            <RadioButton fx:id="aRWeeklyRadio" mnemonicParsing="false" text="Weekly" toggleGroup="$View" />
+            <RadioButton fx:id="aRMonthlyRadio" mnemonicParsing="false" text="Monthly" toggleGroup="$appViewToggle" />
+            <RadioButton fx:id="aRWeeklyRadio" mnemonicParsing="false" text="Weekly" toggleGroup="$appViewToggle" />
          </children>
          <opaqueInsets>
             <Insets />

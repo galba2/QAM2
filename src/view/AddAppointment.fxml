@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" prefWidth="300.0" spacing="7.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" prefWidth="300.0" spacing="7.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddAppointmentController">
    <children>
       <Pane>
          <children>
@@ -37,7 +37,6 @@
           <RowConstraints maxHeight="148.0" minHeight="0.0" prefHeight="35.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="183.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="164.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="222.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="222.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
@@ -47,24 +46,24 @@
             <Label text="Title" GridPane.rowIndex="1" />
             <Label text="Description" GridPane.rowIndex="2" />
             <Label text="Location" GridPane.rowIndex="3" />
-            <Label text="Type" GridPane.rowIndex="5" />
-            <Label text="Customer ID" GridPane.rowIndex="6" />
+            <Label text="Type" GridPane.rowIndex="4" />
+            <Label text="Customer ID" GridPane.rowIndex="5" />
             <TextField fx:id="idTextfield" editable="false" GridPane.columnIndex="1" />
             <TextField fx:id="titleTextfield" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="descriptionTextfield" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="locationTextfield" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="typeTextfield" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="customerIDTextfield" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Label text="User ID" GridPane.rowIndex="7" />
-            <TextField fx:id="userIDTextfield" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField fx:id="typeTextfield" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="customerIDTextfield" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label text="User ID" GridPane.rowIndex="6" />
+            <TextField fx:id="userIDTextfield" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
       </GridPane>
-      <HBox alignment="CENTER" spacing="33.0">
+      <HBox alignment="CENTER">
          <children>
             <ComboBox fx:id="contactComboBox" prefWidth="150.0" promptText="Contact" />
          </children>
          <padding>
-            <Insets left="13.0" right="13.0" />
+            <Insets bottom="13.0" top="13.0" />
          </padding>
       </HBox>
       <GridPane alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0">

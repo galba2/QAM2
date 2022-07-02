@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LogInFormController">
    <center>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
@@ -63,10 +63,10 @@
                         <Insets left="23.0" />
                      </HBox.margin>
                      <toggleGroup>
-                        <ToggleGroup fx:id="LanguageSelect" />
+                        <ToggleGroup fx:id="loginLanguageSelect" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="loginFrenchRadio" mnemonicParsing="false" text="French" toggleGroup="$LanguageSelect" />
+                  <RadioButton fx:id="loginFrenchRadio" mnemonicParsing="false" text="French" toggleGroup="$loginLanguageSelect" />
                </children>
             </HBox>
          </children>
