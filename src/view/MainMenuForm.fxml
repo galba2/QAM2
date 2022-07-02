@@ -104,6 +104,15 @@
                   </HBox>
                </children>
             </VBox>
+            <HBox alignment="CENTER_RIGHT">
+               <children>
+                  <Button fx:id="mainExitButton" mnemonicParsing="false" onAction="#onActionMainExitButton" text="Exit">
+                     <HBox.margin>
+                        <Insets top="8.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
          </children>
          <BorderPane.margin>
             <Insets left="7.0" right="7.0" />
@@ -123,9 +132,9 @@
             <Label text="Reports" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="33.0">
                <children>
-                  <Button fx:id="customerReportButton" mnemonicParsing="false" onAction="#onActionMainReport1" text="Customer Appointments" />
-                  <Button fx:id="contactReportButton" mnemonicParsing="false" onAction="#onActionMainReport2" text="Contact Schedules" />
-                  <Button fx:id="countryReportButton" mnemonicParsing="false" onAction="#onActionMainReport3" text="Customer Countries" />
+                  <Button fx:id="customerReportButton" mnemonicParsing="false" onAction="#onActionCustomerReportButton" text="Customer Appointments" />
+                  <Button fx:id="contactReportButton" mnemonicParsing="false" onAction="#onActionContactReportButton" text="Contact Schedules" />
+                  <Button fx:id="countryReportButton" mnemonicParsing="false" onAction="#onActionCountryReportButton" text="Customer Countries" />
                </children>
             </HBox>
          </children>

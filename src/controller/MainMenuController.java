@@ -43,14 +43,18 @@ public class MainMenuController implements Initializable {
     @FXML
     private GridPane mainMonthGridpane2;
     @FXML
-    private Button mainReport1Button;
+    private Button customerReportButton;
     @FXML
-    private Button mainReport2Button;
+    private Button contactReportButton;
     @FXML
-    private Button mainReport3Button;
+    private Button countryReportButton;
+    @FXML
+    private Button mainExitButton;
 
     @FXML
-    void onActionMainAppAdd(ActionEvent event) {
+    void onActionMainAppAdd(ActionEvent event) throws IOException {
+
+        switchScene("/view/AddAppointment.fxml",event);
 
     }
 
@@ -60,13 +64,15 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    void onActionMainAppUpdate(ActionEvent event) {
+    void onActionMainAppUpdate(ActionEvent event) throws IOException {
+
+        switchScene("/view/AddAppointment.fxml",event);
 
     }
 
     /**
      * This method is activated from the Add Customer button and switches the scene to the AddCustomerForm.
-     * @param event
+     * @param event ActionEvent activated from the button
      * @throws IOException
      */
     @FXML
@@ -84,29 +90,50 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    void onActionMainCusUpdate(ActionEvent event) {
+    void onActionMainCusUpdate(ActionEvent event) throws IOException {
+
+        switchScene("/view/AddCustomerForm.fxml",event);
 
     }
 
     @FXML
-    void onActionMainReport1(ActionEvent event) {
+    void onActionCustomerReportButton(ActionEvent event) throws IOException {
+
+        switchScene("/view/CustomerReportForm.fxml",event);
 
     }
 
     @FXML
-    void onActionMainReport2(ActionEvent event) {
+    void onActionContactReportButton(ActionEvent event) throws IOException {
+
+        switchScene("/view/ContactReportForm.fxml",event);
 
     }
 
     @FXML
-    void onActionMainReport3(ActionEvent event) {
+    void onActionCountryReportButton(ActionEvent event) throws IOException {
+
+        switchScene("/view/CountryReportForm.fxml",event);
 
     }
+
+    @FXML
+    void onActionMainExitButton(ActionEvent event) {
+
+        System.exit(0);
+
+    }
+
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("Sup from Controller");
     }
+
+
+
 
     //METHODS
 

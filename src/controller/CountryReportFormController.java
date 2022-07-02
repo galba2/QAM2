@@ -2,16 +2,24 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import javafx.fxml.Initializable;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CountryReportFormController implements Initializable {
+
+    private Stage stage;
+    private Parent scene;
 
     @FXML
     private Button countryFormBackButton;
@@ -26,7 +34,12 @@ public class CountryReportFormController implements Initializable {
     private TableView<?> countryFormTableView;
 
     @FXML
-    void onActionBackButton(ActionEvent event) {
+    void onActionBackButton(ActionEvent event) throws IOException {
+
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/MainMenuForm.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
 
     }
 

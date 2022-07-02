@@ -20,8 +20,8 @@ import java.util.ResourceBundle;
 
 public class AddCustomerFormController implements Initializable {
 
-    Stage stage;
-    Parent scene;
+    private Stage stage;
+    private Parent scene;
 
     @FXML
     private Button cCancelButton;
