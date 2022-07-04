@@ -22,18 +22,7 @@ public class MainMenuController implements Initializable {
     private Stage stage;
     private Parent scene;
 
-    @FXML
-    private Button mainAppAddButton;
-    @FXML
-    private Button mainAppDeleteButton;
-    @FXML
-    private Button mainAppUpdateButton;
-    @FXML
-    private Button mainCusAddButton;
-    @FXML
-    private Button mainCusDeleteButton;
-    @FXML
-    private Button mainCusUpdateButton;
+
     @FXML
     private Label mainMonth1Label;
     @FXML
@@ -49,52 +38,15 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button countryReportButton;
     @FXML
+    private Button mainAppButton;
+    @FXML
+    private Button mainCusButton;
+    @FXML
     private Button mainExitButton;
 
-    @FXML
-    void onActionMainAppAdd(ActionEvent event) throws IOException {
-
-        switchScene("/view/AddAppointment.fxml",event);
-
-    }
-
-    @FXML
-    void onActionMainAppDelete(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onActionMainAppUpdate(ActionEvent event) throws IOException {
-
-        switchScene("/view/AddAppointment.fxml",event);
-
-    }
-
-    /**
-     * This method is activated from the Add Customer button and switches the scene to the AddCustomerForm.
-     * @param event ActionEvent activated from the button
-     * @throws IOException
-     */
-    @FXML
-    void onActionMainCusAdd(ActionEvent event) throws IOException {
-
-        switchScene("/view/AddCustomerForm.fxml",event);
-
-    }
 
 
 
-    @FXML
-    void onActionMainCusDelete(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onActionMainCusUpdate(ActionEvent event) throws IOException {
-
-        switchScene("/view/AddCustomerForm.fxml",event);
-
-    }
 
     @FXML
     void onActionCustomerReportButton(ActionEvent event) throws IOException {
@@ -114,6 +66,20 @@ public class MainMenuController implements Initializable {
     void onActionCountryReportButton(ActionEvent event) throws IOException {
 
         switchScene("/view/CountryReportForm.fxml",event);
+
+    }
+
+    @FXML
+    void onActionMainAppButton(ActionEvent event) throws IOException {
+
+        switchScene("/view/AppointmentsForm.fxml",event);
+
+    }
+
+    @FXML
+    void onActionMainCusButton(ActionEvent event) throws IOException {
+
+        switchScene("/view/CustomersForm.fxml",event);
 
     }
 
@@ -150,6 +116,8 @@ public class MainMenuController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
     }
+
+
 
 
 

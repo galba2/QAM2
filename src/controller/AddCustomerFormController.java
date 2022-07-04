@@ -50,7 +50,7 @@ public class AddCustomerFormController implements Initializable {
     void onActionCusCancelButton(ActionEvent event) throws IOException {
 
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/MainMenuForm.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("/view/CustomersForm.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
 
@@ -63,8 +63,28 @@ public class AddCustomerFormController implements Initializable {
 
 
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        setCusLabel();
+
     }
+
+
+
+    //METHODS
+
+    @FXML
+    public void setCusLabel(){
+
+        if(CustomersFormController.getIsLabelAdd()){
+            this.cTitleLabel.setText("Add Customer");
+        }else{
+            this.cTitleLabel.setText("Update Customer");
+        }
+
+    }
+
+
 }

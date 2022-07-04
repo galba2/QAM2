@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainMenuController">
    <center>
       <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="100.0" spacing="33.0" BorderPane.alignment="CENTER">
          <children>
@@ -36,6 +36,13 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
+                     <children>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Label text="Sunday" />
+                           </children>
+                        </HBox>
+                     </children>
                   </GridPane>
                </children>
             </VBox>
@@ -74,45 +81,19 @@
          <children>
             <VBox alignment="CENTER" prefHeight="200.0">
                <children>
-                  <Label alignment="CENTER" text="Customer">
-                     <VBox.margin>
-                        <Insets top="25.0" />
-                     </VBox.margin>
-                  </Label>
-                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="7.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" spacing="13.0">
                      <children>
-                        <Button fx:id="mainCusAddButton" mnemonicParsing="false" onAction="#onActionMainCusAdd" text="Add" />
-                        <Button fx:id="mainCusUpdateButton" mnemonicParsing="false" onAction="#onActionMainCusUpdate" text="Update" />
-                        <Button fx:id="mainCusDeleteButton" mnemonicParsing="false" onAction="#onActionMainCusDelete" text="Delete" />
+                        <Button fx:id="mainCusButton" mnemonicParsing="false" onAction="#onActionMainCusButton" text="Customers" />
+                        <Button fx:id="mainAppButton" mnemonicParsing="false" onAction="#onActionMainAppButton" text="Appointments" />
+                        <Button fx:id="mainExitButton" mnemonicParsing="false" onAction="#onActionMainExitButton" text="Exit">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
                      </children>
                   </HBox>
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="200.0">
-               <children>
-                  <Label text="Appointment">
-                     <VBox.margin>
-                        <Insets top="25.0" />
-                     </VBox.margin>
-                  </Label>
-                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="7.0">
-                     <children>
-                        <Button fx:id="mainAppAddButton" mnemonicParsing="false" onAction="#onActionMainAppAdd" text="Add" />
-                        <Button fx:id="mainAppUpdateButton" mnemonicParsing="false" onAction="#onActionMainAppUpdate" text="Update" />
-                        <Button fx:id="mainAppDeleteButton" mnemonicParsing="false" onAction="#onActionMainAppDelete" text="Delete" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-            <HBox alignment="CENTER_RIGHT">
-               <children>
-                  <Button fx:id="mainExitButton" mnemonicParsing="false" onAction="#onActionMainExitButton" text="Exit">
-                     <HBox.margin>
-                        <Insets top="8.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
          </children>
          <BorderPane.margin>
             <Insets left="7.0" right="7.0" />
@@ -136,6 +117,9 @@
                   <Button fx:id="contactReportButton" mnemonicParsing="false" onAction="#onActionContactReportButton" text="Contact Schedules" />
                   <Button fx:id="countryReportButton" mnemonicParsing="false" onAction="#onActionCountryReportButton" text="Customer Countries" />
                </children>
+               <padding>
+                  <Insets bottom="13.0" />
+               </padding>
             </HBox>
          </children>
       </VBox>

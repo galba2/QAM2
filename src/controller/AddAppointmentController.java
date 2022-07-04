@@ -70,7 +70,7 @@ public class AddAppointmentController implements Initializable {
     void onActionAppCancel(ActionEvent event) throws IOException {
 
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/MainMenuForm.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("/view/AppointmentsForm.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
 
@@ -82,8 +82,30 @@ public class AddAppointmentController implements Initializable {
     }
 
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        setCusLabel();
+
     }
+
+
+
+    //METHODS
+
+    @FXML
+    public void setCusLabel(){
+
+        if(AppointmentsFormController.getIsLabelAdd()){
+            this.appointmentTitleLabel.setText("Add Appointment");
+        }else{
+            this.appointmentTitleLabel.setText("Update Appointment");
+        }
+
+    }
+
+
+
 }
