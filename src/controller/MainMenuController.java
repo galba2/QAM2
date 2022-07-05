@@ -1,5 +1,6 @@
 package controller;
 
+import Database.DBConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -86,6 +87,7 @@ public class MainMenuController implements Initializable {
     @FXML
     void onActionMainExitButton(ActionEvent event) {
 
+        DBConnection.closeConnection();
         System.exit(0);
 
     }
@@ -95,7 +97,7 @@ public class MainMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("Sup from Controller");
+
     }
 
 

@@ -1,5 +1,6 @@
 package controller;
 
+import Database.DBConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,6 +45,7 @@ public class LogInFormController implements Initializable {
     @FXML
     void onActionExitButton(ActionEvent event) {
 
+        DBConnection.closeConnection();
         System.exit(0);
 
     }
