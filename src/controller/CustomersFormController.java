@@ -13,7 +13,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import static DBAccess.CustomerQuery.*;
 
 public class CustomersFormController implements Initializable {
 
@@ -63,7 +66,9 @@ public class CustomersFormController implements Initializable {
     }
 
     @FXML
-    void onActionCusDeleteButton(ActionEvent event) {
+    void onActionCusDeleteButton(ActionEvent event) throws SQLException {
+
+        deleteCustomer(7);
 
     }
 
@@ -72,6 +77,7 @@ public class CustomersFormController implements Initializable {
 
         isLabelAdd = false;
         switchScene("/view/AddCustomerForm.fxml",event);
+        getCustomer();
 
     }
 

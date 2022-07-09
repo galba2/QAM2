@@ -15,7 +15,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import static DBAccess.AppointmentQuery.*;
 
 public class AppointmentsFormController implements Initializable {
 
@@ -91,7 +94,9 @@ public class AppointmentsFormController implements Initializable {
     }
 
     @FXML
-    void onActionAppDeleteButton(ActionEvent event) {
+    void onActionAppDeleteButton(ActionEvent event) throws SQLException {
+
+        deleteAppointment(3);
 
     }
 

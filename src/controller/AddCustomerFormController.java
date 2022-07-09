@@ -1,5 +1,6 @@
 package controller;
 
+import DBAccess.CustomerQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AddCustomerFormController implements Initializable {
@@ -57,7 +59,10 @@ public class AddCustomerFormController implements Initializable {
     }
 
     @FXML
-    void onActionCusSaveButton(ActionEvent event) {
+    void onActionCusSaveButton(ActionEvent event) throws SQLException {
+
+        CustomerQuery.addCustomer("Frank Dux","1568 Fantasy",78940,"777-333-5906",
+                                    "2022-07-03 17:77:00","U","2022-07-03 17:77:00","U",60);
 
     }
 
