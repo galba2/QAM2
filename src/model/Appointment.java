@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 public class Appointment {
 
-    private int id;
+    private int apptID;
     private String title;
     private String description;
     private String location;
@@ -21,13 +21,31 @@ public class Appointment {
     private int contactID;
 
 
+    public Appointment(){
+
+        this.apptID = -1;
+        this.title = null;
+        this.description = null;
+        this.location = null;
+        this.type = null;
+        this.start = null;
+        this.end = null;
+        this.createDate = null;
+        this.createdBy = null;
+        this.lastUpdate = null;
+        this.lastUpdatedBy = null;
+        this.customerID = -1;
+        this.userID = -1;
+        this.contactID = -1;
+
+    }
 
 
-    public Appointment(int id,String title,String description,String location,String type,
+    public Appointment(Integer id,String title,String description,String location,String type,
                        Date start,Date end,Date createDate,String createdBy,Timestamp lastUpdate,
                         String lastUpdatedBy,int customerID,int userID,int contactID){
 
-        this.id = id;
+        this.apptID = id;
         this.title = title;
         this.description = description;
         this.location = location;
@@ -44,19 +62,19 @@ public class Appointment {
 
     }
 
-    public int getID(){
-        return id;
+    public Integer getApptID(){
+        return apptID;
     }
 
-    public void setID(int id){
-        this.id = id;
+    public void setApptID(Integer id){
+        this.apptID = id;
     }
 
     public String getTitle(){
         return title;
     }
 
-    public void setTitle(int id){
+    public void setTitle(String title){
         this.title = title;
     }
 
@@ -64,7 +82,7 @@ public class Appointment {
         return description;
     }
 
-    public void setDescription(String id){
+    public void setDescription(String description){
         this.description = description;
     }
 

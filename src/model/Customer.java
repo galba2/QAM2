@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 public class Customer {
 
-    private int id;
+    private int cusID;
     private String customerName;
     private String address;
     private String postalCode;
@@ -17,10 +17,10 @@ public class Customer {
     private int divisionID;
 
 
-    public Customer(int id, String customerName, String address,String postalCode,String phone,
-                        Date createDate,String createdBy,Timestamp lastUpdate,String lastUpdatedBy,int divisionID){
+    public Customer(int cusID, String customerName, String address, String postalCode, String phone,
+                    Date createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionID){
 
-        this.id = id;
+        this.cusID = cusID;
         this.customerName = customerName;
         this.address = address;
         this.postalCode = postalCode;
@@ -32,12 +32,12 @@ public class Customer {
         this.divisionID = divisionID;
     }
 
-    public int getID(){
-        return id;
+    public int getCusID(){
+        return cusID;
     }
 
-    public void setID(int id){
-        this.id = id;
+    public void setCusID(int id){
+        this.cusID = id;
     }
 
     public String getCustomerName(){

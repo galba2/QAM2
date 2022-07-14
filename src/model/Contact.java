@@ -2,23 +2,23 @@ package model;
 
 public class Contact {
 
-    private int id;
+    private int conID;
     private String contactName;
     private String email;
 
     public Contact(int contactID, String contactName, String email){
 
-        this.id = id;
+        this.conID = conID;
         this.contactName = contactName;
         this.email = email;
     }
 
     public int getID(){
-        return id;
+        return conID;
     }
 
     public void setID(int id){
-        this.id = id;
+        this.conID = id;
     }
 
     public String getContactName(){
