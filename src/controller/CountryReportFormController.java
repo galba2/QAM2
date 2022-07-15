@@ -10,7 +10,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import javafx.fxml.Initializable;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.AreaCount;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,13 +27,13 @@ public class CountryReportFormController implements Initializable {
     private Button countryFormBackButton;
 
     @FXML
-    private TableColumn<?, ?> countryFormCountryColumn;
+    private TableColumn<AreaCount, String> countryFormCountryColumn;
 
     @FXML
-    private TableColumn<?, ?> countryFormNumberColumn;
+    private TableColumn<AreaCount, Integer> countryFormNumberColumn;
 
     @FXML
-    private TableView<?> countryFormTableView;
+    private TableView<AreaCount> countryFormTableView;
 
     @FXML
     void onActionBackButton(ActionEvent event) throws IOException {
@@ -45,6 +47,19 @@ public class CountryReportFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        setColumns();
+
+
+
+    }
+
+    //METHODS
+    public void setColumns(){
+
+        countryFormCountryColumn.setCellValueFactory(new PropertyValueFactory<AreaCount, String>("apptID"));
+        countryFormNumberColumn.setCellValueFactory(new PropertyValueFactory<AreaCount, Integer>("title"));
+
 
     }
 }
