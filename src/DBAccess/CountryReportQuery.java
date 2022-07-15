@@ -24,14 +24,7 @@ public class CountryReportQuery {
         ArrayList<AreaCount> countryIDList  = new ArrayList<AreaCount>();
         countryIDList.addAll(getCountryIDList());
 
-
-
-        ObservableList<AreaCount> cRpt = FXCollections.observableArrayList();
-        cRpt.add(getCountryReport(divisionIDCountList, countryIDList));
-
-
-
-        return cRpt;
+        return getCountryReport(divisionIDCountList, countryIDList);
     }
 
 
@@ -77,10 +70,14 @@ public class CountryReportQuery {
 
         ObservableList<AreaCount> cRpt = FXCollections.observableArrayList();
         HashMap<Integer, Integer> counIDCountHash = new HashMap<Integer, Integer>();
-        HashMap<String, Integer> cRptHash = new HashMap<String, Integer>();
 
-        for(DivisionIDCount dID : divIDCountList){
 
+        for(AreaCount cID : counIDList){//populate hashMap with country_ID only
+
+            counIDCountHash.put(cID.getAreaCount(),0);
+        }
+
+        for(DivisionIDCount dID : divIDCountList){//add up customers for each country_ID
 
             DBConnection.makePreparedStatement("SELECT Country_ID FROM first_level_divisions WHERE Division_ID = ? ",DBConnection.getConnection());
             PreparedStatement ps = DBConnection.getPreparedStatement();
@@ -89,20 +86,26 @@ public class CountryReportQuery {
 
             while(rs.next()){
 
-
-
+                int cID = rs.getInt("Country_ID");
+                int cCount = (Integer)counIDCountHash.get(cID) + (Integer)dID.getDivCount();
+                counIDCountHash.replace(cID, cCount);
             }
-
         }
 
+        for (int cID : counIDCountHash.keySet()){//change out country_id for country and populate observableList
 
+            DBConnection.makePreparedStatement("SELECT Country FROM countries WHERE Country_ID = ?",DBConnection.getConnection());
+            PreparedStatement ps = DBConnection.getPreparedStatement();
+            ps.setInt(1, cID);
+            ResultSet rs = ps.executeQuery();
 
+            while(rs.next()){
 
-
-
-
+                AreaCount ac = new AreaCount(rs.getString("Country"),counIDCountHash.get(cID));
+                cRpt.add(ac);
+            }
+        }
 
         return cRpt;
-
     }
 }

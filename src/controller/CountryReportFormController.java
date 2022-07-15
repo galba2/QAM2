@@ -1,5 +1,6 @@
 package controller;
 
+import DBAccess.CountryReportQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,7 @@ import model.AreaCount;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CountryReportFormController implements Initializable {
@@ -50,15 +52,19 @@ public class CountryReportFormController implements Initializable {
 
         setColumns();
 
-
+        try {
+            countryFormTableView.setItems(CountryReportQuery.getCountryReport());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 
     //METHODS
     public void setColumns(){
 
-        countryFormCountryColumn.setCellValueFactory(new PropertyValueFactory<AreaCount, String>("apptID"));
-        countryFormNumberColumn.setCellValueFactory(new PropertyValueFactory<AreaCount, Integer>("title"));
+        countryFormCountryColumn.setCellValueFactory(new PropertyValueFactory<AreaCount, String>("area"));
+        countryFormNumberColumn.setCellValueFactory(new PropertyValueFactory<AreaCount, Integer>("areaCount"));
 
 
     }

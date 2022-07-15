@@ -5,7 +5,7 @@ public class AreaCount {
     private String area;
     private int areaCount;
 
-    public AreaCount(String area, int countryAmount) {
+    public AreaCount(String area, int areaCount) {
 
         this.area = area;
         this.areaCount = areaCount;
