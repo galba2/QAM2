@@ -96,4 +96,51 @@ public class CustomerQuery {
     }
 
 
+    public static ObservableList<String> getCustomerCountryList() throws SQLException {
+
+        ObservableList<String> ctry = FXCollections.observableArrayList();
+
+        DBConnection.makePreparedStatement("SELECT Country FROM countries",DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            ctry.add(rs.getString("Country"));
+        }
+
+        return ctry;
+    }
+
+
+    public static ObservableList<String> getCustomerDivByCounIDList(int countryID) throws SQLException {
+
+        ObservableList<String> sts = FXCollections.observableArrayList();
+
+        DBConnection.makePreparedStatement("SELECT Division FROM first_level_divisions WHERE Country_ID = ?",DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ps.setInt(1, countryID);
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            sts.add(rs.getString("Division"));
+        }
+
+        return sts;
+    }
+
+    public static int getCounIDByCoun(String country) throws SQLException {
+
+        int counID = 1;//Default to U.S country
+
+        DBConnection.makePreparedStatement("SELECT Country_ID FROM countries WHERE Country = ?",DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ps.setString(1, "\"" + country + "\"");
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            counID = rs.getInt("Country_ID");
+        }
+
+        return counID;
+    }
 }

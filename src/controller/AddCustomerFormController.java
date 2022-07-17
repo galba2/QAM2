@@ -25,12 +25,9 @@ public class AddCustomerFormController implements Initializable {
     private Stage stage;
     private Parent scene;
 
-    @FXML
-    private Button cCancelButton;
+
     @FXML
     private TextField cCityTextBox;
-    @FXML
-    private ComboBox<?> cCountryComboBox;
     @FXML
     private TextField cIDTextbox;
     @FXML
@@ -40,13 +37,19 @@ public class AddCustomerFormController implements Initializable {
     @FXML
     private TextField cPostalTextBox;
     @FXML
-    private Button cSaveButton;
-    @FXML
-    private ComboBox<?> cStateComboBox;
-    @FXML
     private TextField cStreetTextBox;
     @FXML
+    private Button cCancelButton;
+    @FXML
+    private Button cSaveButton;
+    @FXML
+    private ComboBox<String> cCountryComboBox;
+    @FXML
+    private ComboBox<String> cStateComboBox;
+    @FXML
     private Label cTitleLabel;
+
+
 
     @FXML
     void onActionCusCancelButton(ActionEvent event) throws IOException {
@@ -56,13 +59,26 @@ public class AddCustomerFormController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
 
+        clearFields();
+
     }
+
 
     @FXML
     void onActionCusSaveButton(ActionEvent event) throws SQLException {
 
         CustomerQuery.addCustomer("Frank Dux","1568 Fantasy",78940,"777-333-5906",
                                     "2022-07-03 17:77:00","U","2022-07-03 17:77:00","U",60);
+
+    }
+
+    @FXML
+    void onActionAddCusCountryCombo(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionAddCusStateCombo(ActionEvent event) {
 
     }
 
@@ -73,6 +89,11 @@ public class AddCustomerFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         setCusLabel();
+        try {
+            setComboBoxes();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 
@@ -91,5 +112,24 @@ public class AddCustomerFormController implements Initializable {
 
     }
 
+    private void clearFields() {
 
+        cIDTextbox.clear();
+        cCityTextBox.clear();
+        cNameTextBox.clear();
+        cPhoneTextbox.clear();
+        cPostalTextBox.clear();
+        cStreetTextBox.clear();
+    }
+
+    private void setComboBoxes() throws SQLException {
+
+        cCountryComboBox.setItems(CustomerQuery.getCustomerCountryList());
+        cStateComboBox.setItems(CustomerQuery.getCustomerDivByCounIDList(getCounIDByCoun(cCountryComboBox.getSelectionModel().getSelectedItem())));
+    }
+
+    private int getCounIDByCoun(String country) throws SQLException {
+
+        return CustomerQuery.getCounIDByCoun(country);
+    }
 }
