@@ -75,12 +75,14 @@ public class ContactReportFormController implements Initializable {
             }
         }else{
 
+            int contactID = getIDOnly(selected);
 
+            try {
+                contactFormTableView.setItems(AppointmentQuery.getAllAppointmentsOfContactID(contactID));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
-        int contactID = getIDOnly();
-
-
-
     }
 
 
