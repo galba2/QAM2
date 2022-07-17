@@ -1,5 +1,7 @@
 package controller;
 
+import DBAccess.CountryReportQuery;
+import DBAccess.CustomerQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Customer;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,25 +33,26 @@ public class CustomersFormController implements Initializable {
     @FXML
     private Button customerBackButton;
     @FXML
-    private TableColumn<?, ?> customerCountryTableColumn;
-    @FXML
     private Button customerDeleteButton;
     @FXML
-    private TableColumn<?, ?> customerIDTableColumn;
-    @FXML
-    private TableColumn<?, ?> customerNameTableColumn;
-    @FXML
-    private TableColumn<?, ?> customerPhoneTableColumn;
-    @FXML
-    private TableColumn<?, ?> customerPostalTableColumn;
-    @FXML
-    private TableColumn<?, ?> customerStateTableColumn;
-    @FXML
-    private TableColumn<?, ?> customerStreetTableColumn;
-    @FXML
-    private TableView<?> customerTableView;
-    @FXML
     private Button customerUpdateButton;
+    @FXML
+    private TableColumn<Customer, Integer> customerCountryIDTableColumn;
+    @FXML
+    private TableColumn<Customer, Integer> customerIDTableColumn;
+    @FXML
+    private TableColumn<Customer, String> customerNameTableColumn;
+    @FXML
+    private TableColumn<Customer, String> customerPhoneTableColumn;
+    @FXML
+    private TableColumn<Customer, String> customerPostalTableColumn;
+    @FXML
+    private TableColumn<Customer, Integer> customerDivIDTableColumn;
+    @FXML
+    private TableColumn<Customer, String> customerAddressTableColumn;
+    @FXML
+    private TableView<Customer> customerTableView;
+
 
 
     @FXML
@@ -83,14 +88,36 @@ public class CustomersFormController implements Initializable {
 
 
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        setColumns();
+
+        try {
+            customerTableView.setItems(CustomerQuery.getAllCustomers());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 
 
 
+
     //METHODS
+    private void setColumns(){
+
+        customerIDTableColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("cusID"));
+        customerNameTableColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
+        customerPhoneTableColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("phone"));
+        customerAddressTableColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("address"));
+        customerDivIDTableColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("divisionID"));
+        customerCountryIDTableColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("countryID"));
+        customerPostalTableColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("postalCode"));
+
+    }
+
     private void switchScene(String newFXML, ActionEvent event) throws IOException {
 
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();

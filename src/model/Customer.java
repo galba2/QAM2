@@ -1,6 +1,9 @@
 package model;
 
+import DBAccess.CustomerQuery;
+
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class Customer {
@@ -15,10 +18,11 @@ public class Customer {
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
     private int divisionID;
+    private int countryID;
 
 
     public Customer(int cusID, String customerName, String address, String postalCode, String phone,
-                    Date createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionID){
+                    Date createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
 
         this.cusID = cusID;
         this.customerName = customerName;
@@ -30,6 +34,7 @@ public class Customer {
         this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
         this.divisionID = divisionID;
+        this.countryID = CustomerQuery.getCountryIDFromDivID(divisionID);
     }
 
     public int getCusID(){
@@ -108,11 +113,14 @@ public class Customer {
         return divisionID;
     }
 
-    public void setDivisionID(int divisionID){
+    public void setDivisionID(int divisionID) throws SQLException {
         this.divisionID = divisionID;
+        this.countryID = CustomerQuery.getCountryIDFromDivID(divisionID);
     }
 
-
+    public int getCountryID() {
+        return countryID;
+    }
 
 
 }

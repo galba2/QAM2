@@ -20,9 +20,9 @@
           <TableColumn fx:id="customerIDTableColumn" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="customerNameTableColumn" prefWidth="75.0" text="Name" />
             <TableColumn fx:id="customerPhoneTableColumn" prefWidth="75.0" text="Phone" />
-            <TableColumn fx:id="customerStreetTableColumn" prefWidth="75.0" text="Street" />
-            <TableColumn fx:id="customerStateTableColumn" prefWidth="75.0" text="State" />
-            <TableColumn fx:id="customerCountryTableColumn" prefWidth="75.0" text="Country" />
+            <TableColumn fx:id="customerAddressTableColumn" prefWidth="75.0" text="Address" />
+            <TableColumn fx:id="customerDivIDTableColumn" prefWidth="75.0" text="Div. ID" />
+            <TableColumn fx:id="customerCountryIDTableColumn" prefWidth="75.0" text="Country ID" />
             <TableColumn fx:id="customerPostalTableColumn" prefWidth="75.0" text="Postal Code" />
         </columns>
          <columnResizePolicy>

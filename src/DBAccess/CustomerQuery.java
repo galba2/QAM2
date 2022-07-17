@@ -1,8 +1,13 @@
 package DBAccess;
 
 import Database.DBConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.Appointment;
+import model.Customer;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CustomerQuery {
@@ -51,14 +56,44 @@ public class CustomerQuery {
 
     }
 
+
+    public static ObservableList getAllCustomers() throws SQLException {
+
+        ObservableList<Customer> cus = FXCollections.observableArrayList();
+
+        DBConnection.makePreparedStatement("SELECT * FROM customers",DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+
+            Customer c = new Customer(rs.getInt("Customer_ID"),rs.getString("Customer_Name"),rs.getString("Address"),rs.getString("Postal_Code"),rs.getString("Phone"),rs.getDate("Create_Date"),rs.getString("Created_By"),rs.getTimestamp("Last_Update"),rs.getString("Last_Updated_By"),rs.getInt("Division_ID"));
+            cus.add(c);
+        }
+
+        return cus;
+    }
+
     public static void getCustomer(){
 
     }
 
 
+    public static int getCountryIDFromDivID(int divisionID) throws SQLException {
 
+        int cID = 0;
 
+        DBConnection.makePreparedStatement("SELECT Country_ID FROM first_level_divisions WHERE Division_ID = ?",DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ps.setInt(1, divisionID);
+        ResultSet rs = ps.executeQuery();
 
+        while(rs.next()){
+            cID = rs.getInt("Country_ID");
+        }
+
+        return cID;
+    }
 
 
 }
