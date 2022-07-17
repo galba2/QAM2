@@ -1,6 +1,9 @@
 package DBAccess;
 
 import Database.DBConnection;
+import controller.ContactReportFormController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,19 +11,22 @@ import java.sql.SQLException;
 
 public abstract class ContactQuery {
 
-    public static void getAllContacts() throws SQLException {
+    public static ObservableList<String> getAllContactsList() throws SQLException {
 
-        String ret = "";
+        ObservableList<String > conRptLis = FXCollections.observableArrayList();
 
-        DBConnection.makePreparedStatement("SELECT * FROM contacts",DBConnection.getConnection());
+        DBConnection.makePreparedStatement("SELECT Contact_ID, Contact_Name FROM contacts ORDER BY Contact_ID ASC",DBConnection.getConnection());
         PreparedStatement ps = DBConnection.getPreparedStatement();
         ResultSet rs = ps.executeQuery();
 
-        while(rs.next()){
-            String r = rs.getString("Contact_Name");
-            System.out.println(r);
 
+        while(rs.next()){
+
+            conRptLis.add(rs.getString("Contact_Name") + " (" + rs.getInt("Contact_ID") + ")");
         }
+
+
+        return conRptLis;
 
 
     }

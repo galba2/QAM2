@@ -9,7 +9,7 @@
 
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="13.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CountryReportFormController">
    <children>
-      <Label text="Customer Countries" underline="true">
+      <Label text="Customers By Country" underline="true">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

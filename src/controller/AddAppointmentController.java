@@ -96,7 +96,7 @@ public class AddAppointmentController implements Initializable {
     //METHODS
 
     @FXML
-    public void setCusLabel(){
+    private void setCusLabel(){
 
         if(AppointmentsFormController.getIsLabelAdd()){
             this.appointmentTitleLabel.setText("Add Appointment");

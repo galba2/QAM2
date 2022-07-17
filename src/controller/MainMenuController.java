@@ -121,6 +121,7 @@ public class MainMenuController implements Initializable {
         scene = FXMLLoader.load(getClass().getResource(newFXML));
         stage.setScene(new Scene(scene));
         stage.show();
+
     }
 
 

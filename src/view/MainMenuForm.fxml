@@ -115,7 +115,7 @@
                <children>
                   <Button fx:id="customerReportButton" mnemonicParsing="false" onAction="#onActionCustomerReportButton" text="Customer Appointments" />
                   <Button fx:id="contactReportButton" mnemonicParsing="false" onAction="#onActionContactReportButton" text="Contact Schedules" />
-                  <Button fx:id="countryReportButton" mnemonicParsing="false" onAction="#onActionCountryReportButton" text="Customer Countries" />
+                  <Button fx:id="countryReportButton" mnemonicParsing="false" onAction="#onActionCountryReportButton" text="Customers By Country" />
                </children>
                <padding>
                   <Insets bottom="13.0" />

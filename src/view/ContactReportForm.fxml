@@ -15,16 +15,16 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <ComboBox fx:id="contactFormComboBox" prefWidth="150.0" promptText="Contact" />
+      <ComboBox fx:id="contactFormComboBox" onAction="#onActionContactReportComboBox" prefWidth="150.0" promptText="Contact (ID)" />
       <TableView fx:id="contactFormTableView" prefHeight="200.0" prefWidth="200.0">
         <columns>
-            <TableColumn fx:id="contactFormIDColumn" prefWidth="75.0" text="Appt ID" />
-          <TableColumn fx:id="contactFormTitleColumn" prefWidth="75.0" text="Title" />
+            <TableColumn fx:id="contactFormIDColumn" prefWidth="53.0" text="Appt ID" />
+          <TableColumn fx:id="contactFormTitleColumn" prefWidth="118.0" text="Title" />
           <TableColumn fx:id="contactFormTypeColumn" prefWidth="75.0" text="Type" />
             <TableColumn fx:id="contactFormDescriptionColumn" prefWidth="75.0" text="Description" />
             <TableColumn fx:id="contactFormCusIDColumn" prefWidth="75.0" text="Customer ID" />
-            <TableColumn fx:id="contactFormStartColumn" prefWidth="75.0" text="Start" />
-            <TableColumn fx:id="contactFormEndColumn" prefWidth="75.0" text="End" />
+            <TableColumn fx:id="contactFormStartColumn" prefWidth="89.0" text="Start" />
+            <TableColumn fx:id="contactFormEndColumn" prefWidth="88.0" text="End" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
