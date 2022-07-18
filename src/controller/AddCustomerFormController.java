@@ -73,7 +73,9 @@ public class AddCustomerFormController implements Initializable {
     }
 
     @FXML
-    void onActionAddCusCountryCombo(ActionEvent event) {
+    void onActionAddCusCountryCombo(ActionEvent event) throws SQLException {
+
+        cStateComboBox.setItems(CustomerQuery.getCustomerDivByCounIDList(getCounIDByCoun(cCountryComboBox.getSelectionModel().getSelectedItem())));
 
     }
 

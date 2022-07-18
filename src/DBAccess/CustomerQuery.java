@@ -134,7 +134,7 @@ public class CustomerQuery {
 
         DBConnection.makePreparedStatement("SELECT Country_ID FROM countries WHERE Country = ?",DBConnection.getConnection());
         PreparedStatement ps = DBConnection.getPreparedStatement();
-        ps.setString(1, "\"" + country + "\"");
+        ps.setString(1,  country);
         ResultSet rs = ps.executeQuery();
 
         while(rs.next()){
