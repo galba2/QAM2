@@ -6,9 +6,8 @@ import javafx.collections.ObservableList;
 import model.Appointment;
 import model.Customer;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
 
 public class CustomerQuery {
 
@@ -28,9 +27,9 @@ public class CustomerQuery {
 
     }
 
-    public static void addCustomer(String cusName,String cusAddress,int cusPostal,String cusPhone,
-                                    String cusCreaDate,String cusCreaBy,String cusLastUpdate,
-                                     String cusLastUpdateBy,int divID) throws SQLException {
+    public static void addCustomer(String cusName, String cusAddress, String cusPostal, String cusPhone,
+                                   Timestamp cusCreaDate, String cusCreaBy, Timestamp cusLastUpdate,
+                                   String cusLastUpdateBy, int divID) throws SQLException {
 
         DBConnection.makePreparedStatement("INSERT INTO customers (Customer_Name,Address,Postal_Code," +
                                             "Phone,Create_Date,Created_By,Last_Update,Last_Updated_By,Division_ID)" +
@@ -38,11 +37,11 @@ public class CustomerQuery {
         PreparedStatement ps = DBConnection.getPreparedStatement();
         ps.setString(1,cusName);
         ps.setString(2,cusAddress);
-        ps.setInt(3,cusPostal);
+        ps.setString(3,cusPostal);
         ps.setString(4,cusPhone);
-        ps.setString(5,cusCreaDate);
+        ps.setTimestamp(5,cusCreaDate);
         ps.setString(6,cusCreaBy);
-        ps.setString(7,cusLastUpdate);
+        ps.setTimestamp(7,cusLastUpdate);
         ps.setString(8,cusLastUpdateBy);
         ps.setInt(9,divID);
 
@@ -67,7 +66,7 @@ public class CustomerQuery {
 
         while(rs.next()){
 
-            Customer c = new Customer(rs.getInt("Customer_ID"),rs.getString("Customer_Name"),rs.getString("Address"),rs.getString("Postal_Code"),rs.getString("Phone"),rs.getDate("Create_Date"),rs.getString("Created_By"),rs.getTimestamp("Last_Update"),rs.getString("Last_Updated_By"),rs.getInt("Division_ID"));
+            Customer c = new Customer(rs.getInt("Customer_ID"),rs.getString("Customer_Name"),rs.getString("Address"),rs.getString("Postal_Code"),rs.getString("Phone"),rs.getTimestamp("Create_Date"),rs.getString("Created_By"),rs.getTimestamp("Last_Update"),rs.getString("Last_Updated_By"),rs.getInt("Division_ID"));
             cus.add(c);
         }
 
@@ -143,4 +142,22 @@ public class CustomerQuery {
 
         return counID;
     }
+
+
+    public static int getDivIDByDiv(String div) throws SQLException {
+
+        int divID = 1;//Default to U.S country
+
+        DBConnection.makePreparedStatement("SELECT Division_ID FROM first_level_divisions WHERE Division = ?",DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ps.setString(1,  div);
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            divID = rs.getInt("Division_ID");
+        }
+
+        return divID;
+    }
+
 }

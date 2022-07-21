@@ -5,6 +5,7 @@ import DBAccess.CustomerQuery;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class Customer {
 
@@ -13,7 +14,7 @@ public class Customer {
     private String address;
     private String postalCode;
     private String phone;
-    private Date createDate;
+    private Timestamp createDate;
     private String createdBy;
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
@@ -22,7 +23,7 @@ public class Customer {
 
 
     public Customer(int cusID, String customerName, String address, String postalCode, String phone,
-                    Date createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
+                    Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
 
         this.cusID = cusID;
         this.customerName = customerName;
@@ -69,11 +70,11 @@ public class Customer {
         this.phone = phone;
     }
 
-    public Date getCreateDate(){
+    public Timestamp getCreateDate(){
         return createDate;
     }
 
-    public void setCreateDate(Date createDate){
+    public void setCreateDate(Timestamp createDate){
         this.createDate =createDate ;
     }
 

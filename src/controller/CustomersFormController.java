@@ -73,7 +73,12 @@ public class CustomersFormController implements Initializable {
     @FXML
     void onActionCusDeleteButton(ActionEvent event) throws SQLException {
 
-        deleteCustomer(7);
+        deleteCustomer(customerTableView.getSelectionModel().getSelectedItem().getCusID());
+        try {
+            customerTableView.setItems(CustomerQuery.getAllCustomers());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 

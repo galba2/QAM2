@@ -17,7 +17,10 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class AddCustomerFormController implements Initializable {
@@ -67,8 +70,10 @@ public class AddCustomerFormController implements Initializable {
     @FXML
     void onActionCusSaveButton(ActionEvent event) throws SQLException {
 
-        CustomerQuery.addCustomer("Frank Dux","1568 Fantasy",78940,"777-333-5906",
-                                    "2022-07-03 17:77:00","U","2022-07-03 17:77:00","U",60);
+        CustomerQuery.addCustomer(cNameTextBox.getText(),cStreetTextBox.getText(),
+                                    cPostalTextBox.getText(),cPhoneTextbox.getText(), Timestamp.valueOf(LocalDateTime.now()),"U",
+                                        Timestamp.valueOf(LocalDateTime.now()),"U",CustomerQuery.getDivIDByDiv(cStateComboBox.getSelectionModel().getSelectedItem()));
+
 
     }
 
@@ -91,6 +96,7 @@ public class AddCustomerFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         setCusLabel();
+
         try {
             setComboBoxes();
         } catch (SQLException throwables) {
@@ -108,6 +114,7 @@ public class AddCustomerFormController implements Initializable {
 
         if(CustomersFormController.getIsLabelAdd()){
             this.cTitleLabel.setText("Add Customer");
+            cIDTextbox.setPromptText("AUTO GENERATED");
         }else{
             this.cTitleLabel.setText("Update Customer");
         }
@@ -134,4 +141,6 @@ public class AddCustomerFormController implements Initializable {
 
         return CustomerQuery.getCounIDByCoun(country);
     }
+
+
 }
