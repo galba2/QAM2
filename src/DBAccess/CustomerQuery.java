@@ -55,6 +55,28 @@ public class CustomerQuery {
 
     }
 
+    public static void updateCustomer(String name, String Address, String postal, String phone,
+                                      Timestamp cusLastUpdate, String cusLastUpdatedBy, int divID, int updateID) throws SQLException {
+
+        DBConnection.makePreparedStatement("UPDATE customers SET Customer_Name = ?,  Address = ?, Postal_Code = ?, Phone = ?, Last_Update = ?, Last_Updated_By = ?,Division_ID = ? WHERE Customer_ID = ?",DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ps.setString(1,name);
+        ps.setString(2,Address);
+        ps.setString(3,postal);
+        ps.setString(4,phone);
+        ps.setTimestamp(5,cusLastUpdate);
+        ps.setString(6,cusLastUpdatedBy);
+        ps.setInt(7,divID);
+        ps.setInt(8,updateID);
+        int rows = ps.executeUpdate();
+
+        if(rows > 0){
+            System.out.println("Update successful");
+        }else{
+            System.out.println("Update failed");
+        }
+
+    }
 
     public static ObservableList getAllCustomers() throws SQLException {
 
@@ -143,6 +165,22 @@ public class CustomerQuery {
         return counID;
     }
 
+    public static String getCounByDivID(int divID) throws SQLException {
+
+        String coun = "";
+
+        DBConnection.makePreparedStatement("SELECT Country FROM countries WHERE Country_ID = ?",DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ps.setInt(1,  getCountryIDFromDivID(divID));
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            coun = rs.getString("Country");
+        }
+
+        return coun;
+    }
+
 
     public static int getDivIDByDiv(String div) throws SQLException {
 
@@ -158,6 +196,22 @@ public class CustomerQuery {
         }
 
         return divID;
+    }
+
+    public static String getDivByDivID(int divID) throws SQLException {
+
+        String div = "";
+
+        DBConnection.makePreparedStatement("SELECT Division FROM first_level_divisions WHERE Division_ID = ?",DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ps.setInt(1,  divID);
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            div = rs.getString("Division");
+        }
+
+        return div;
     }
 
 }

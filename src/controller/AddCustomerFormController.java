@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import model.Customer;
 
 
 import java.awt.*;
@@ -29,8 +30,6 @@ public class AddCustomerFormController implements Initializable {
     private Parent scene;
 
 
-    @FXML
-    private TextField cCityTextBox;
     @FXML
     private TextField cIDTextbox;
     @FXML
@@ -70,9 +69,20 @@ public class AddCustomerFormController implements Initializable {
     @FXML
     void onActionCusSaveButton(ActionEvent event) throws SQLException {
 
-        CustomerQuery.addCustomer(cNameTextBox.getText(),cStreetTextBox.getText(),
-                                    cPostalTextBox.getText(),cPhoneTextbox.getText(), Timestamp.valueOf(LocalDateTime.now()),"U",
-                                        Timestamp.valueOf(LocalDateTime.now()),"U",CustomerQuery.getDivIDByDiv(cStateComboBox.getSelectionModel().getSelectedItem()));
+        if(CustomersFormController.getIsLabelAdd()){
+
+            CustomerQuery.addCustomer(cNameTextBox.getText(),cStreetTextBox.getText(),
+                                        cPostalTextBox.getText(),cPhoneTextbox.getText(), Timestamp.valueOf(LocalDateTime.now()),"U",
+                                            Timestamp.valueOf(LocalDateTime.now()),"U",
+                                                CustomerQuery.getDivIDByDiv(cStateComboBox.getSelectionModel().getSelectedItem()));
+        }else{
+            CustomerQuery.updateCustomer(cNameTextBox.getText(),cStreetTextBox.getText(),
+                                            cPostalTextBox.getText(),cPhoneTextbox.getText(),
+                                                Timestamp.valueOf(LocalDateTime.now()),"U",
+                                                CustomerQuery.getDivIDByDiv(cStateComboBox.getSelectionModel().getSelectedItem()),Integer.parseInt(cIDTextbox.getText()));
+        }
+
+
 
 
     }
@@ -103,6 +113,14 @@ public class AddCustomerFormController implements Initializable {
             throwables.printStackTrace();
         }
 
+        if(!CustomersFormController.getIsLabelAdd()){//Check if is update
+            try {
+                setUpdateTextFields(CustomersFormController.getUpdateCustomer());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
     }
 
 
@@ -124,7 +142,6 @@ public class AddCustomerFormController implements Initializable {
     private void clearFields() {
 
         cIDTextbox.clear();
-        cCityTextBox.clear();
         cNameTextBox.clear();
         cPhoneTextbox.clear();
         cPostalTextBox.clear();
@@ -142,5 +159,18 @@ public class AddCustomerFormController implements Initializable {
         return CustomerQuery.getCounIDByCoun(country);
     }
 
+    private void setUpdateTextFields(Customer c) throws SQLException {
+
+        cIDTextbox.setText(Integer.toString(c.getCusID()));
+        cNameTextBox.setText(c.getCustomerName());
+        cStreetTextBox.setText(c.getAddress());
+        cPostalTextBox.setText(c.getPostalCode());
+        cPhoneTextbox.setText(c.getPhone());
+        cCountryComboBox.getSelectionModel().select(CustomerQuery.getCounByDivID(c.getDivisionID()));
+        cStateComboBox.getSelectionModel().select(CustomerQuery.getDivByDivID(c.getDivisionID()));
+
+
+
+    }
 
 }

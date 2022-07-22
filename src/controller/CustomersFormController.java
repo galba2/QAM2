@@ -18,6 +18,7 @@ import model.Customer;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
 import static DBAccess.CustomerQuery.*;
@@ -27,6 +28,7 @@ public class CustomersFormController implements Initializable {
     private Stage stage;
     private Parent scene;
     private static boolean isLabelAdd = true;
+    private static Customer updateCustomer;
 
     @FXML
     private Button customerAddButton;
@@ -85,12 +87,12 @@ public class CustomersFormController implements Initializable {
     @FXML
     void onActionCusUpdateButton(ActionEvent event) throws IOException {
 
+        setUpdateCustomer(customerTableView.getSelectionModel().getSelectedItem());
         isLabelAdd = false;
         switchScene("/view/AddCustomerForm.fxml",event);
-        getCustomer();
+
 
     }
-
 
 
 
@@ -139,4 +141,13 @@ public class CustomersFormController implements Initializable {
             return false;
         }
     }
+
+    public static Customer getUpdateCustomer() {
+        return updateCustomer;
+    }
+
+    public void setUpdateCustomer(Customer updateCustomer) {
+        this.updateCustomer = updateCustomer;
+    }
+
 }
