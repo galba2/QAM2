@@ -58,15 +58,18 @@ public class LogInFormController implements Initializable {
 
         UserAttempt user = new UserAttempt(loginUserTextBox.getText());
 
-        while(!UserAttemptQuery.isPasswordCorrect(user, loginPasswordTextBox.getText())){
+        if(!UserAttemptQuery.isPasswordCorrect(user, loginPasswordTextBox.getText())){
             loginUserTextBox.clear();
-            loginUserTextBox.clear();
+            loginPasswordTextBox.clear();
+        }else{
+
+            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/view/MainMenuForm.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
         }
 
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/MainMenuForm.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+
 
     }
 
