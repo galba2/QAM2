@@ -1,20 +1,22 @@
 package controller;
 
+import DBAccess.AppointmentQuery;
+import DBAccess.CustomerQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Appointment;
+import model.Customer;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -29,37 +31,39 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     private RadioButton aRAllRadio;
     @FXML
-    private TableColumn<?, ?> aRContactColumn;
-    @FXML
-    private TableColumn<?, ?> aRCusIDColumn;
-    @FXML
-    private TableColumn<?, ?> aRDescriptionColumn;
-    @FXML
-    private TableColumn<?, ?> aREndDateColumn;
-    @FXML
-    private TableColumn<?, ?> aREndTimeColumn;
-    @FXML
-    private TableColumn<?, ?> aRIDColumn;
-    @FXML
-    private TableColumn<?, ?> aRLocationColumn;
-    @FXML
     private RadioButton aRMonthlyRadio;
-    @FXML
-    private TableColumn<?, ?> aRStartDateColumn;
-    @FXML
-    private TableColumn<?, ?> aRStartTimeColumn;
-    @FXML
-    private TableView<?> aRTableView;
-    @FXML
-    private TableColumn<?, ?> aRTitleColumn;
-    @FXML
-    private TableColumn<?, ?> aRTypeColumn;
-    @FXML
-    private TableColumn<?, ?> aRUserIDColumn;
     @FXML
     private RadioButton aRWeeklyRadio;
     @FXML
     private ToggleGroup appViewToggle;
+    @FXML
+    private TableView<Appointment> aRTableView;
+    @FXML
+    private TableColumn<Appointment, String> aRContactColumn;
+    @FXML
+    private TableColumn<Appointment, Integer> aRCusIDColumn;
+    @FXML
+    private TableColumn<Appointment, String> aRDescriptionColumn;
+    @FXML
+    private TableColumn<Appointment, Date> aRStartDateTimeColumn;
+    @FXML
+    private TableColumn<Appointment, Date> aREndDateTimeColumn;
+    @FXML
+    private TableColumn<Appointment, Integer> aRIDColumn;
+    @FXML
+    private TableColumn<Appointment, String> aRLocationColumn;
+    @FXML
+    private TableColumn<Appointment, String> aRTitleColumn;
+    @FXML
+    private TableColumn<Appointment, String> aRTypeColumn;
+    @FXML
+    private TableColumn<Appointment, Integer> aRUserIDColumn;
+    @FXML
+    private Button aRForwardButton;
+    @FXML
+    private Label aRMonthWeekLabel;
+    @FXML
+    private Button aRBackButton;
     @FXML
     private Button appAddButton;
     @FXML
@@ -74,14 +78,14 @@ public class AppointmentsFormController implements Initializable {
     void onActionAppAddButton(ActionEvent event) throws IOException {
 
         isLabelAdd = true;
-        switchScene("/view/AddAppointment.fxml",event);
+        switchScene("/view/AddAppointment.fxml", event);
 
     }
 
     @FXML
     void onActionAppointmentsFormBackButton(ActionEvent event) throws IOException {
 
-        switchScene("/view/MainMenuForm.fxml",event);
+        switchScene("/view/MainMenuForm.fxml", event);
 
     }
 
@@ -89,7 +93,7 @@ public class AppointmentsFormController implements Initializable {
     void onActionAppUpdateButton(ActionEvent event) throws IOException {
 
         isLabelAdd = false;
-        switchScene("/view/AddAppointment.fxml",event);
+        switchScene("/view/AddAppointment.fxml", event);
 
     }
 
@@ -101,12 +105,46 @@ public class AppointmentsFormController implements Initializable {
     }
 
 
+    @FXML
+    void onActionBackButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionForwardButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionAllRadio(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionMonthlyRadio(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionWeeklyRadio(ActionEvent event) {
+
+    }
+
+
 
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        setColumns();
+
+        try {
+            aRTableView.setItems(AppointmentQuery.getAllAppointments());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 
@@ -117,21 +155,32 @@ public class AppointmentsFormController implements Initializable {
     //METHODS
     private void switchScene(String newFXML, ActionEvent event) throws IOException {
 
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource(newFXML));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
-    public static Boolean getIsLabelAdd(){
+    public static Boolean getIsLabelAdd() {
 
-        if(isLabelAdd){
+        if (isLabelAdd) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
+    private void setColumns() {
 
-
+        aRContactColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("contact"));
+        aRDescriptionColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("description"));
+        aRStartDateTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Date>("start"));
+        aRCusIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("customerID"));
+        aREndDateTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Date>("end"));
+        aRIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("apptID"));
+        aRLocationColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("location"));
+        aRTitleColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("title"));
+        aRTypeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("type"));
+        aRUserIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("userID"));
+    }
 }

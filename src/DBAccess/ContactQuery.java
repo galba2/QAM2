@@ -4,6 +4,7 @@ import Database.DBConnection;
 import controller.ContactReportFormController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Appointment;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,6 +42,21 @@ public abstract class ContactQuery {
 
     }
 
+    public static String getContactByContactID(int contactID) throws SQLException {
 
+        String contact = "";
+
+        DBConnection.makePreparedStatement("SELECT Contact_Name FROM contacts WHERE Contact_ID = ?", DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ps.setInt(1, contactID);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            contact = rs.getString("Contact_Name");
+        }
+
+        return contact;
+
+    }
 
 }

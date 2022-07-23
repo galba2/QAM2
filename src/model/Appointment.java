@@ -1,6 +1,10 @@
 package model;
 
+import DBAccess.AppointmentQuery;
+import DBAccess.ContactQuery;
+
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class Appointment {
@@ -19,11 +23,10 @@ public class Appointment {
     private int customerID;
     private int userID;
     private int contactID;
+    private String contact;
 
-
-    public Appointment(){
-
-        this.apptID = -1;
+    public Appointment() {
+        this.apptID = 0;
         this.title = null;
         this.description = null;
         this.location = null;
@@ -34,16 +37,15 @@ public class Appointment {
         this.createdBy = null;
         this.lastUpdate = null;
         this.lastUpdatedBy = null;
-        this.customerID = -1;
-        this.userID = -1;
-        this.contactID = -1;
-
+        this.customerID = 0;
+        this.userID = 0;
+        this.contactID = 0;
+        this.contact = null;
     }
 
-
-    public Appointment(Integer id,String title,String description,String location,String type,
-                       Date start,Date end,Date createDate,String createdBy,Timestamp lastUpdate,
-                        String lastUpdatedBy,int customerID,int userID,int contactID){
+    public Appointment(Integer id, String title, String description, String location, String type,
+                       Date start, Date end, Date createDate, String createdBy, Timestamp lastUpdate,
+                       String lastUpdatedBy, int customerID, int userID, int contactID) throws SQLException {
 
         this.apptID = id;
         this.title = title;
@@ -59,6 +61,7 @@ public class Appointment {
         this.customerID = customerID;
         this.userID = userID;
         this.contactID = contactID;
+        this.contact = ContactQuery.getContactByContactID(this.contactID);
 
     }
 
@@ -172,5 +175,13 @@ public class Appointment {
 
     public void setContactID(int contactID){
         this.contactID = contactID;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(int contactID) throws SQLException {
+        this.contact = ContactQuery.getContactByContactID(contactID);
     }
 }

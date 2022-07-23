@@ -137,7 +137,7 @@ public class AddCustomerFormController implements Initializable {
 
         if(CustomersFormController.getIsLabelAdd()){
             this.cTitleLabel.setText("Add Customer");
-            cIDTextbox.setPromptText("AUTO GENERATED");
+            cIDTextbox.setText("AUTO GENERATED");
         }else{
             this.cTitleLabel.setText("Update Customer");
         }

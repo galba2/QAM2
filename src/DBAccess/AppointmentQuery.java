@@ -77,6 +77,29 @@ public class AppointmentQuery {
 
     }
 
+    public static ObservableList getAllAppointments() throws SQLException {
+
+        ObservableList<Appointment> apps = FXCollections.observableArrayList();
+
+        DBConnection.makePreparedStatement("SELECT * FROM appointments ",DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+
+            Appointment ap = new Appointment(rs.getInt("Appointment_ID"),rs.getString("Title"),rs.getString("Description"),
+                                                rs.getString("Location"),rs.getString("Type"),rs.getDate("Start"),
+                                                    rs.getDate("End"),rs.getDate("Create_Date"),rs.getString("Created_By"),
+                                                        rs.getTimestamp("Last_Update"),rs.getString("Last_Update"),rs.getInt("Customer_ID"),
+                                                            rs.getInt("User_ID"),rs.getInt("Contact_ID"));
+
+            apps.add(ap);
+        }
+
+        return apps;
+    }
+
+
     public static void addAppointment(){
 
     }
