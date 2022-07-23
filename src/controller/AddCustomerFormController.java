@@ -67,7 +67,7 @@ public class AddCustomerFormController implements Initializable {
 
 
     @FXML
-    void onActionCusSaveButton(ActionEvent event) throws SQLException {
+    void onActionCusSaveButton(ActionEvent event) throws SQLException, IOException {
 
         if(CustomersFormController.getIsLabelAdd()){
 
@@ -82,7 +82,12 @@ public class AddCustomerFormController implements Initializable {
                                                 CustomerQuery.getDivIDByDiv(cStateComboBox.getSelectionModel().getSelectedItem()),Integer.parseInt(cIDTextbox.getText()));
         }
 
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/CustomersForm.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
 
+        clearFields();
 
 
     }

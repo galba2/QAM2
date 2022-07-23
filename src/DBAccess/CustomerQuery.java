@@ -47,9 +47,9 @@ public class CustomerQuery {
 
         int rows = ps.executeUpdate();
         if(rows > 0){
-            System.out.println("Delete successful");
+            System.out.println("Add successful");
         }else{
-            System.out.println("Delete failed");
+            System.out.println("Add failed");
         }
 
 

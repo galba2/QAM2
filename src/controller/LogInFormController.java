@@ -1,5 +1,6 @@
 package controller;
 
+import DBAccess.UserAttemptQuery;
 import Database.DBConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,9 +14,11 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import model.UserAttempt;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class LogInFormController implements Initializable {
@@ -32,11 +35,11 @@ public class LogInFormController implements Initializable {
     @FXML
     private Label loginLocationLabel;
     @FXML
+    private TextField loginUserTextBox;
+    @FXML
     private TextField loginPasswordTextBox;
     @FXML
     private Label loginTimeLabel;
-    @FXML
-    private TextField loginUserTextBox;
     @FXML
     private Button loginExitButton;
     @FXML
@@ -51,7 +54,14 @@ public class LogInFormController implements Initializable {
     }
 
     @FXML
-    void onActionLoginButton(ActionEvent event) throws IOException {
+    void onActionLoginButton(ActionEvent event) throws IOException, SQLException {
+
+        UserAttempt user = new UserAttempt(loginUserTextBox.getText());
+
+        while(!UserAttemptQuery.isPasswordCorrect(user, loginPasswordTextBox.getText())){
+            loginUserTextBox.clear();
+            loginUserTextBox.clear();
+        }
 
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/MainMenuForm.fxml"));
