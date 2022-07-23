@@ -18,6 +18,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import static DBAccess.AppointmentQuery.*;
@@ -117,17 +122,17 @@ public class AppointmentsFormController implements Initializable {
 
     @FXML
     void onActionAllRadio(ActionEvent event) {
-
+        setLabel();
     }
 
     @FXML
     void onActionMonthlyRadio(ActionEvent event) {
-
+        setLabel();
     }
 
     @FXML
     void onActionWeeklyRadio(ActionEvent event) {
-
+        setLabel();
     }
 
 
@@ -138,7 +143,9 @@ public class AppointmentsFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        setLabel();
         setColumns();
+
 
         try {
             aRTableView.setItems(AppointmentQuery.getAllAppointments());
@@ -147,6 +154,7 @@ public class AppointmentsFormController implements Initializable {
         }
 
     }
+
 
 
 
@@ -182,5 +190,19 @@ public class AppointmentsFormController implements Initializable {
         aRTitleColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("title"));
         aRTypeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("type"));
         aRUserIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("userID"));
+    }
+
+    private void setLabel() {
+        if(aRAllRadio.isSelected()){
+            aRMonthWeekLabel.setText("--------");
+
+        }else if(aRMonthlyRadio.isSelected()){
+            Date nowDate = Date.valueOf(LocalDate.now());
+            DateFormat formatter = new SimpleDateFormat("MMMM");
+            aRMonthWeekLabel.setText(formatter.format(nowDate));
+
+        }else if(aRWeeklyRadio.isSelected()){
+            aRMonthWeekLabel.setText("Week");
+        }
     }
 }
