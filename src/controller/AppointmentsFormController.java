@@ -105,7 +105,7 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     void onActionAppDeleteButton(ActionEvent event) throws SQLException {
 
-        deleteAppointment(3);
+        deleteAppointment(aRTableView.getSelectionModel().getSelectedItem().getApptID());
 
     }
 

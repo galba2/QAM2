@@ -5,9 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class AppointmentQuery {
 
@@ -100,8 +98,34 @@ public class AppointmentQuery {
     }
 
 
-    public static void addAppointment(){
+    public static void addAppointment(String title,String description,String location,String type,Date start,Date end,
+                                      Date createDate,String createdBy,Timestamp lastUpdate,String lastUpdatedBy,
+                                        int customerID, int userID,int contactID) throws SQLException {
 
+        DBConnection.makePreparedStatement("INSERT INTO appointments (Title,Description,Location," +
+                "Type,Start,End,Create_Date,Created_By,Last_Update,Last_Updated_By,Customer_ID,User_ID,Contact_ID)" +
+                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ps.setString(1,title);
+        ps.setString(2,description);
+        ps.setString(3,location);
+        ps.setString(4,type);
+        ps.setDate(5,start);
+        ps.setDate(6,end);
+        ps.setDate(7,createDate);
+        ps.setString(8,createdBy);
+        ps.setTimestamp(9,lastUpdate);
+        ps.setString(10,lastUpdatedBy);
+        ps.setInt(11,customerID);
+        ps.setInt(12,userID);
+        ps.setInt(13,contactID);
+
+        int rows = ps.executeUpdate();
+        if(rows > 0){
+            System.out.println("Add successful");
+        }else{
+            System.out.println("Add failed");
+        }
     }
 
     public static void getAppointment(){

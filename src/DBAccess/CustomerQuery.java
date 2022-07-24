@@ -51,8 +51,6 @@ public class CustomerQuery {
         }else{
             System.out.println("Add failed");
         }
-
-
     }
 
     public static void updateCustomer(String name, String Address, String postal, String phone,

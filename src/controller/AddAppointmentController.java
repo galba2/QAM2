@@ -1,5 +1,7 @@
 package controller;
 
+import DBAccess.AppointmentQuery;
+import DBAccess.ContactQuery;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +17,10 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
@@ -29,42 +35,41 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private Label appointmentTitleLabel;
     @FXML
-    private ComboBox<?> contactComboBox;
+    private TextField idTextfield;
     @FXML
     private TextField customerIDTextfield;
     @FXML
     private TextField descriptionTextfield;
     @FXML
-    private ComboBox<?> endDayComboBox;
-    @FXML
-    private ComboBox<?> endHourComboBox;
-    @FXML
-    private ComboBox<?> endMinuteComboBox;
-    @FXML
-    private ComboBox<?> endMonthComboBox;
-    @FXML
-    private ComboBox<?> endYearComboBox;
-    @FXML
-    private TextField idTextfield;
-    @FXML
     private TextField locationTextfield;
     @FXML
+    private TextField titleTextfield;
+    @FXML
+    private TextField userIDTextfield;
+    @FXML
+    private ComboBox<String> typeComboBox;
+    @FXML
+    private ComboBox<String> contactComboBox;
+    @FXML
     private ComboBox<?> startDayComboBox;
-    @FXML
-    private ComboBox<?> startHourComboBox;
-    @FXML
-    private ComboBox<?> startMinuteComboBox;
     @FXML
     private ComboBox<?> startMonthComboBox;
     @FXML
     private ComboBox<?> startYearComboBox;
     @FXML
-    private TextField titleTextfield;
+    private ComboBox<?> startMinuteComboBox;
     @FXML
-    private TextField typeTextfield;
+    private ComboBox<?> startHourComboBox;
     @FXML
-    private TextField userIDTextfield;
-
+    private ComboBox<?> endDayComboBox;
+    @FXML
+    private ComboBox<?> endMonthComboBox;
+    @FXML
+    private ComboBox<?> endYearComboBox;
+    @FXML
+    private ComboBox<?> endMinuteComboBox;
+    @FXML
+    private ComboBox<?> endHourComboBox;
 
     @FXML
     void onActionAppCancel(ActionEvent event) throws IOException {
@@ -78,6 +83,14 @@ public class AddAppointmentController implements Initializable {
 
     @FXML
     void onActionAppSave(ActionEvent event) {
+
+        if(AppointmentsFormController.getIsLabelAdd()){
+            AppointmentQuery.addAppointment(titleTextfield.getText(),descriptionTextfield.getText(),locationTextfield.getText(),
+                                            typeComboBox.getSelectionModel().getSelectedItem(), Date.valueOf(LocalDate.now()),
+                                                Date.valueOf(LocalDate.now()),Date.valueOf(LocalDate.now()),"U",
+                                                    Timestamp.valueOf(LocalDateTime.now()),"U",Integer.parseInt(customerIDTextfield.getText()),
+                                                777, ContactQuery.getContactIDByContact(contactComboBox.getSelectionModel().getSelectedItem()));
+        }
 
     }
 
@@ -100,6 +113,7 @@ public class AddAppointmentController implements Initializable {
 
         if(AppointmentsFormController.getIsLabelAdd()){
             this.appointmentTitleLabel.setText("Add Appointment");
+            this.idTextfield.setText("AUTO GENERATED");
         }else{
             this.appointmentTitleLabel.setText("Update Appointment");
         }

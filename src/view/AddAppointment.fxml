@@ -57,7 +57,7 @@
       </GridPane>
       <HBox alignment="CENTER">
          <children>
-            <ComboBox prefWidth="150.0" promptText="Type" />
+            <ComboBox fx:id="typeComboBox" prefWidth="150.0" promptText="Type" />
          </children>
          <padding>
             <Insets top="13.0" />
