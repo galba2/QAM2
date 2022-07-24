@@ -32,6 +32,7 @@ public class AppointmentsFormController implements Initializable {
     private Stage stage;
     private Parent scene;
     private static boolean isLabelAdd = true;
+    private static Appointment updateAppt;
 
     @FXML
     private RadioButton aRAllRadio;
@@ -98,7 +99,9 @@ public class AppointmentsFormController implements Initializable {
     void onActionAppUpdateButton(ActionEvent event) throws IOException {
 
         isLabelAdd = false;
+        setUpdateAppt(aRTableView.getSelectionModel().getSelectedItem());
         switchScene("/view/AddAppointment.fxml", event);
+
 
     }
 
@@ -106,6 +109,12 @@ public class AppointmentsFormController implements Initializable {
     void onActionAppDeleteButton(ActionEvent event) throws SQLException {
 
         deleteAppointment(aRTableView.getSelectionModel().getSelectedItem().getApptID());
+
+        try {
+            aRTableView.setItems(AppointmentQuery.getAllAppointments());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 
@@ -204,5 +213,13 @@ public class AppointmentsFormController implements Initializable {
         }else if(aRWeeklyRadio.isSelected()){
             aRMonthWeekLabel.setText("Week");
         }
+    }
+
+    public static Appointment getUpdateAppt() {
+        return updateAppt;
+    }
+
+    public void setUpdateAppt(Appointment updateAppt) {
+        this.updateAppt = updateAppt;
     }
 }

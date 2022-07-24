@@ -59,4 +59,41 @@ public abstract class ContactQuery {
 
     }
 
+
+    public static int getContactIDByContact(String contact) throws SQLException {
+
+        int contactID = 0;
+
+        DBConnection.makePreparedStatement("SELECT Contact_ID FROM contacts WHERE Contact_Name = ?", DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ps.setString (1, contact);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            contactID = rs.getInt("Contact_ID");
+        }
+
+        return contactID;
+
+    }
+
+
+    public static int getContactIndexFromContact(String contact) throws SQLException {
+
+        ObservableList<String > contactList = getAllContactsList();
+        String onlyName;
+        int contactIndex = -1;
+
+        for(int i = 0; i < contactList.size(); i++){
+            onlyName = contactList.get(i).substring(0,contactList.get(i).indexOf('(') - 1);//get substring before the '(' character
+            if(contact.compareTo(onlyName) == 0){
+                contactIndex = i;
+                return contactIndex;
+            }
+        }
+
+        return contactIndex;
+
+    }
+
 }
