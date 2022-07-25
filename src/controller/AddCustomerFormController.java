@@ -72,14 +72,16 @@ public class AddCustomerFormController implements Initializable {
         if(CustomersFormController.getIsLabelAdd()){
 
             CustomerQuery.addCustomer(cNameTextBox.getText(),cStreetTextBox.getText(),
-                                        cPostalTextBox.getText(),cPhoneTextbox.getText(), Timestamp.valueOf(LocalDateTime.now()),"U",
-                                            Timestamp.valueOf(LocalDateTime.now()),"U",
-                                                CustomerQuery.getDivIDByDiv(cStateComboBox.getSelectionModel().getSelectedItem()));
+                                        cPostalTextBox.getText(),cPhoneTextbox.getText(), Timestamp.valueOf(LocalDateTime.now()),
+                                            LogInFormController.getUser().getUserName(),Timestamp.valueOf(LocalDateTime.now()),
+                                                LogInFormController.getUser().getUserName(),
+                                                    CustomerQuery.getDivIDByDiv(cStateComboBox.getSelectionModel().getSelectedItem()));
         }else{
             CustomerQuery.updateCustomer(cNameTextBox.getText(),cStreetTextBox.getText(),
                                             cPostalTextBox.getText(),cPhoneTextbox.getText(),
-                                                Timestamp.valueOf(LocalDateTime.now()),"U",
-                                                CustomerQuery.getDivIDByDiv(cStateComboBox.getSelectionModel().getSelectedItem()),Integer.parseInt(cIDTextbox.getText()));
+                                                Timestamp.valueOf(LocalDateTime.now()),LogInFormController.getUser().getUserName(),
+                                                CustomerQuery.getDivIDByDiv(cStateComboBox.getSelectionModel().getSelectedItem()),
+                                                    Integer.parseInt(cIDTextbox.getText()));
         }
 
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();

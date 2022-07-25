@@ -25,6 +25,7 @@ public class LogInFormController implements Initializable {
 
     private Stage stage;
     private Parent scene;
+    private static UserAttempt user;
 
     @FXML
     private RadioButton loginEnglishRadio;
@@ -56,7 +57,7 @@ public class LogInFormController implements Initializable {
     @FXML
     void onActionLoginButton(ActionEvent event) throws IOException, SQLException {
 
-        UserAttempt user = new UserAttempt(loginUserTextBox.getText());
+        user = new UserAttempt(loginUserTextBox.getText());
 
         if(!UserAttemptQuery.isPasswordCorrect(user, loginPasswordTextBox.getText())){
             loginUserTextBox.clear();
@@ -73,8 +74,23 @@ public class LogInFormController implements Initializable {
 
     }
 
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+    }
+
+
+
+    //METHODS
+
+    public static UserAttempt getUser() {
+        return user;
+    }
+
+    public void setUser(UserAttempt user) {
+        this.user = user;
     }
 }

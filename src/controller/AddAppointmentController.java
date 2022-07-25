@@ -78,9 +78,16 @@ public class AddAppointmentController implements Initializable {
         if(AppointmentsFormController.getIsLabelAdd()){
             AppointmentQuery.addAppointment(titleTextfield.getText(),descriptionTextfield.getText(),locationTextfield.getText(),
                                             typeComboBox.getSelectionModel().getSelectedItem(), Date.valueOf(LocalDate.now()),
-                                                Date.valueOf(LocalDate.now()),Date.valueOf(LocalDate.now()),"U",
-                                                    Timestamp.valueOf(LocalDateTime.now()),"U",customerIDComboBox.getSelectionModel().getSelectedItem(),
-                                                1, getIDOnly(contactComboBox.getSelectionModel().getSelectedItem()));
+                                                Date.valueOf(LocalDate.now()),Date.valueOf(LocalDate.now()),LogInFormController.getUser().getUserName(),
+                                                    Timestamp.valueOf(LocalDateTime.now()),LogInFormController.getUser().getUserName(),
+                                                        customerIDComboBox.getSelectionModel().getSelectedItem(),LogInFormController.getUser().getUserID(),
+                                                            getIDOnly(contactComboBox.getSelectionModel().getSelectedItem()));
+        }else{
+            AppointmentQuery.updateAppointment(titleTextfield.getText(),descriptionTextfield.getText(),locationTextfield.getText(),
+                    typeComboBox.getSelectionModel().getSelectedItem(), Date.valueOf(LocalDate.now()),
+                        Date.valueOf(LocalDate.now()),Timestamp.valueOf(LocalDateTime.now()),LogInFormController.getUser().getUserName(),
+                            customerIDComboBox.getSelectionModel().getSelectedItem(),LogInFormController.getUser().getUserID(),
+                                getIDOnly(contactComboBox.getSelectionModel().getSelectedItem()));
         }
 
     }

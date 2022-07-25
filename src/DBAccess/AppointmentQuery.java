@@ -128,6 +128,33 @@ public class AppointmentQuery {
         }
     }
 
+    public static void updateAppointment(String title,String description,String location,String type,Date start,Date end,
+                                            Timestamp lastUpdate,String lastUpdatedBy,int customerID, int userID,int contactID) throws SQLException {
+
+        DBConnection.makePreparedStatement("INSERT INTO appointments (Title,Description,Location," +
+                "Type,Start,End,Last_Update,Last_Updated_By,Customer_ID,User_ID,Contact_ID)" +
+                " VALUES (?,?,?,?,?,?,?,?,?,?,?)",DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ps.setString(1,title);
+        ps.setString(2,description);
+        ps.setString(3,location);
+        ps.setString(4,type);
+        ps.setDate(5,start);
+        ps.setDate(6,end);
+        ps.setTimestamp(7,lastUpdate);
+        ps.setString(8,lastUpdatedBy);
+        ps.setInt(9,customerID);
+        ps.setInt(10,userID);
+        ps.setInt(11,contactID);
+
+        int rows = ps.executeUpdate();
+        if(rows > 0){
+            System.out.println("Update successful");
+        }else{
+            System.out.println("Update failed");
+        }
+    }
+
     public static void getAppointment(){
 
     }
