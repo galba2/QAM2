@@ -173,13 +173,22 @@ public class AddAppointmentController implements Initializable {
         customerIDComboBox.getSelectionModel().select(updateAppt.getCustomerID());
     }
 
-
     private ObservableList<String> getTypesList() {
         ObservableList<String > types = FXCollections.observableArrayList();
         types.addAll("Planning Session","De-Briefing","Briefing","Brainstorm Session","Appointment Making","Introduction","Other");
         return types;
     }
 
+    private ObservableList<Integer> getMinute() {
+        ObservableList<Integer > m = FXCollections.observableArrayList();
+        m.addAll(00,15,30,45);
+        return m;
+    }
 
+    private ObservableList<Integer> getHour() {
+        ObservableList<Integer > h = FXCollections.observableArrayList();
+        h.addAll(8,9,10,11,12,13,14,15,16,17,18,19,20,21);
+        return h;
+    }
 
 }

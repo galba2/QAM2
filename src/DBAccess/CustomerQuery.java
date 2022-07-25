@@ -216,7 +216,7 @@ public class CustomerQuery {
 
         ObservableList<Integer> customerIDs = FXCollections.observableArrayList();
 
-        DBConnection.makePreparedStatement("SELECT Customer_ID FROM customers",DBConnection.getConnection());
+        DBConnection.makePreparedStatement("SELECT Customer_ID FROM customers ORDER BY Customer_ID",DBConnection.getConnection());
         PreparedStatement ps = DBConnection.getPreparedStatement();
         ResultSet rs = ps.executeQuery();
 
