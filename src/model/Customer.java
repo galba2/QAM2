@@ -14,7 +14,7 @@ public class Customer {
     private String address;
     private String postalCode;
     private String phone;
-    private Timestamp createDate;
+    private LocalDateTime createDate;
     private String createdBy;
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
@@ -23,7 +23,7 @@ public class Customer {
 
 
     public Customer(int cusID, String customerName, String address, String postalCode, String phone,
-                    Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
+                    LocalDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
 
         this.cusID = cusID;
         this.customerName = customerName;
@@ -70,11 +70,11 @@ public class Customer {
         this.phone = phone;
     }
 
-    public Timestamp getCreateDate(){
+    public LocalDateTime getCreateDate(){
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate){
+    public void setCreateDate(LocalDateTime createDate){
         this.createDate =createDate ;
     }
 

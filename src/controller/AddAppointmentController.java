@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
@@ -51,15 +52,15 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private ComboBox<Integer> customerIDComboBox;
     @FXML
-    private javafx.scene.control.DatePicker DatePicker;
+    private javafx.scene.control.DatePicker datePicker;
     @FXML
-    private ComboBox<Integer> startMinuteComboBox;
+    private ComboBox<String> startMinuteComboBox;
     @FXML
-    private ComboBox<Integer> startHourComboBox;
+    private ComboBox<String> startHourComboBox;
     @FXML
-    private ComboBox<Integer> endMinuteComboBox;
+    private ComboBox<String> endMinuteComboBox;
     @FXML
-    private ComboBox<Integer> endHourComboBox;
+    private ComboBox<String> endHourComboBox;
 
     @FXML
     void onActionAppCancel(ActionEvent event) throws IOException {
@@ -77,15 +78,15 @@ public class AddAppointmentController implements Initializable {
 
         if(AppointmentsFormController.getIsLabelAdd()){
             AppointmentQuery.addAppointment(titleTextfield.getText(),descriptionTextfield.getText(),locationTextfield.getText(),
-                                            typeComboBox.getSelectionModel().getSelectedItem(), Date.valueOf(LocalDate.now()),
-                                                Date.valueOf(LocalDate.now()),Date.valueOf(LocalDate.now()),LogInFormController.getUser().getUserName(),
+                                            typeComboBox.getSelectionModel().getSelectedItem(),Timestamp.valueOf(getStartLocalDateTime()),
+                                                Timestamp.valueOf(getEndLocalDateTime()),Timestamp.valueOf(LocalDateTime.now()),LogInFormController.getUser().getUserName(),
                                                     Timestamp.valueOf(LocalDateTime.now()),LogInFormController.getUser().getUserName(),
                                                         customerIDComboBox.getSelectionModel().getSelectedItem(),LogInFormController.getUser().getUserID(),
                                                             getIDOnly(contactComboBox.getSelectionModel().getSelectedItem()));
         }else{
             AppointmentQuery.updateAppointment(titleTextfield.getText(),descriptionTextfield.getText(),locationTextfield.getText(),
-                    typeComboBox.getSelectionModel().getSelectedItem(), Date.valueOf(LocalDate.now()),
-                        Date.valueOf(LocalDate.now()),Timestamp.valueOf(LocalDateTime.now()),LogInFormController.getUser().getUserName(),
+                    typeComboBox.getSelectionModel().getSelectedItem(), Timestamp.valueOf(getStartLocalDateTime()),
+                    Timestamp.valueOf(getEndLocalDateTime()),Timestamp.valueOf(LocalDateTime.now()),LogInFormController.getUser().getUserName(),
                             customerIDComboBox.getSelectionModel().getSelectedItem(),LogInFormController.getUser().getUserID(),
                                 getIDOnly(contactComboBox.getSelectionModel().getSelectedItem()));
         }
@@ -186,16 +187,28 @@ public class AddAppointmentController implements Initializable {
         return types;
     }
 
-    private ObservableList<Integer> getMinute() {
-        ObservableList<Integer > m = FXCollections.observableArrayList();
-        m.addAll(00,15,30,45);
+    private ObservableList<String> getMinute() {
+        ObservableList<String > m = FXCollections.observableArrayList();
+        m.addAll("00","15","30","45");
         return m;
     }
 
-    private ObservableList<Integer> getHour() {
-        ObservableList<Integer > h = FXCollections.observableArrayList();
-        h.addAll(8,9,10,11,12,13,14,15,16,17,18,19,20,21);
+    private ObservableList<String> getHour() {
+        ObservableList<String > h = FXCollections.observableArrayList();
+        h.addAll("08","09","10","11","12","13","14","15","16","17","18","19","20,21");
         return h;
     }
 
+
+    private LocalDateTime getStartLocalDateTime() {
+
+        return LocalDateTime.of(datePicker.getValue(),LocalTime.parse(startHourComboBox.getSelectionModel().getSelectedItem() + ":"
+                                    + startMinuteComboBox.getSelectionModel().getSelectedItem()));
+    }
+
+    private LocalDateTime getEndLocalDateTime() {
+
+        return LocalDateTime.of(datePicker.getValue(),LocalTime.parse(endHourComboBox.getSelectionModel().getSelectedItem() + ":"
+                                    + endMinuteComboBox.getSelectionModel().getSelectedItem()));
+    }
 }

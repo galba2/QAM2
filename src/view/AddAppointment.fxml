@@ -81,7 +81,7 @@
             <Insets bottom="13.0" top="13.0" />
          </padding>
          <children>
-            <DatePicker fx:id="DatePicker" onAction="#onActionDatePicker" promptText="DAY" />
+            <DatePicker fx:id="datePicker" onAction="#onActionDatePicker" promptText="DAY" />
          </children>
       </HBox>
       <GridPane alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0">

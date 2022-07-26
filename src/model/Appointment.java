@@ -6,6 +6,7 @@ import DBAccess.ContactQuery;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class Appointment {
 
@@ -14,9 +15,9 @@ public class Appointment {
     private String description;
     private String location;
     private String type;
-    private Date start;
-    private Date end;
-    private Date createDate;
+    private LocalDateTime start;
+    private LocalDateTime end;
+    private LocalDateTime createDate;
     private String createdBy;
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
@@ -44,7 +45,7 @@ public class Appointment {
     }
 
     public Appointment(Integer id, String title, String description, String location, String type,
-                       Date start, Date end, Date createDate, String createdBy, Timestamp lastUpdate,
+                       LocalDateTime start, LocalDateTime end, LocalDateTime createDate, String createdBy, Timestamp lastUpdate,
                        String lastUpdatedBy, int customerID, int userID, int contactID) throws SQLException {
 
         this.apptID = id;
@@ -105,27 +106,27 @@ public class Appointment {
         this.type = type;
     }
 
-    public Date getStart(){
+    public LocalDateTime getStart(){
         return start;
     }
 
-    public void setStart(Date start){
+    public void setStart(LocalDateTime start){
         this.start = start;
     }
 
-    public Date getEnd(){
+    public LocalDateTime getEnd(){
         return end;
     }
 
-    public void setEnd(Date end){
+    public void setEnd(LocalDateTime end){
         this.end = end;
     }
 
-    public Date getCreateDate(){
+    public LocalDateTime getCreateDate(){
         return createDate;
     }
 
-    public void setCreate(Date createDate){
+    public void setCreate(LocalDateTime createDate){
         this.createDate = createDate;
     }
 

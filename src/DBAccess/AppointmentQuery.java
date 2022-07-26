@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import model.Appointment;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 
 public class AppointmentQuery {
 
@@ -39,8 +40,8 @@ public class AppointmentQuery {
             ap.setType(rs.getString("Type"));
             ap.setDescription(rs.getString("Description"));
             ap.setCustomerID(rs.getInt("Customer_ID"));
-            ap.setStart(rs.getDate("Start"));
-            ap.setEnd(rs.getDate("End"));
+            ap.setStart(rs.getTimestamp("Start").toLocalDateTime());
+            ap.setEnd(rs.getTimestamp("End").toLocalDateTime());
 
             apps.add(ap);
         }
@@ -65,8 +66,8 @@ public class AppointmentQuery {
             ap.setType(rs.getString("Type"));
             ap.setDescription(rs.getString("Description"));
             ap.setCustomerID(rs.getInt("Customer_ID"));
-            ap.setStart(rs.getDate("Start"));
-            ap.setEnd(rs.getDate("End"));
+            ap.setStart(rs.getTimestamp("Start").toLocalDateTime());
+            ap.setEnd(rs.getTimestamp("End").toLocalDateTime());
 
             apps.add(ap);
         }
@@ -86,10 +87,12 @@ public class AppointmentQuery {
         while(rs.next()){
 
             Appointment ap = new Appointment(rs.getInt("Appointment_ID"),rs.getString("Title"),rs.getString("Description"),
-                                                rs.getString("Location"),rs.getString("Type"),rs.getDate("Start"),
-                                                    rs.getDate("End"),rs.getDate("Create_Date"),rs.getString("Created_By"),
-                                                        rs.getTimestamp("Last_Update"),rs.getString("Last_Update"),rs.getInt("Customer_ID"),
-                                                            rs.getInt("User_ID"),rs.getInt("Contact_ID"));
+                                                rs.getString("Location"),rs.getString("Type"),
+                                                    rs.getTimestamp("Start").toLocalDateTime(),rs.getTimestamp("End").toLocalDateTime(),
+                                                        rs.getTimestamp("Create_Date").toLocalDateTime(),rs.getString("Created_By"),
+                                                            rs.getTimestamp("Last_Update"),rs.getString("Last_Update"),
+                                                                rs.getInt("Customer_ID"),rs.getInt("User_ID"),
+                                                                    rs.getInt("Contact_ID"));
 
             apps.add(ap);
         }
@@ -98,9 +101,9 @@ public class AppointmentQuery {
     }
 
 
-    public static void addAppointment(String title,String description,String location,String type,Date start,Date end,
-                                      Date createDate,String createdBy,Timestamp lastUpdate,String lastUpdatedBy,
-                                        int customerID, int userID,int contactID) throws SQLException {
+    public static void addAppointment(String title, String description, String location, String type, Timestamp start, Timestamp end,
+                                      Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy,
+                                      int customerID, int userID, int contactID) throws SQLException {
 
         DBConnection.makePreparedStatement("INSERT INTO appointments (Title,Description,Location," +
                 "Type,Start,End,Create_Date,Created_By,Last_Update,Last_Updated_By,Customer_ID,User_ID,Contact_ID)" +
@@ -110,9 +113,9 @@ public class AppointmentQuery {
         ps.setString(2,description);
         ps.setString(3,location);
         ps.setString(4,type);
-        ps.setDate(5,start);
-        ps.setDate(6,end);
-        ps.setDate(7,createDate);
+        ps.setTimestamp(5,start);
+        ps.setTimestamp(6,end);
+        ps.setTimestamp(7,createDate);
         ps.setString(8,createdBy);
         ps.setTimestamp(9,lastUpdate);
         ps.setString(10,lastUpdatedBy);
@@ -128,7 +131,7 @@ public class AppointmentQuery {
         }
     }
 
-    public static void updateAppointment(String title,String description,String location,String type,Date start,Date end,
+    public static void updateAppointment(String title,String description,String location,String type,Timestamp start,Timestamp end,
                                             Timestamp lastUpdate,String lastUpdatedBy,int customerID, int userID,int contactID) throws SQLException {
 
         DBConnection.makePreparedStatement("INSERT INTO appointments (Title,Description,Location," +
@@ -139,8 +142,8 @@ public class AppointmentQuery {
         ps.setString(2,description);
         ps.setString(3,location);
         ps.setString(4,type);
-        ps.setDate(5,start);
-        ps.setDate(6,end);
+        ps.setTimestamp(5,start);
+        ps.setTimestamp(6,end);
         ps.setTimestamp(7,lastUpdate);
         ps.setString(8,lastUpdatedBy);
         ps.setInt(9,customerID);
