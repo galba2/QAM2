@@ -212,17 +212,17 @@ public class CustomerQuery {
         return div;
     }
 
-    public static ObservableList<Integer> getAllCustomerIDs() throws SQLException {
+    public static ObservableList<String> getAllCustomerIDs() throws SQLException {
 
-        ObservableList<Integer> customerIDs = FXCollections.observableArrayList();
+        ObservableList<String> customerIDs = FXCollections.observableArrayList();
 
-        DBConnection.makePreparedStatement("SELECT Customer_ID FROM customers ORDER BY Customer_ID",DBConnection.getConnection());
+        DBConnection.makePreparedStatement("SELECT Customer_ID FROM customers",DBConnection.getConnection());
         PreparedStatement ps = DBConnection.getPreparedStatement();
         ResultSet rs = ps.executeQuery();
 
         while(rs.next()){
 
-            customerIDs.add(rs.getInt("Customer_ID"));
+            customerIDs.add(String.valueOf(rs.getInt("Customer_ID")));
         }
 
         return customerIDs;
