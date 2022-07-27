@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
 
+import javax.swing.text.DateFormatter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -23,6 +24,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import static DBAccess.AppointmentQuery.*;
@@ -206,12 +208,14 @@ public class AppointmentsFormController implements Initializable {
             aRMonthWeekLabel.setText("--------");
 
         }else if(aRMonthlyRadio.isSelected()){
-            Date nowDate = Date.valueOf(LocalDate.now());
-            DateFormat formatter = new SimpleDateFormat("MMMM");
-            aRMonthWeekLabel.setText(formatter.format(nowDate));
+            LocalDate nowDate = LocalDate.now();
+            DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM");
+            aRMonthWeekLabel.setText(nowDate.format(monthFormatter));
 
         }else if(aRWeeklyRadio.isSelected()){
-            aRMonthWeekLabel.setText("Week");
+            LocalDate nowDate = LocalDate.now();
+            DateTimeFormatter weekNumFormatter = DateTimeFormatter.ofPattern("w");
+            aRMonthWeekLabel.setText("Week " + nowDate.format(weekNumFormatter));
         }
     }
 

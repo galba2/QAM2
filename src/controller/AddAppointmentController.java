@@ -183,7 +183,7 @@ public class AddAppointmentController implements Initializable {
         locationTextfield.setText(updateAppt.getLocation());
         typeComboBox.getSelectionModel().select(updateAppt.getType());
         contactComboBox.getSelectionModel().select(ContactQuery.getContactIndexFromContact(updateAppt.getContact()));
-        customerIDComboBox.getSelectionModel().select(String.valueOf(updateAppt.getCustomerID()));
+        customerIDComboBox.getSelectionModel().select("" + updateAppt.getCustomerID());
         datePicker.setValue(updateAppt.getStart().toLocalDate());
         startHourComboBox.getSelectionModel().select(String.valueOf(updateAppt.getStart().toLocalTime().getHour()));
         startMinuteComboBox.getSelectionModel().select(String.valueOf(updateAppt.getStart().toLocalTime().getMinute()));

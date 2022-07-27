@@ -14,7 +14,7 @@ public class UserAttempt {
     private String userName;
     private String password;
     private int userLoginAttempt;
-    private Date userLogInDate;
+    private LocalDateTime userLogInDate;
     private Timestamp userLoginAttemptTime;
     private Boolean isUserAttemptSuccessful;
 
@@ -24,7 +24,7 @@ public class UserAttempt {
         this.userName = userName;
         this.password = UserAttemptQuery.getUserPassword(userName);
         this.userLoginAttempt = 0;
-        this.userLogInDate = Date.valueOf(LocalDate.now());
+        this.userLogInDate = LocalDateTime.now();
         this.userLoginAttemptTime = Timestamp.valueOf(LocalDateTime.now());
         this.isUserAttemptSuccessful = null;
     }
@@ -45,7 +45,7 @@ public class UserAttempt {
         return userLoginAttempt;
     }
 
-    public Date getUserLogInDate() {
+    public LocalDateTime getUserLogInDate() {
         return userLogInDate;
     }
 
