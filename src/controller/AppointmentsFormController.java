@@ -1,7 +1,6 @@
 package controller;
 
 import DBAccess.AppointmentQuery;
-import DBAccess.CustomerQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,18 +11,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
-import model.Customer;
 
-import javax.swing.text.DateFormatter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -35,6 +28,7 @@ public class AppointmentsFormController implements Initializable {
     private Parent scene;
     private static boolean isLabelAdd = true;
     private static Appointment updateAppt;
+    private LocalDate labelLocalDate;
 
     @FXML
     private RadioButton aRAllRadio;
@@ -154,12 +148,13 @@ public class AppointmentsFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        labelLocalDate = LocalDate.now();
         setLabel();
         setColumns();
 
-
         try {
-            aRTableView.setItems(AppointmentQuery.getAllAppointments());
+            //populateTableItems(aRTableView);
+            aRTableView.setItems(populateTableItems(labelLocalDate));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -208,14 +203,12 @@ public class AppointmentsFormController implements Initializable {
             aRMonthWeekLabel.setText("--------");
 
         }else if(aRMonthlyRadio.isSelected()){
-            LocalDate nowDate = LocalDate.now();
             DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM");
-            aRMonthWeekLabel.setText(nowDate.format(monthFormatter));
+            aRMonthWeekLabel.setText(labelLocalDate.format(monthFormatter));
 
         }else if(aRWeeklyRadio.isSelected()){
-            LocalDate nowDate = LocalDate.now();
             DateTimeFormatter weekNumFormatter = DateTimeFormatter.ofPattern("w");
-            aRMonthWeekLabel.setText("Week " + nowDate.format(weekNumFormatter));
+            aRMonthWeekLabel.setText("Week " + labelLocalDate.format(weekNumFormatter));
         }
     }
 

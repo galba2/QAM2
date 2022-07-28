@@ -3,9 +3,11 @@ package DBAccess;
 import Database.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 import model.Appointment;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class AppointmentQuery {
@@ -156,6 +158,41 @@ public class AppointmentQuery {
         }else{
             System.out.println("Update failed");
         }
+    }
+
+    public static ObservableList<Appointment> populateTableItems(LocalDate date) throws SQLException {
+
+        ObservableList<Appointment> apps = FXCollections.observableArrayList();
+        LocalDate rsDate;
+
+        DBConnection.makePreparedStatement("SELECT * FROM appointments ",DBConnection.getConnection());
+        PreparedStatement ps = DBConnection.getPreparedStatement();
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+
+            rsDate = rs.getTimestamp("Start").toLocalDateTime().toLocalDate();
+            System.out.println("LocalDate-"+ date.getMonthValue());
+            System.out.println("QueryDate-"+ rsDate.getMonthValue());
+            if(rsDate.getMonthValue() == date.getMonthValue()){
+
+
+                Appointment ap = new Appointment(rs.getInt("Appointment_ID"),rs.getString("Title"),rs.getString("Description"),
+                        rs.getString("Location"),rs.getString("Type"),
+                        rs.getTimestamp("Start").toLocalDateTime(),rs.getTimestamp("End").toLocalDateTime(),
+                        rs.getTimestamp("Create_Date").toLocalDateTime(),rs.getString("Created_By"),
+                        rs.getTimestamp("Last_Update"),rs.getString("Last_Update"),
+                        rs.getInt("Customer_ID"),rs.getInt("User_ID"),
+                        rs.getInt("Contact_ID"));
+
+                apps.add(ap);
+            }
+
+        }
+
+        return apps;
+
+
     }
 
     public static void getAppointment(){
