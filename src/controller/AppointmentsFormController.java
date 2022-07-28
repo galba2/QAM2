@@ -31,11 +31,11 @@ public class AppointmentsFormController implements Initializable {
     private LocalDate labelLocalDate;
 
     @FXML
-    private RadioButton aRAllRadio;
+    private static RadioButton aRAllRadio;
     @FXML
-    private RadioButton aRMonthlyRadio;
+    private static RadioButton aRMonthlyRadio;
     @FXML
-    private RadioButton aRWeeklyRadio;
+    private static RadioButton aRWeeklyRadio;
     @FXML
     private ToggleGroup appViewToggle;
     @FXML
@@ -126,18 +126,21 @@ public class AppointmentsFormController implements Initializable {
     }
 
     @FXML
-    void onActionAllRadio(ActionEvent event) {
+    void onActionAllRadio(ActionEvent event) throws SQLException {
         setLabel();
+        aRTableView.setItems(populateTableItems(labelLocalDate));
     }
 
     @FXML
-    void onActionMonthlyRadio(ActionEvent event) {
+    void onActionMonthlyRadio(ActionEvent event) throws SQLException {
         setLabel();
+        aRTableView.setItems(populateTableItems(labelLocalDate));
     }
 
     @FXML
-    void onActionWeeklyRadio(ActionEvent event) {
+    void onActionWeeklyRadio(ActionEvent event) throws SQLException {
         setLabel();
+        aRTableView.setItems(populateTableItems(labelLocalDate));
     }
 
 
@@ -218,5 +221,17 @@ public class AppointmentsFormController implements Initializable {
 
     public void setUpdateAppt(Appointment updateAppt) {
         this.updateAppt = updateAppt;
+    }
+
+    public static RadioButton getaRAllRadio() {
+        return aRAllRadio;
+    }
+
+    public static RadioButton getaRMonthlyRadio() {
+        return aRMonthlyRadio;
+    }
+
+    public static RadioButton getaRWeeklyRadio() {
+        return aRWeeklyRadio;
     }
 }
