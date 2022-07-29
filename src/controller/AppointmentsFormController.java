@@ -31,7 +31,7 @@ public class AppointmentsFormController implements Initializable {
     private LocalDate labelLocalDate;
 
     @FXML
-    private static RadioButton aRAllRadio;
+    private  static RadioButton aRAllRadio;
     @FXML
     private static RadioButton aRMonthlyRadio;
     @FXML
@@ -127,20 +127,25 @@ public class AppointmentsFormController implements Initializable {
 
     @FXML
     void onActionAllRadio(ActionEvent event) throws SQLException {
+        aRMonthWeekLabel.setText("--------");
         setLabel();
-        aRTableView.setItems(populateTableItems(labelLocalDate));
+        //aRTableView.setItems(populateTableItems(labelLocalDate));
     }
 
     @FXML
     void onActionMonthlyRadio(ActionEvent event) throws SQLException {
+        DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM");
+        aRMonthWeekLabel.setText(labelLocalDate.format(monthFormatter));
         setLabel();
-        aRTableView.setItems(populateTableItems(labelLocalDate));
+        //aRTableView.setItems(populateTableItems(labelLocalDate));
     }
 
     @FXML
     void onActionWeeklyRadio(ActionEvent event) throws SQLException {
+        DateTimeFormatter weekNumFormatter = DateTimeFormatter.ofPattern("w");
+        aRMonthWeekLabel.setText("Week " + labelLocalDate.format(weekNumFormatter));
         setLabel();
-        aRTableView.setItems(populateTableItems(labelLocalDate));
+        //aRTableView.setItems(populateTableItems(labelLocalDate));
     }
 
 
@@ -150,14 +155,15 @@ public class AppointmentsFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        System.out.println(appViewToggle.getSelectedToggle().getUserData());
         labelLocalDate = LocalDate.now();
+        aRMonthWeekLabel.setText("--------");
         setLabel();
         setColumns();
 
         try {
             //populateTableItems(aRTableView);
-            aRTableView.setItems(populateTableItems(labelLocalDate));
+            aRTableView.setItems(getAllAppointments());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -202,17 +208,17 @@ public class AppointmentsFormController implements Initializable {
     }
 
     private void setLabel() {
-        if(aRAllRadio.isSelected()){
+        /*if(aRAllRadio.isSelected()){
             aRMonthWeekLabel.setText("--------");
 
-        }else if(aRMonthlyRadio.isSelected()){
+        }else if(this.aRMonthlyRadio.isSelected()){
             DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM");
             aRMonthWeekLabel.setText(labelLocalDate.format(monthFormatter));
 
-        }else if(aRWeeklyRadio.isSelected()){
+        }else if(this.aRWeeklyRadio.isSelected()){
             DateTimeFormatter weekNumFormatter = DateTimeFormatter.ofPattern("w");
             aRMonthWeekLabel.setText("Week " + labelLocalDate.format(weekNumFormatter));
-        }
+        }*/
     }
 
     public static Appointment getUpdateAppt() {

@@ -176,7 +176,7 @@ public class AppointmentQuery {
             rsDate = rs.getTimestamp("Start").toLocalDateTime().toLocalDate();
             System.out.println("LocalDate-"+ date.getMonthValue());
             System.out.println("QueryDate-"+ rsDate.getMonthValue());
-            if(rsDate.getMonthValue() == date.getMonthValue()){//is monthly radiobutton selected
+            if(AppointmentsFormController.getaRMonthlyRadio().isSelected()){//is monthly radiobutton selected
                 if(rsDate.getMonthValue() == date.getMonthValue()) {//does month match
                     Appointment ap = new Appointment(rs.getInt("Appointment_ID"), rs.getString("Title"), rs.getString("Description"),
                             rs.getString("Location"), rs.getString("Type"),
