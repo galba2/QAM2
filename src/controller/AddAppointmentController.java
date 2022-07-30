@@ -85,7 +85,7 @@ public class AddAppointmentController implements Initializable {
                     typeComboBox.getSelectionModel().getSelectedItem(), Timestamp.valueOf(getStartLocalDateTime()),
                     Timestamp.valueOf(getEndLocalDateTime()),Timestamp.valueOf(LocalDateTime.now()),LogInFormController.getUser().getUserName(),
                     Integer.parseInt(customerIDComboBox.getSelectionModel().getSelectedItem()),LogInFormController.getUser().getUserID(),
-                                getIDOnly(contactComboBox.getSelectionModel().getSelectedItem()));
+                                getIDOnly(contactComboBox.getSelectionModel().getSelectedItem()),Integer.valueOf(idTextfield.getText()));
         }
 
         clearFields();
@@ -173,9 +173,39 @@ public class AddAppointmentController implements Initializable {
         locationTextfield.clear();
         idTextfield.clear();
         titleTextfield.clear();
+
     }
 
     private void setUpTextfields(Appointment updateAppt) throws SQLException {
+
+        String startMinuteString;
+        String endMinuteString;
+        String startHourString;
+        String endHourString;
+
+        if(String.valueOf(updateAppt.getStart().toLocalTime().getMinute()).compareTo("0") == 0){//check if single digit
+            startMinuteString = "00";
+        }else{
+            startMinuteString = String.valueOf(updateAppt.getStart().toLocalTime().getMinute());
+        }
+
+        if(String.valueOf(updateAppt.getEnd().toLocalTime().getMinute()).compareTo("0") == 0){//check if single digit
+            endMinuteString = "00";
+        }else{
+            endMinuteString = String.valueOf(updateAppt.getEnd().toLocalTime().getMinute());
+        }
+
+        if(String.valueOf(updateAppt.getStart().toLocalTime().getHour()).length() == 1){//check if single digit
+            startHourString = "0" + String.valueOf(updateAppt.getStart().toLocalTime().getHour());
+        }else{
+            startHourString = String.valueOf(updateAppt.getStart().toLocalTime().getHour());
+        }
+
+        if(String.valueOf(updateAppt.getEnd().toLocalTime().getHour()).length() == 1){//check if single digit
+            endHourString = "0" + String.valueOf(updateAppt.getEnd().toLocalTime().getHour());
+        }else{
+            endHourString = String.valueOf(updateAppt.getEnd().toLocalTime().getHour());
+        }
 
         idTextfield.setText("" + updateAppt.getApptID());
         titleTextfield.setText(updateAppt.getTitle());
@@ -185,11 +215,10 @@ public class AddAppointmentController implements Initializable {
         contactComboBox.getSelectionModel().select(ContactQuery.getContactIndexFromContact(updateAppt.getContact()));
         customerIDComboBox.getSelectionModel().select("" + updateAppt.getCustomerID());
         datePicker.setValue(updateAppt.getStart().toLocalDate());
-        startHourComboBox.getSelectionModel().select(String.valueOf(updateAppt.getStart().toLocalTime().getHour()));
-        startMinuteComboBox.getSelectionModel().select(String.valueOf(updateAppt.getStart().toLocalTime().getMinute()));
-        endHourComboBox.getSelectionModel().select(String.valueOf(updateAppt.getEnd().toLocalTime().getHour()));
-        endMinuteComboBox.getSelectionModel().select(String.valueOf(updateAppt.getEnd().toLocalTime().getMinute()));
-        System.out.println(updateAppt.getCustomerID());
+        startHourComboBox.getSelectionModel().select(startHourString);
+        startMinuteComboBox.getSelectionModel().select(startMinuteString);
+        endHourComboBox.getSelectionModel().select(endHourString);
+        endMinuteComboBox.getSelectionModel().select(endMinuteString);
     }
 
     private ObservableList<String> getTypesList() {
@@ -216,6 +245,7 @@ public class AddAppointmentController implements Initializable {
         return LocalDateTime.of(datePicker.getValue(),LocalTime.parse(startHourComboBox.getSelectionModel().getSelectedItem() + ":"
                                                                         + startMinuteComboBox.getSelectionModel().getSelectedItem()));
     }
+
 
     private LocalDateTime getEndLocalDateTime() {
 

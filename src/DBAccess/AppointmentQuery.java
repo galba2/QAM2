@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import model.Appointment;
 
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -136,11 +137,11 @@ public class AppointmentQuery {
     }
 
     public static void updateAppointment(String title,String description,String location,String type,Timestamp start,Timestamp end,
-                                            Timestamp lastUpdate,String lastUpdatedBy,int customerID, int userID,int contactID) throws SQLException {
+                                            Timestamp lastUpdate,String lastUpdatedBy,int customerID, int userID,int contactID, int apptID) throws SQLException {
 
-        DBConnection.makePreparedStatement("INSERT INTO appointments (Title,Description,Location," +
-                "Type,Start,End,Last_Update,Last_Updated_By,Customer_ID,User_ID,Contact_ID)" +
-                " VALUES (?,?,?,?,?,?,?,?,?,?,?)",DBConnection.getConnection());
+        DBConnection.makePreparedStatement("UPDATE appointments SET Title = ?, Description = ?, Location = ?," +
+                "Type = ?, Start = ?, End = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ?" +
+                " WHERE Appointment_ID = ?",DBConnection.getConnection());
         PreparedStatement ps = DBConnection.getPreparedStatement();
         ps.setString(1,title);
         ps.setString(2,description);
@@ -153,6 +154,7 @@ public class AppointmentQuery {
         ps.setInt(9,customerID);
         ps.setInt(10,userID);
         ps.setInt(11,contactID);
+        ps.setInt(12,apptID);
 
         int rows = ps.executeUpdate();
         if(rows > 0){
@@ -171,12 +173,11 @@ public class AppointmentQuery {
         PreparedStatement ps = DBConnection.getPreparedStatement();
         ResultSet rs = ps.executeQuery();
 
-        while(rs.next()){
+        if(AppointmentsFormController.getCurrentRadioButton().compareTo("Monthly") == 0){//is monthly radiobutton selected
 
-            rsDate = rs.getTimestamp("Start").toLocalDateTime().toLocalDate();
-            System.out.println("LocalDate-"+ date.getMonthValue());
-            System.out.println("QueryDate-"+ rsDate.getMonthValue());
-            if(AppointmentsFormController.getaRMonthlyRadio().isSelected()){//is monthly radiobutton selected
+            while (rs.next()){
+
+                rsDate = rs.getTimestamp("Start").toLocalDateTime().toLocalDate();
                 if(rsDate.getMonthValue() == date.getMonthValue()) {//does month match
                     Appointment ap = new Appointment(rs.getInt("Appointment_ID"), rs.getString("Title"), rs.getString("Description"),
                             rs.getString("Location"), rs.getString("Type"),
@@ -188,25 +189,29 @@ public class AppointmentQuery {
 
                     apps.add(ap);
                 }
-            }else if(AppointmentsFormController.getaRWeeklyRadio().isSelected()){//is weekly radiobutton selected
-                    DateTimeFormatter weekNumFormatter = DateTimeFormatter.ofPattern("w");
+            }
+        }else if(AppointmentsFormController.getCurrentRadioButton().compareTo("Weekly") == 0){//is weekly radiobutton selected
 
-                    if(rsDate.format(weekNumFormatter) == date.format(weekNumFormatter)) {//does week match
-                        Appointment ap = new Appointment(rs.getInt("Appointment_ID"), rs.getString("Title"), rs.getString("Description"),
-                                rs.getString("Location"), rs.getString("Type"),
-                                rs.getTimestamp("Start").toLocalDateTime(), rs.getTimestamp("End").toLocalDateTime(),
-                                rs.getTimestamp("Create_Date").toLocalDateTime(), rs.getString("Created_By"),
-                                rs.getTimestamp("Last_Update"), rs.getString("Last_Update"),
-                                rs.getInt("Customer_ID"), rs.getInt("User_ID"),
-                                rs.getInt("Contact_ID"));
+            DateTimeFormatter weekNumFormatter = DateTimeFormatter.ofPattern("w");
+            while(rs.next()){
 
-                        apps.add(ap);
-                    }
-            }else{
+                rsDate = rs.getTimestamp("Start").toLocalDateTime().toLocalDate();
+                if(rsDate.format(weekNumFormatter).compareTo(date.format(weekNumFormatter)) == 0) {//does week match
+                    Appointment ap = new Appointment(rs.getInt("Appointment_ID"), rs.getString("Title"), rs.getString("Description"),
+                            rs.getString("Location"), rs.getString("Type"),
+                            rs.getTimestamp("Start").toLocalDateTime(), rs.getTimestamp("End").toLocalDateTime(),
+                            rs.getTimestamp("Create_Date").toLocalDateTime(), rs.getString("Created_By"),
+                            rs.getTimestamp("Last_Update"), rs.getString("Last_Update"),
+                            rs.getInt("Customer_ID"), rs.getInt("User_ID"),
+                            rs.getInt("Contact_ID"));
 
-                    apps.addAll(getAllAppointments());
+                    apps.add(ap);
                 }
 
+            }
+        }else{
+
+            apps.addAll(getAllAppointments());
         }
 
         return apps;
