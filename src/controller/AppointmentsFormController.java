@@ -127,7 +127,6 @@ public class AppointmentsFormController implements Initializable {
 
         setLabel();
         aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
-        System.out.println("Back - " + labelLocalDate);
     }
 
     @FXML
@@ -141,7 +140,6 @@ public class AppointmentsFormController implements Initializable {
 
         setLabel();
         aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
-        System.out.println("Forward - " + labelLocalDate);
     }
 
     @FXML
