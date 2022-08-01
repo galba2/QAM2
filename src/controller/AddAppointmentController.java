@@ -19,8 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
@@ -183,25 +182,25 @@ public class AddAppointmentController implements Initializable {
         String startHourString;
         String endHourString;
 
-        if(String.valueOf(updateAppt.getStart().toLocalTime().getMinute()).compareTo("0") == 0){//check if single digit
+        if(String.valueOf(updateAppt.getStart().toLocalTime().getMinute()).compareTo("0") == 0){//check if start minute is single digit
             startMinuteString = "00";
         }else{
             startMinuteString = String.valueOf(updateAppt.getStart().toLocalTime().getMinute());
         }
 
-        if(String.valueOf(updateAppt.getEnd().toLocalTime().getMinute()).compareTo("0") == 0){//check if single digit
+        if(String.valueOf(updateAppt.getEnd().toLocalTime().getMinute()).compareTo("0") == 0){//check if end minute is single digit
             endMinuteString = "00";
         }else{
             endMinuteString = String.valueOf(updateAppt.getEnd().toLocalTime().getMinute());
         }
 
-        if(String.valueOf(updateAppt.getStart().toLocalTime().getHour()).length() == 1){//check if single digit
+        if(String.valueOf(updateAppt.getStart().toLocalTime().getHour()).length() == 1){//check if start hour is single digit
             startHourString = "0" + String.valueOf(updateAppt.getStart().toLocalTime().getHour());
         }else{
             startHourString = String.valueOf(updateAppt.getStart().toLocalTime().getHour());
         }
 
-        if(String.valueOf(updateAppt.getEnd().toLocalTime().getHour()).length() == 1){//check if single digit
+        if(String.valueOf(updateAppt.getEnd().toLocalTime().getHour()).length() == 1){//check if end hour is single digit
             endHourString = "0" + String.valueOf(updateAppt.getEnd().toLocalTime().getHour());
         }else{
             endHourString = String.valueOf(updateAppt.getEnd().toLocalTime().getHour());
@@ -235,6 +234,10 @@ public class AddAppointmentController implements Initializable {
 
     private ObservableList<String> getHourList() {
         ObservableList<String > h = FXCollections.observableArrayList();
+        LocalDate businessLocationDate = LocalDate.now();
+        LocalTime businessLocationTime = LocalTime.of(8,00);
+        ZoneId businessLocationZoneID = ZoneId.of("America/New_York");
+        ZonedDateTime estZDT = ZonedDateTime.of(businessLocationDate,businessLocationTime,businessLocationZoneID);
         h.addAll("08","09","10","11","12","13","14","15","16","17","18","19","20,21");
         return h;
     }
