@@ -2,6 +2,7 @@ package DBAccess;
 
 import Database.DBConnection;
 import controller.AppointmentsFormController;
+import controller.LogInFormController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
@@ -11,6 +12,8 @@ import model.Appointment;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class AppointmentQuery {
@@ -47,7 +50,7 @@ public class AppointmentQuery {
             ap.setCustomerID(rs.getInt("Customer_ID"));
             ap.setStart(rs.getTimestamp("Start").toLocalDateTime());
             ap.setEnd(rs.getTimestamp("End").toLocalDateTime());
-
+            System.out.println(rs.getInt("Appointment_ID") + "*" + rs.getTimestamp("Start"));
             apps.add(ap);
         }
 
@@ -218,7 +221,5 @@ public class AppointmentQuery {
 
     }
 
-    public static void getAppointment(){
 
-    }
 }

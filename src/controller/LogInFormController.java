@@ -19,13 +19,22 @@ import model.UserAttempt;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class LogInFormController implements Initializable {
 
     private Stage stage;
     private Parent scene;
     private static UserAttempt user;
+    private  static ZoneId localZoneID;
 
     @FXML
     private RadioButton loginEnglishRadio;
@@ -34,13 +43,13 @@ public class LogInFormController implements Initializable {
     @FXML
     private ToggleGroup loginLanguageSelect;
     @FXML
+    private Label loginTimeLabel;
+    @FXML
     private Label loginLocationLabel;
     @FXML
     private TextField loginUserTextBox;
     @FXML
     private TextField loginPasswordTextBox;
-    @FXML
-    private Label loginTimeLabel;
     @FXML
     private Button loginExitButton;
     @FXML
@@ -80,6 +89,9 @@ public class LogInFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        localZoneID = ZoneId.of(TimeZone.getDefault().getID());
+        Locale l = Locale.getDefault();
+        loginLocationLabel.setText(l.getDisplayCountry());
     }
 
 
@@ -92,5 +104,9 @@ public class LogInFormController implements Initializable {
 
     public void setUser(UserAttempt user) {
         this.user = user;
+    }
+
+    public static ZoneId getLocalZoneID() {
+        return localZoneID;
     }
 }
