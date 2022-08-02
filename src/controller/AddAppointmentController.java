@@ -148,9 +148,9 @@ public class AddAppointmentController implements Initializable {
         contactComboBox.setItems(ContactQuery.getAllContactsList());
         customerIDComboBox.setItems(CustomerQuery.getAllCustomerIDs());
         startMinuteComboBox.setItems(getMinuteList());
-        startHourComboBox.setItems(getHourList());
+        startHourComboBox.setItems(getHourList(true));
         endMinuteComboBox.setItems(getMinuteList());
-        endHourComboBox.setItems(getHourList());
+        endHourComboBox.setItems(getHourList(false));
 
     }
 
@@ -232,12 +232,20 @@ public class AddAppointmentController implements Initializable {
         return m;
     }
 
-    private ObservableList<String> getHourList() {
+    private ObservableList<String> getHourList(Boolean isStart) {
         ObservableList<String > h = FXCollections.observableArrayList();
+
         LocalDate businessLocationDate = LocalDate.now();
         LocalTime businessLocationTime = LocalTime.of(8,00);
         ZoneId businessLocationZoneID = ZoneId.of("America/New_York");
         ZonedDateTime estZDT = ZonedDateTime.of(businessLocationDate,businessLocationTime,businessLocationZoneID);
+
+        ZoneId localZoneID = ZoneId.systemDefault();
+
+        ZonedDateTime adjustedLocalZDT = estZDT.withZoneSameInstant(localZoneID);
+        System.out.println(adjustedLocalZDT);
+        System.out.println(estZDT);
+
         h.addAll("08","09","10","11","12","13","14","15","16","17","18","19","20,21");
         return h;
     }
