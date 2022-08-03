@@ -26,6 +26,7 @@ public class AddAppointmentController implements Initializable {
 
     private Stage stage;
     private Parent scene;
+    private ZonedDateTime estZDT;
 
     @FXML
     private Button appointmentCancelButton;
@@ -100,6 +101,17 @@ public class AddAppointmentController implements Initializable {
     @FXML
     void onActionDatePicker(ActionEvent event) {
 
+    }
+
+    @FXML
+    void onActionEndHourComboBox(ActionEvent event) {
+        if(endHourComboBox.getSelectionModel().getSelectedItem().compareTo(String.valueOf(estZDT.plusHours(14).getHour())) == 0){
+            ObservableList<String> m = FXCollections.observableArrayList();
+            m.add("00");
+            endMinuteComboBox.setItems(m);
+        }else{
+            endMinuteComboBox.setItems(getMinuteList());
+        }
     }
 
 
@@ -238,15 +250,23 @@ public class AddAppointmentController implements Initializable {
         LocalDate businessLocationDate = LocalDate.now();
         LocalTime businessLocationTime = LocalTime.of(8,00);
         ZoneId businessLocationZoneID = ZoneId.of("America/New_York");
-        ZonedDateTime estZDT = ZonedDateTime.of(businessLocationDate,businessLocationTime,businessLocationZoneID);
+        estZDT = ZonedDateTime.of(businessLocationDate,businessLocationTime,businessLocationZoneID);
 
         ZoneId localZoneID = ZoneId.systemDefault();
 
         ZonedDateTime adjustedLocalZDT = estZDT.withZoneSameInstant(localZoneID);
-        System.out.println(adjustedLocalZDT);
-        System.out.println(estZDT);
+        if(isStart){//check if start combobox
+            for(int i = 0; i < 14; i++){
+                h.add(String.valueOf(estZDT.plusHours(i).getHour()));
+            }
+        }else{//combobox is end
+            for(int i = 1; i < 15; i++){
+                h.add(String.valueOf(estZDT.plusHours(i).getHour()));
+            }
+        }
 
-        h.addAll("08","09","10","11","12","13","14","15","16","17","18","19","20,21");
+        System.out.println(estZDT.getHour()+"~ADD"+isStart);
+        //h.addAll("08","09","10","11","12","13","14","15","16","17","18","19","20,21");
         return h;
     }
 

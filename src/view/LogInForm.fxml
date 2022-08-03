@@ -56,6 +56,7 @@
                     </opaqueInsets>
                 </HBox>
                 <Label fx:id="loginLocationLabel" text="Location" />
+            <Label fx:id="loginZoneIDLabel" text="Label" />
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="33.0">
                     <children>
                         <RadioButton fx:id="loginEnglishRadio" mnemonicParsing="false" selected="true" text="English">

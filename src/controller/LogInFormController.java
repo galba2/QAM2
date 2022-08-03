@@ -43,7 +43,7 @@ public class LogInFormController implements Initializable {
     @FXML
     private ToggleGroup loginLanguageSelect;
     @FXML
-    private Label loginTimeLabel;
+    private Label loginZoneIDLabel;
     @FXML
     private Label loginLocationLabel;
     @FXML
@@ -92,6 +92,7 @@ public class LogInFormController implements Initializable {
         localZoneID = ZoneId.of(TimeZone.getDefault().getID());
         Locale l = Locale.getDefault();
         loginLocationLabel.setText(l.getDisplayCountry());
+        loginZoneIDLabel.setText(localZoneID.getId());
     }
 
 
