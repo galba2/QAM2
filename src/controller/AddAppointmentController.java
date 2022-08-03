@@ -257,11 +257,25 @@ public class AddAppointmentController implements Initializable {
         ZonedDateTime adjustedLocalZDT = estZDT.withZoneSameInstant(localZoneID);
         if(isStart){//check if start combobox
             for(int i = 0; i < 14; i++){
-                h.add(String.valueOf(estZDT.plusHours(i).getHour()));
+
+                if(String.valueOf(estZDT.plusHours(i).getHour()).length() == 1){
+
+                    h.add("0" + String.valueOf(estZDT.plusHours(i).getHour()));
+                }else{
+
+                    h.add(String.valueOf(estZDT.plusHours(i).getHour()));
+                }
             }
         }else{//combobox is end
             for(int i = 1; i < 15; i++){
-                h.add(String.valueOf(estZDT.plusHours(i).getHour()));
+
+                if(String.valueOf(estZDT.plusHours(i).getHour()).length() == 1){
+
+                    h.add("0" + String.valueOf(estZDT.plusHours(i).getHour()));
+                }else{
+
+                    h.add(String.valueOf(estZDT.plusHours(i).getHour()));
+                }
             }
         }
 
