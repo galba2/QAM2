@@ -26,7 +26,7 @@ public class AddAppointmentController implements Initializable {
 
     private Stage stage;
     private Parent scene;
-    private ZonedDateTime estZDT;
+    private ZonedDateTime adjustedLocalZDT;
 
     @FXML
     private Button appointmentCancelButton;
@@ -105,7 +105,7 @@ public class AddAppointmentController implements Initializable {
 
     @FXML
     void onActionEndHourComboBox(ActionEvent event) {
-        if(endHourComboBox.getSelectionModel().getSelectedItem().compareTo(String.valueOf(estZDT.plusHours(14).getHour())) == 0){
+        if(endHourComboBox.getSelectionModel().getSelectedItem().compareTo(String.valueOf(adjustedLocalZDT.plusHours(14).getHour())) == 0){
             ObservableList<String> m = FXCollections.observableArrayList();
             m.add("00");
             endMinuteComboBox.setItems(m);
@@ -250,31 +250,27 @@ public class AddAppointmentController implements Initializable {
         LocalDate businessLocationDate = LocalDate.now();
         LocalTime businessLocationTime = LocalTime.of(8,00);
         ZoneId businessLocationZoneID = ZoneId.of("America/New_York");
-        estZDT = ZonedDateTime.of(businessLocationDate,businessLocationTime,businessLocationZoneID);
+        ZonedDateTime estZDT = ZonedDateTime.of(businessLocationDate,businessLocationTime,businessLocationZoneID);
 
         ZoneId localZoneID = ZoneId.systemDefault();
 
-        ZonedDateTime adjustedLocalZDT = estZDT.withZoneSameInstant(localZoneID);
+        adjustedLocalZDT = estZDT.withZoneSameInstant(localZoneID);
         if(isStart){//check if start combobox
             for(int i = 0; i < 14; i++){
 
-                if(String.valueOf(estZDT.plusHours(i).getHour()).length() == 1){
-
-                    h.add("0" + String.valueOf(estZDT.plusHours(i).getHour()));
+                if(String.valueOf(adjustedLocalZDT.plusHours(i).getHour()).length() == 1){//check if end hour is single digit
+                    h.add("0" + String.valueOf(adjustedLocalZDT.plusHours(i).getHour()));
                 }else{
-
-                    h.add(String.valueOf(estZDT.plusHours(i).getHour()));
+                    h.add(String.valueOf(adjustedLocalZDT.plusHours(i).getHour()));
                 }
             }
         }else{//combobox is end
             for(int i = 1; i < 15; i++){
 
-                if(String.valueOf(estZDT.plusHours(i).getHour()).length() == 1){
-
-                    h.add("0" + String.valueOf(estZDT.plusHours(i).getHour()));
+                if(String.valueOf(adjustedLocalZDT.plusHours(i).getHour()).length() == 1){//check if end hour is single digit
+                    h.add("0" + String.valueOf(adjustedLocalZDT.plusHours(i).getHour()));
                 }else{
-
-                    h.add(String.valueOf(estZDT.plusHours(i).getHour()));
+                    h.add(String.valueOf(adjustedLocalZDT.plusHours(i).getHour()));
                 }
             }
         }
