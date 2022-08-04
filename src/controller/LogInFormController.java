@@ -36,12 +36,7 @@ public class LogInFormController implements Initializable {
     private static UserAttempt user;
     private  static ZoneId localZoneID;
 
-    @FXML
-    private RadioButton loginEnglishRadio;
-    @FXML
-    private RadioButton loginFrenchRadio;
-    @FXML
-    private ToggleGroup loginLanguageSelect;
+
     @FXML
     private Label loginZoneIDLabel;
     @FXML
