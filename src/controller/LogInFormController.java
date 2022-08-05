@@ -88,14 +88,17 @@ public class LogInFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        ResourceBundle rb = ResourceBundle.getBundle("src/Lang"+ Locale.getDefault());
+        System.out.println(Locale.getDefault());
+        System.out.println(Locale.getDefault().getLanguage());
+        ResourceBundle rb = ResourceBundle.getBundle("Lang", Locale.getDefault());
 
-        if(Locale.getDefault().getLanguage().equals("fr") || Locale.getDefault().getLanguage().equals("es")){
 
-            loginExitButton.setText("Exit");
-            loginLogInButton.setText("Login");
-            loginPasswordLabel.setText("PASSWORD");
-            loginUserLabel.setText("USER");
+        if(Locale.getDefault().getLanguage().equals("fr") || Locale.getDefault().getLanguage().equals("es") || Locale.getDefault().getLanguage().equals("en")){
+
+            loginExitButton.setText(rb.getString("Exit"));
+            loginLogInButton.setText(rb.getString("Login"));
+            loginPasswordLabel.setText(rb.getString("PASSWORD"));
+            loginUserLabel.setText(rb.getString("USER"));
         }
 
         localZoneID = ZoneId.of(TimeZone.getDefault().getID());
