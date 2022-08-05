@@ -42,6 +42,10 @@ public class LogInFormController implements Initializable {
     @FXML
     private Label loginLocationLabel;
     @FXML
+    private Label loginPasswordLabel;
+    @FXML
+    private Label loginUserLabel;
+    @FXML
     private TextField loginUserTextBox;
     @FXML
     private TextField loginPasswordTextBox;
@@ -83,6 +87,16 @@ public class LogInFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        ResourceBundle rb = ResourceBundle.getBundle("src/Lang"+ Locale.getDefault());
+
+        if(Locale.getDefault().getLanguage().equals("fr") || Locale.getDefault().getLanguage().equals("es")){
+
+            loginExitButton.setText("Exit");
+            loginLogInButton.setText("Login");
+            loginPasswordLabel.setText("PASSWORD");
+            loginUserLabel.setText("USER");
+        }
 
         localZoneID = ZoneId.of(TimeZone.getDefault().getID());
         Locale l = Locale.getDefault();
