@@ -24,7 +24,6 @@ public class DBConnection {
             Class.forName(driver); // Locate Driver
             //password = Details.getPassword(); // Assign password
             connection = DriverManager.getConnection(jdbcUrl, userName, password); // reference Connection object
-            System.out.println("Connection successful!");
         } catch(ClassNotFoundException e) {
             e.printStackTrace();
         } catch(SQLException e) {
@@ -35,10 +34,10 @@ public class DBConnection {
     public static Connection getConnection() {
         return connection;
     }
+
     public static void closeConnection() {
         try {
             connection.close();
-            System.out.println("Connection closed!");
         } catch (SQLException e) {
             //Do Nothing
         }
@@ -50,11 +49,11 @@ public class DBConnection {
         else
             System.out.println("Prepared Statement Creation Failed!");
     }
+
     public static PreparedStatement getPreparedStatement() throws SQLException {
         if (preparedStatement != null)
             return preparedStatement;
         else System.out.println("Null reference to Prepared Statement");
         return null;
     }
-
 }

@@ -36,14 +36,7 @@ public class Main extends Application {
     public static void main(String[] args) throws SQLException {
 
         DBConnection.makeConnection();
-
-            System.out.println("Before");
-            System.out.println("After");
-
-
-
         launch(args);
-
         DBConnection.closeConnection();
     }
 }

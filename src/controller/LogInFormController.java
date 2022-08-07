@@ -28,6 +28,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
@@ -68,6 +69,7 @@ public class LogInFormController implements Initializable {
     @FXML
     void onActionLoginButton(ActionEvent event) throws IOException, SQLException {
 
+        checkInput(event);//checks textboxes for errors
         user = new UserAttempt(loginUserTextBox.getText());
 
 
@@ -76,14 +78,16 @@ public class LogInFormController implements Initializable {
             loginPasswordTextBox.clear();
             user.setIsUserAttemptSuccessful(false);
             saveLoginAttempt();
+            PopUpFormController.setUpPopUp("ERROR!",
+                                        "No account found for that user or password.","/view/LogInForm.fxml");
+            switchScene("/view/PopUpForm.fxml",event);
+
         }else{
 
             user.setIsUserAttemptSuccessful(true);
             saveLoginAttempt();
-            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(getClass().getResource("/view/MainMenuForm.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.show();
+            switchScene("/view/MainMenuForm.fxml", event);
+
         }
 
 
@@ -96,10 +100,7 @@ public class LogInFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        System.out.println(Locale.getDefault());
-        System.out.println(Locale.getDefault().getLanguage());
         ResourceBundle rb = ResourceBundle.getBundle("Lang", Locale.getDefault());
-
 
         if(Locale.getDefault().getLanguage().equals("fr") || Locale.getDefault().getLanguage().equals("es") || Locale.getDefault().getLanguage().equals("en")){
 
@@ -127,17 +128,39 @@ public class LogInFormController implements Initializable {
         this.user = user;
     }
 
+    private void switchScene(String newFXML, ActionEvent event) throws IOException {
+
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource(newFXML));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
     private void saveLoginAttempt() throws IOException {
         String fileName = "src/File/login_activity.txt", userAttemptLine;
-
-        System.out.println(user.getUserLogInLocalDateTime());
 
         FileWriter fw = new FileWriter(fileName, true);
         PrintWriter pw = new PrintWriter(fw);
         userAttemptLine = user.getUserName() + " " + Timestamp.valueOf(user.getUserLogInLocalDateTime()) + " " + user.getIsUserAttemptSuccessful();
         pw.println(userAttemptLine);
         pw.close();
+    }
 
+    private void checkInput(ActionEvent event) throws IOException {
 
+        //ArrayList<String> message = new ArrayList<String>();
+        String message = "";
+
+        if(loginUserTextBox.getText().isEmpty()){//checks if login textbox is empty
+            message += "Please enter a user.\n";
+        }
+        if(loginPasswordTextBox.getText().isEmpty()){//checks if password textbox is empty
+            message += "Please enter a password.\n";
+        }
+
+        if(!message.isEmpty()){//checks if there are errors
+            PopUpFormController.setUpPopUp("ERROR!", message,"/view/LogInForm.fxml");
+            switchScene("/view/PopUpForm.fxml",event);
+        }
     }
 }
