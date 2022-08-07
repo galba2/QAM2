@@ -73,23 +73,38 @@ public class CustomersFormController implements Initializable {
     }
 
     @FXML
-    void onActionCusDeleteButton(ActionEvent event) throws SQLException {
+    void onActionCusDeleteButton(ActionEvent event) throws SQLException, IOException {
 
-        deleteCustomer(customerTableView.getSelectionModel().getSelectedItem().getCusID());
-        try {
-            customerTableView.setItems(CustomerQuery.getAllCustomers());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        if(customerTableView.getSelectionModel().isEmpty()){//check if customer is empty
+
+            PopUpFormController.setUpPopUp("ERROR!", "No customer selected.", "/view/CustomersForm.fxml");
+            switchScene("/view/PopUpForm.fxml", event);
+        }else{
+
+            deleteCustomer(customerTableView.getSelectionModel().getSelectedItem().getCusID());
+
+            try {
+                customerTableView.setItems(CustomerQuery.getAllCustomers());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
-
     }
 
     @FXML
     void onActionCusUpdateButton(ActionEvent event) throws IOException {
 
-        setUpdateCustomer(customerTableView.getSelectionModel().getSelectedItem());
-        isLabelAdd = false;
-        switchScene("/view/AddCustomerForm.fxml",event);
+        if(customerTableView.getSelectionModel().isEmpty()){//check if customer is empty
+
+            PopUpFormController.setUpPopUp("ERROR!", "No customer selected.", "/view/CustomersForm.fxml");
+            switchScene("/view/PopUpForm.fxml", event);
+        }else{
+
+            setUpdateCustomer(customerTableView.getSelectionModel().getSelectedItem());
+            isLabelAdd = false;
+            switchScene("/view/AddCustomerForm.fxml",event);
+        }
+
 
 
     }
