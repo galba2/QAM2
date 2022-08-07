@@ -16,9 +16,12 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import model.UserAttempt;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -67,11 +70,16 @@ public class LogInFormController implements Initializable {
 
         user = new UserAttempt(loginUserTextBox.getText());
 
+
         if(!UserAttemptQuery.isPasswordCorrect(user, loginPasswordTextBox.getText())){
             loginUserTextBox.clear();
             loginPasswordTextBox.clear();
+            user.setIsUserAttemptSuccessful(false);
+            saveLoginAttempt();
         }else{
 
+            user.setIsUserAttemptSuccessful(true);
+            saveLoginAttempt();
             stage = (Stage)((Button)event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("/view/MainMenuForm.fxml"));
             stage.setScene(new Scene(scene));
@@ -119,7 +127,17 @@ public class LogInFormController implements Initializable {
         this.user = user;
     }
 
-    public static ZoneId getLocalZoneID() {
-        return localZoneID;
+    private void saveLoginAttempt() throws IOException {
+        String fileName = "src/File/login_activity.txt", userAttemptLine;
+
+        System.out.println(user.getUserLogInLocalDateTime());
+
+        FileWriter fw = new FileWriter(fileName, true);
+        PrintWriter pw = new PrintWriter(fw);
+        userAttemptLine = user.getUserName() + " " + Timestamp.valueOf(user.getUserLogInLocalDateTime()) + " " + user.getIsUserAttemptSuccessful();
+        pw.println(userAttemptLine);
+        pw.close();
+
+
     }
 }

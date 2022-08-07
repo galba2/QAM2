@@ -2,10 +2,8 @@ package model;
 
 import DBAccess.UserAttemptQuery;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class UserAttempt {
@@ -13,9 +11,7 @@ public class UserAttempt {
     private int userID;
     private String userName;
     private String password;
-    private int userLoginAttempt;
-    private LocalDateTime userLogInDate;
-    private Timestamp userLoginAttemptTime;
+    private LocalDateTime userLogInLocalDateTime;
     private Boolean isUserAttemptSuccessful;
 
     public UserAttempt(String userName) throws SQLException {
@@ -23,9 +19,7 @@ public class UserAttempt {
         this.userID = UserAttemptQuery.getUserID(userName);
         this.userName = userName;
         this.password = UserAttemptQuery.getUserPassword(userName);
-        this.userLoginAttempt = 0;
-        this.userLogInDate = LocalDateTime.now();
-        this.userLoginAttemptTime = Timestamp.valueOf(LocalDateTime.now());
+        this.userLogInLocalDateTime = LocalDateTime.now();
         this.isUserAttemptSuccessful = null;
     }
 
@@ -41,16 +35,8 @@ public class UserAttempt {
         return password;
     }
 
-    public int getUserLoginAttempt() {
-        return userLoginAttempt;
-    }
-
-    public LocalDateTime getUserLogInDate() {
-        return userLogInDate;
-    }
-
-    public Timestamp getUserLoginAttemptTime() {
-        return userLoginAttemptTime;
+    public LocalDateTime getUserLogInLocalDateTime() {
+        return userLogInLocalDateTime;
     }
 
     public Boolean getIsUserAttemptSuccessful() {

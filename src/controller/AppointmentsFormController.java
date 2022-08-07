@@ -246,4 +246,8 @@ public class AppointmentsFormController implements Initializable {
     public static String getCurrentRadioButton() {
         return currentRadioButton;
     }
+
+    public static void setCurrentRadioButton(String currentRadioButton) {
+        AppointmentsFormController.currentRadioButton = currentRadioButton;
+    }
 }

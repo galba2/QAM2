@@ -1,5 +1,6 @@
 package controller;
 
+import DBAccess.AppointmentQuery;
 import DBAccess.ContactQuery;
 import Database.DBConnection;
 import javafx.event.ActionEvent;
@@ -11,19 +12,27 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import model.Appointment;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
 
     private Stage stage;
     private Parent scene;
+    private LocalDate labelLocalDate;
 
 
     @FXML
@@ -31,9 +40,25 @@ public class MainMenuController implements Initializable {
     @FXML
     private Label mainMonth2Label;
     @FXML
-    private GridPane mainMonthGridpane1;
+    private TableView<Appointment> mainMonthOneTableView;
     @FXML
-    private GridPane mainMonthGridpane2;
+    private TableView<Appointment> mainMonthTwoTableView;
+    @FXML
+    private TableColumn<Appointment, Integer> mainOneCustomerColumn;
+    @FXML
+    private TableColumn<Appointment, Date> mainOneEndColumn;
+    @FXML
+    private TableColumn<Appointment, Date> mainOneStartColumn;
+    @FXML
+    private TableColumn<Appointment, String> mainOneTitleColumn;
+    @FXML
+    private TableColumn<Appointment, Integer> mainTwoCustomerColumn;
+    @FXML
+    private TableColumn<Appointment, Date> mainTwoEndColumn;
+    @FXML
+    private TableColumn<Appointment, Date> mainTwoStartColumn;
+    @FXML
+    private TableColumn<Appointment, String> mainTwoTitleColumn;
     @FXML
     private Button customerReportButton;
     @FXML
@@ -100,8 +125,23 @@ public class MainMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        labelLocalDate = LocalDate.now();
+        setLabels();
+        setMonthOneColumns();
+        setMonthTwoColumns();
+        AppointmentsFormController.setCurrentRadioButton("Monthly");
 
+        try {
+            mainMonthOneTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
+        try {
+            mainMonthTwoTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate.plusMonths(1)));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
 
@@ -124,9 +164,29 @@ public class MainMenuController implements Initializable {
 
     }
 
+    private void setMonthOneColumns(){
 
+        mainOneCustomerColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("customerID"));
+        mainOneStartColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Date>("start"));
+        mainOneEndColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Date>("end"));
+        mainOneTitleColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("title"));
 
+    }
 
+    private void setMonthTwoColumns(){
+
+        mainTwoCustomerColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("customerID"));
+        mainTwoStartColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Date>("start"));
+        mainTwoEndColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Date>("end"));
+        mainTwoTitleColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("title"));
+    }
+
+    private void setLabels() {
+        DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM");
+        mainMonth1Label.setText(labelLocalDate.format(monthFormatter));
+        mainMonth2Label.setText(labelLocalDate.plusMonths(1).format(monthFormatter));
+
+    }
 
 
 }
