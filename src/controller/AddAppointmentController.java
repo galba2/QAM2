@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.*;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AddAppointmentController implements Initializable {
 
@@ -327,7 +328,7 @@ public class AddAppointmentController implements Initializable {
 
     private boolean checkInput() throws SQLException {
 
-        Boolean errors = false;
+        boolean errors = false;
 
         if(titleTextfield.getText().isEmpty()){//check if title textfield is empty
             errorTitleLabel.setVisible(true);
@@ -403,14 +404,34 @@ public class AddAppointmentController implements Initializable {
 
     }
 
-    private Boolean checkAppointmentOverlap() throws SQLException {
+    private boolean checkAppointmentOverlap() throws SQLException {
 
-        Boolean err = false;
+        AtomicBoolean err = new AtomicBoolean(false);
         ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
         ObservableList<Appointment> relevantAppts = FXCollections.observableArrayList();
+        LocalDateTime s = getStartLocalDateTime();
+        LocalDateTime e = getEndLocalDateTime();
 
         allAppts.addAll(AppointmentQuery.getAllContactFormAppointments());
+        allAppts.forEach(a ->{
+            if(a.getApptID() != Integer.parseInt(idTextfield.getText()) || //check if appointment is not the same appointment
+                    a.getCustomerID() == Integer.parseInt(customerIDComboBox.getSelectionModel().getSelectedItem()) || //check if the customerId matches
+                        LocalDate.from(a.getStart()).isEqual(datePicker.getValue())){ //check if date matches
 
-        return err;
+                relevantAppts.add(a);
+            }
+        });
+
+        relevantAppts.forEach(a -> {
+
+            if((s.isBefore(a.getStart()) || s.isEqual(a.getStart()))  &&  (e.isAfter(a.getEnd()) || e.isEqual(a.getEnd()))){//check if new datetime swallows old datetime
+                err.set(true);
+            }
+            if((s.isBefore(a.getStart()) || s.isEqual(a.getStart()))  &&  (e.isAfter(a.getStart()) || e.isEqual(a.getStart()))){//check if new datetime starts before and ends before new datetime
+                err.set(true);
+            }
+        });
+
+        return err.get();
     }
 }
