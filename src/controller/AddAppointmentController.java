@@ -58,6 +58,28 @@ public class AddAppointmentController implements Initializable {
     private ComboBox<String> endMinuteComboBox;
     @FXML
     private ComboBox<String> endHourComboBox;
+    @FXML
+    private Label errorContactLabel;
+    @FXML
+    private Label errorCustomerIDLabel;
+    @FXML
+    private Label errorDayLabel;
+    @FXML
+    private Label errorDescriptionLabel;
+    @FXML
+    private Label errorEndHourLabel;
+    @FXML
+    private Label errorEndMinuteLabel;
+    @FXML
+    private Label errorLocationLabel;
+    @FXML
+    private Label errorStartHourLabel;
+    @FXML
+    private Label errorStartMinuteLabel;
+    @FXML
+    private Label errorTitleLabel;
+    @FXML
+    private Label errorTypeLabel;
 
     @FXML
     void onActionAppCancel(ActionEvent event) throws IOException {
@@ -73,34 +95,44 @@ public class AddAppointmentController implements Initializable {
     @FXML
     void onActionAppSave(ActionEvent event) throws SQLException, IOException {
 
-        if(AppointmentsFormController.getIsLabelAdd()){
-            AppointmentQuery.addAppointment(titleTextfield.getText(),descriptionTextfield.getText(),locationTextfield.getText(),
-                                            typeComboBox.getSelectionModel().getSelectedItem(),Timestamp.valueOf(getStartLocalDateTime()),
-                                                Timestamp.valueOf(getEndLocalDateTime()),Timestamp.valueOf(LocalDateTime.now()),LogInFormController.getUser().getUserName(),
-                                                    Timestamp.valueOf(LocalDateTime.now()),LogInFormController.getUser().getUserName(),
-                                                        Integer.parseInt(customerIDComboBox.getSelectionModel().getSelectedItem()),LogInFormController.getUser().getUserID(),
-                                                            getIDOnly(contactComboBox.getSelectionModel().getSelectedItem()));
-        }else{
-            AppointmentQuery.updateAppointment(titleTextfield.getText(),descriptionTextfield.getText(),locationTextfield.getText(),
-                    typeComboBox.getSelectionModel().getSelectedItem(), Timestamp.valueOf(getStartLocalDateTime()),
-                    Timestamp.valueOf(getEndLocalDateTime()),Timestamp.valueOf(LocalDateTime.now()),LogInFormController.getUser().getUserName(),
-                    Integer.parseInt(customerIDComboBox.getSelectionModel().getSelectedItem()),LogInFormController.getUser().getUserID(),
-                                getIDOnly(contactComboBox.getSelectionModel().getSelectedItem()),Integer.valueOf(idTextfield.getText()));
+        if(checkInput()){//check for errors thru method
+            //do nothing else
+        }else{//no errors
+
+            if(AppointmentsFormController.getIsLabelAdd()){
+                AppointmentQuery.addAppointment(titleTextfield.getText(),descriptionTextfield.getText(),locationTextfield.getText(),
+                        typeComboBox.getSelectionModel().getSelectedItem(),Timestamp.valueOf(getStartLocalDateTime()),
+                        Timestamp.valueOf(getEndLocalDateTime()),Timestamp.valueOf(LocalDateTime.now()),LogInFormController.getUser().getUserName(),
+                        Timestamp.valueOf(LocalDateTime.now()),LogInFormController.getUser().getUserName(),
+                        Integer.parseInt(customerIDComboBox.getSelectionModel().getSelectedItem()),LogInFormController.getUser().getUserID(),
+                        getIDOnly(contactComboBox.getSelectionModel().getSelectedItem()));
+            }else{
+                AppointmentQuery.updateAppointment(titleTextfield.getText(),descriptionTextfield.getText(),locationTextfield.getText(),
+                        typeComboBox.getSelectionModel().getSelectedItem(), Timestamp.valueOf(getStartLocalDateTime()),
+                        Timestamp.valueOf(getEndLocalDateTime()),Timestamp.valueOf(LocalDateTime.now()),LogInFormController.getUser().getUserName(),
+                        Integer.parseInt(customerIDComboBox.getSelectionModel().getSelectedItem()),LogInFormController.getUser().getUserID(),
+                        getIDOnly(contactComboBox.getSelectionModel().getSelectedItem()),Integer.valueOf(idTextfield.getText()));
+            }
+
+            clearFields();
+            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/view/AppointmentsForm.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
         }
-
-        clearFields();
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/AppointmentsForm.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
-
     }
 
-
-
     @FXML
-    void onActionDatePicker(ActionEvent event) {
+    void onActionDatePicker(ActionEvent event) throws IOException {
 
+        if(datePicker.getValue().isBefore(LocalDate.now())){
+
+            PopUpFormController.setUpPopUp("ERROR!", "Please choose a date that is " + LocalDate.now().toString() + " or later.");
+            Stage popUpStage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/view/PopUpForm.fxml"));
+            popUpStage.setScene(new Scene(root, 400, 300));
+            popUpStage.show();
+        }
     }
 
     @FXML
@@ -117,12 +149,17 @@ public class AddAppointmentController implements Initializable {
 
 
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         setCusLabel();
         try {
             setComboBoxes();
+            startMinuteComboBox.getSelectionModel().clearSelection();
+            startHourComboBox.getSelectionModel().clearSelection();
+            endMinuteComboBox.getSelectionModel().clearSelection();
+            endHourComboBox.getSelectionModel().clearSelection();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -140,8 +177,8 @@ public class AddAppointmentController implements Initializable {
 
 
 
-    //METHODS
 
+    //METHODS
     @FXML
     private void setCusLabel(){
 
@@ -151,7 +188,6 @@ public class AddAppointmentController implements Initializable {
         }else{
             this.appointmentTitleLabel.setText("Update Appointment");
         }
-
     }
 
     private void setComboBoxes() throws SQLException {
@@ -163,7 +199,6 @@ public class AddAppointmentController implements Initializable {
         startHourComboBox.setItems(getHourList(true));
         endMinuteComboBox.setItems(getMinuteList());
         endHourComboBox.setItems(getHourList(false));
-
     }
 
     private int getIDOnly(String rawString) {
@@ -177,14 +212,12 @@ public class AddAppointmentController implements Initializable {
         return idInt;
     }
 
-
     private void clearFields() {
 
         descriptionTextfield.clear();
         locationTextfield.clear();
         idTextfield.clear();
         titleTextfield.clear();
-
     }
 
     private void setUpTextfields(Appointment updateAppt) throws SQLException {
@@ -275,8 +308,6 @@ public class AddAppointmentController implements Initializable {
             }
         }
 
-        System.out.println(estZDT.getHour()+"~ADD"+isStart);
-        //h.addAll("08","09","10","11","12","13","14","15","16","17","18","19","20,21");
         return h;
     }
 
@@ -292,5 +323,94 @@ public class AddAppointmentController implements Initializable {
 
         return LocalDateTime.of(datePicker.getValue(),LocalTime.parse(endHourComboBox.getSelectionModel().getSelectedItem() + ":"
                                                                         + endMinuteComboBox.getSelectionModel().getSelectedItem()));
+    }
+
+    private boolean checkInput() throws SQLException {
+
+        Boolean errors = false;
+
+        if(titleTextfield.getText().isEmpty()){//check if title textfield is empty
+            errorTitleLabel.setVisible(true);
+            errors = true;
+        }else{//not empty
+            errorTitleLabel.setVisible(false);
+        }
+        if(descriptionTextfield.getText().isEmpty()){//check if description textfield is empty
+            errorDescriptionLabel.setVisible(true);
+            errors = true;
+        }else{//not empty
+            errorDescriptionLabel.setVisible(false);
+        }
+        if(locationTextfield.getText().isEmpty()){//check if location textfield is empty
+            errorLocationLabel.setVisible(true);
+            errors = true;
+        }else{//not empty
+            errorLocationLabel.setVisible(false);
+        }
+        if(typeComboBox.getSelectionModel().isEmpty()){//check if type combobox is empty
+            errorTypeLabel.setVisible(true);
+            errors = true;
+        }else{//not empty
+            errorTypeLabel.setVisible(false);
+        }
+        if(contactComboBox.getSelectionModel().isEmpty()){//check if contact combobox is empty
+            errorContactLabel.setVisible(true);
+            errors = true;
+        }else{//not empty
+            errorContactLabel.setVisible(false);
+        }
+        if(customerIDComboBox.getSelectionModel().isEmpty()){//check if customerid combobox is empty
+            errorCustomerIDLabel.setVisible(true);
+            errors = true;
+        }else{//not empty
+            errorCustomerIDLabel.setVisible(false);
+        }
+        if(datePicker.getValue() == null){//check if day is empty
+            errorDayLabel.setVisible(true);
+            errors = true;
+        }else{//not empty
+            errorDayLabel.setVisible(false);
+        }
+        if(startHourComboBox.getSelectionModel().getSelectedItem() == null){//check if start hour combobox is empty
+            errorStartHourLabel.setVisible(true);
+            errors = true;
+        }else{//not empty
+            errorStartHourLabel.setVisible(false);
+        }
+        if(startMinuteComboBox.getSelectionModel().getSelectedItem() == null){//check if start minute combobox is empty
+            errorStartMinuteLabel.setVisible(true);
+            errors = true;
+        }else{//not empty
+            errorStartMinuteLabel.setVisible(false);
+        }
+        if(endHourComboBox.getSelectionModel().getSelectedItem() == null){//check if end hour combobox is empty
+            errorEndHourLabel.setVisible(true);
+            errors = true;
+        }else{//not empty
+            errorEndHourLabel.setVisible(false);
+        }
+        if(endMinuteComboBox.getSelectionModel().getSelectedItem() == null){//check if end minute combobox is empty
+            errorEndMinuteLabel.setVisible(true);
+            errors = true;
+        }else{//not empty
+            errorEndMinuteLabel.setVisible(false);
+        }
+        if(checkAppointmentOverlap()){
+            errors = true;
+        }
+
+        return errors;
+
+    }
+
+    private Boolean checkAppointmentOverlap() throws SQLException {
+
+        Boolean err = false;
+        ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
+        ObservableList<Appointment> relevantAppts = FXCollections.observableArrayList();
+
+        allAppts.addAll(AppointmentQuery.getAllContactFormAppointments());
+
+        return err;
     }
 }

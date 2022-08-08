@@ -26,6 +26,7 @@ public class PopUpFormController implements Initializable {
     private Parent scene;
     private static boolean customerSetting = false;
     private static boolean appointmentSetting = false;
+    private static boolean justClose = false;
     private static Customer customerToBeDeleted;
     private static Appointment appointmentToBeDeleted;
     private static String alertText;
@@ -44,8 +45,12 @@ public class PopUpFormController implements Initializable {
 
     @FXML
     void onActionPopUpCancelButton(ActionEvent event) throws IOException {
-        switchScene(viewPath,event);
-
+        if(justClose){//check if just closing stage
+            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+            stage.close();
+        }else{
+            switchScene(viewPath,event);
+        }
     }
 
     @FXML
@@ -61,6 +66,10 @@ public class PopUpFormController implements Initializable {
 
 
 
+        }else if(justClose){//check if just closing stage
+
+            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+            stage.close();
         }else{//not deleting customer or appointment
 
             switchScene(viewPath,event);
@@ -82,8 +91,18 @@ public class PopUpFormController implements Initializable {
 
 
     //METHODS
+    public static void setUpPopUp(String typeOfAlert, String description) throws IOException {
+
+        justClose = true;
+        customerSetting = false;
+        appointmentSetting = false;
+        alertText = typeOfAlert;
+        descriptionText = description;
+    }
+
     public static void setUpPopUp(String typeOfAlert, String description, String parentViewPath) throws IOException {
 
+        justClose = false;
         customerSetting = false;
         appointmentSetting = false;
         alertText = typeOfAlert;
@@ -93,6 +112,7 @@ public class PopUpFormController implements Initializable {
 
     public static void setUpPopUp(String typeOfAlert, String description, String parentViewPath, Customer deleteCustomer) throws IOException {
 
+        justClose = false;
         customerSetting = true;
         appointmentSetting = false;
         alertText = typeOfAlert;
@@ -103,6 +123,7 @@ public class PopUpFormController implements Initializable {
 
     public static void setUpPopUp(String typeOfAlert, String description, String parentViewPath, Appointment deleteAppointment) throws IOException {
 
+        justClose = false;
         customerSetting = false;
         appointmentSetting = true;
         alertText = typeOfAlert;
