@@ -1,5 +1,6 @@
 package controller;
 
+import DBAccess.CustomerQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,9 +10,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import model.Appointment;
+import model.Customer;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 
@@ -20,6 +24,10 @@ public class PopUpFormController implements Initializable {
     private static String viewPath;
     private Stage stage;
     private Parent scene;
+    private static boolean customerSetting = false;
+    private static boolean appointmentSetting = false;
+    private static Customer customerToBeDeleted;
+    private static Appointment appointmentToBeDeleted;
     private static String alertText;
     private static String descriptionText;
 
@@ -41,9 +49,22 @@ public class PopUpFormController implements Initializable {
     }
 
     @FXML
-    void onActionPopUpOkButton(ActionEvent event) throws IOException {
-        switchScene(viewPath,event);
+    void onActionPopUpOkButton(ActionEvent event) throws IOException, SQLException {
 
+        if(customerSetting){//check if deleting customer
+
+            CustomerQuery.deleteCustomer(customerToBeDeleted.getCusID());
+            switchScene(viewPath,event);
+        }else if(appointmentSetting){//check if deleting appointment
+
+
+
+
+
+        }else{//not deleting customer or appointment
+
+            switchScene(viewPath,event);
+        }
     }
 
 
@@ -51,6 +72,7 @@ public class PopUpFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         popUpAlertLabel.setText(alertText);
         popUpDescriptionLabel.setText(descriptionText);
     }
@@ -62,9 +84,31 @@ public class PopUpFormController implements Initializable {
     //METHODS
     public static void setUpPopUp(String typeOfAlert, String description, String parentViewPath) throws IOException {
 
+        customerSetting = false;
+        appointmentSetting = false;
         alertText = typeOfAlert;
         descriptionText = description;
         viewPath = parentViewPath;
+    }
+
+    public static void setUpPopUp(String typeOfAlert, String description, String parentViewPath, Customer deleteCustomer) throws IOException {
+
+        customerSetting = true;
+        appointmentSetting = false;
+        alertText = typeOfAlert;
+        descriptionText = description;
+        viewPath = parentViewPath;
+        customerToBeDeleted = deleteCustomer;
+    }
+
+    public static void setUpPopUp(String typeOfAlert, String description, String parentViewPath, Appointment deleteAppointment) throws IOException {
+
+        customerSetting = false;
+        appointmentSetting = true;
+        alertText = typeOfAlert;
+        descriptionText = description;
+        viewPath = parentViewPath;
+        appointmentToBeDeleted = deleteAppointment;
     }
 
     private void switchScene(String newFXML, ActionEvent event) throws IOException {
@@ -74,6 +118,5 @@ public class PopUpFormController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
     }
-
-
 }
+

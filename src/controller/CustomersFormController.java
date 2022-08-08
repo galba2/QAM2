@@ -1,6 +1,5 @@
 package controller;
 
-import DBAccess.CountryReportQuery;
 import DBAccess.CustomerQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +17,6 @@ import model.Customer;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
 import static DBAccess.CustomerQuery.*;
@@ -75,19 +73,17 @@ public class CustomersFormController implements Initializable {
     @FXML
     void onActionCusDeleteButton(ActionEvent event) throws SQLException, IOException {
 
-        if(customerTableView.getSelectionModel().isEmpty()){//check if customer is empty
+        if(customerTableView.getSelectionModel().isEmpty()){//check if customer selection is empty
 
             PopUpFormController.setUpPopUp("ERROR!", "No customer selected.", "/view/CustomersForm.fxml");
             switchScene("/view/PopUpForm.fxml", event);
-        }else{
+        }else{//customer is selected
 
-            deleteCustomer(customerTableView.getSelectionModel().getSelectedItem().getCusID());
-
-            try {
-                customerTableView.setItems(CustomerQuery.getAllCustomers());
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            PopUpFormController.setUpPopUp("WARNING!",
+                                                "Customer and customer's appointment(s) will be deleted.\nAre you sure you want to delete this customer?",
+                                        "/view/CustomersForm.fxml",
+                                            customerTableView.getSelectionModel().getSelectedItem());
+            switchScene("/view/PopUpForm.fxml", event);
         }
     }
 
