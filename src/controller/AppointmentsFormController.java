@@ -95,11 +95,16 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     void onActionAppUpdateButton(ActionEvent event) throws IOException {
 
-        isLabelAdd = false;
-        setUpdateAppt(aRTableView.getSelectionModel().getSelectedItem());
-        switchScene("/view/AddAppointment.fxml", event);
+        if(aRTableView.getSelectionModel().isEmpty()){//check if customer is empty
 
+            PopUpFormController.setUpPopUp("ERROR!", "No appointment selected.", "/view/AppointmentsForm.fxml");
+            switchScene("/view/PopUpForm.fxml", event);
+        }else{
 
+            isLabelAdd = false;
+            setUpdateAppt(aRTableView.getSelectionModel().getSelectedItem());
+            switchScene("/view/AddAppointment.fxml", event);
+        }
     }
 
     @FXML

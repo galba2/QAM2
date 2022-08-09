@@ -126,18 +126,21 @@ public class AddAppointmentController implements Initializable {
     @FXML
     void onActionDatePicker(ActionEvent event) throws IOException {
 
-        if(datePicker.getValue().isBefore(LocalDate.now())){
-
+        if(datePicker.getValue() == null){//check if datepicker is null
+            //do nothing
+        }else if(datePicker.getValue().isBefore(LocalDate.now())){//check if date is before current date
             PopUpFormController.setUpPopUp("ERROR!", "Please choose a date that is " + LocalDate.now().toString() + " or later.");
             Stage popUpStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/view/PopUpForm.fxml"));
             popUpStage.setScene(new Scene(root, 400, 300));
             popUpStage.show();
+            datePicker.setValue(null);
         }
     }
 
     @FXML
     void onActionEndHourComboBox(ActionEvent event) {
+
         if(endHourComboBox.getSelectionModel().getSelectedItem().compareTo(String.valueOf(adjustedLocalZDT.plusHours(14).getHour())) == 0){
             ObservableList<String> m = FXCollections.observableArrayList();
             m.add("00");
@@ -326,7 +329,7 @@ public class AddAppointmentController implements Initializable {
                                                                         + endMinuteComboBox.getSelectionModel().getSelectedItem()));
     }
 
-    private boolean checkInput() throws SQLException {
+    private boolean checkInput() throws SQLException, IOException {
 
         boolean errors = false;
 
@@ -368,40 +371,59 @@ public class AddAppointmentController implements Initializable {
         }
         if(datePicker.getValue() == null){//check if day is empty
             errorDayLabel.setVisible(true);
+            timeComboBoxesSelected();//still check if time combo boxes are selected
             errors = true;
         }else{//not empty
             errorDayLabel.setVisible(false);
+            if(timeComboBoxesSelected() && !customerIDComboBox.getSelectionModel().isEmpty()){//check if time combo boxes and customerid combo box have been selected
+
+                if(getStartLocalDateTime().isAfter(getEndLocalDateTime()) || getStartLocalDateTime().isEqual(getEndLocalDateTime())){//check if start time is after end time or both times are equal
+                    PopUpFormController.setUpPopUp("ERROR!", "Please choose an end time that is after the start time.");
+                    Stage popUpStage = new Stage();
+                    Parent root = FXMLLoader.load(getClass().getResource("/view/PopUpForm.fxml"));
+                    popUpStage.setScene(new Scene(root, 400, 300));
+                    popUpStage.show();
+                    errors = true;
+                }else if(checkAppointmentOverlap()){//check for any appointment overlaps
+                    errors = true;
+                }
+
+            }
         }
+
+        return errors;
+    }
+
+    private boolean timeComboBoxesSelected() {
+
+        boolean selected = true;
+
         if(startHourComboBox.getSelectionModel().getSelectedItem() == null){//check if start hour combobox is empty
             errorStartHourLabel.setVisible(true);
-            errors = true;
+            selected = false;
         }else{//not empty
             errorStartHourLabel.setVisible(false);
         }
         if(startMinuteComboBox.getSelectionModel().getSelectedItem() == null){//check if start minute combobox is empty
             errorStartMinuteLabel.setVisible(true);
-            errors = true;
+            selected = false;
         }else{//not empty
             errorStartMinuteLabel.setVisible(false);
         }
         if(endHourComboBox.getSelectionModel().getSelectedItem() == null){//check if end hour combobox is empty
             errorEndHourLabel.setVisible(true);
-            errors = true;
+            selected = false;
         }else{//not empty
             errorEndHourLabel.setVisible(false);
         }
         if(endMinuteComboBox.getSelectionModel().getSelectedItem() == null){//check if end minute combobox is empty
             errorEndMinuteLabel.setVisible(true);
-            errors = true;
+            selected = false;
         }else{//not empty
             errorEndMinuteLabel.setVisible(false);
         }
-        if(checkAppointmentOverlap()){
-            errors = true;
-        }
 
-        return errors;
-
+        return selected;
     }
 
     private boolean checkAppointmentOverlap() throws SQLException {
@@ -413,22 +435,92 @@ public class AddAppointmentController implements Initializable {
         LocalDateTime e = getEndLocalDateTime();
 
         allAppts.addAll(AppointmentQuery.getAllContactFormAppointments());
-        allAppts.forEach(a ->{
-            if(a.getApptID() != Integer.parseInt(idTextfield.getText()) || //check if appointment is not the same appointment
-                    a.getCustomerID() == Integer.parseInt(customerIDComboBox.getSelectionModel().getSelectedItem()) || //check if the customerId matches
+        allAppts.forEach(a ->{//add appointments to relevantAppts pertaining to the day of the new appointment
+
+            if(idTextfield.getText().compareTo("AUTO GENERATED") == 0){//check if adding new appointment
+
+                if(a.getCustomerID() == Integer.parseInt(customerIDComboBox.getSelectionModel().getSelectedItem()) && //check if the customerId matches
                         LocalDate.from(a.getStart()).isEqual(datePicker.getValue())){ //check if date matches
 
-                relevantAppts.add(a);
+                    relevantAppts.add(a);
+                }
+            }else{//updating appointment
+
+                if(a.getApptID() != Integer.parseInt(idTextfield.getText()) && //check if appointment is not the same appointment
+                        a.getCustomerID() == Integer.parseInt(customerIDComboBox.getSelectionModel().getSelectedItem()) && //check if the customerId matches
+                        LocalDate.from(a.getStart()).isEqual(datePicker.getValue())){ //check if date matches
+
+                    relevantAppts.add(a);
+                }
             }
+
         });
 
         relevantAppts.forEach(a -> {
 
             if((s.isBefore(a.getStart()) || s.isEqual(a.getStart()))  &&  (e.isAfter(a.getEnd()) || e.isEqual(a.getEnd()))){//check if new datetime swallows old datetime
+
                 err.set(true);
-            }
-            if((s.isBefore(a.getStart()) || s.isEqual(a.getStart()))  &&  (e.isAfter(a.getStart()) || e.isEqual(a.getStart()))){//check if new datetime starts before and ends before new datetime
+                //show popup error
+                try {
+                    PopUpFormController.setUpPopUp("ERROR!", "Appointment overlaps with other appointment.\n" +
+                                                                                    "Date: " + LocalDate.from(a.getStart())  + "\n" +
+                                                                                        "Start: " + a.getStart().getHour() + "\n" +
+                                                                                            "End: " + a.getEnd().getHour());
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                Stage popUpStage = new Stage();
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("/view/PopUpForm.fxml"));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                popUpStage.setScene(new Scene(root, 400, 300));
+                popUpStage.show();
+            }else if((s.isBefore(a.getStart()) || s.isEqual(a.getStart()))  &&  (e.isAfter(a.getStart()))){//check if new datetime starts before and ends before old datetime
+
                 err.set(true);
+                //show popup error
+                try {
+                    PopUpFormController.setUpPopUp("ERROR!", "Appointment overlaps with other appointment.\n" +
+                                                                                    "Date: " + LocalDate.from(a.getStart())  + "\n" +
+                                                                                        "Start: " + a.getStart().getHour() + "\n" +
+                                                                                            "End: " + a.getEnd().getHour());
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                Stage popUpStage = new Stage();
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("/view/PopUpForm.fxml"));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                popUpStage.setScene(new Scene(root, 400, 300));
+                popUpStage.show();
+            }else if(((s.isAfter(a.getStart()) || s.isEqual(a.getStart())) && s.isBefore(a.getEnd()))){//check if new datetime starts during old datetime
+
+                err.set(true);
+                //show popup error
+                try {
+                    PopUpFormController.setUpPopUp("ERROR!", "Appointment overlaps with other appointment.\n" +
+                                                                                    "Date: " + LocalDate.from(a.getStart())  + "\n" +
+                                                                                        "Start: " + a.getStart().getHour() + "\n" +
+                                                                                            "End: " + a.getEnd().getHour());
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                Stage popUpStage = new Stage();
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("/view/PopUpForm.fxml"));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                popUpStage.setScene(new Scene(root, 400, 300));
+                popUpStage.show();
             }
         });
 

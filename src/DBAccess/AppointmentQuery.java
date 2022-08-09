@@ -50,7 +50,6 @@ public class AppointmentQuery {
             ap.setCustomerID(rs.getInt("Customer_ID"));
             ap.setStart(rs.getTimestamp("Start").toLocalDateTime());
             ap.setEnd(rs.getTimestamp("End").toLocalDateTime());
-            System.out.println(rs.getInt("Appointment_ID") + "*" + rs.getTimestamp("Start"));
             apps.add(ap);
         }
 
