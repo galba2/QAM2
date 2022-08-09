@@ -96,7 +96,7 @@
                <children>
                     <HBox alignment="CENTER">
                         <children>
-                        <VBox>
+                        <VBox alignment="CENTER">
                            <children>
                                   <DatePicker fx:id="datePicker" onAction="#onActionDatePicker" promptText="DAY" />
                               <Label fx:id="errorDayLabel" text="Please select day." textFill="RED" visible="false" />

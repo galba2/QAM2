@@ -456,7 +456,7 @@ public class AddAppointmentController implements Initializable {
 
         });
 
-        relevantAppts.forEach(a -> {
+        relevantAppts.forEach(a -> {//check for overlaps on each relevant appointment
 
             if((s.isBefore(a.getStart()) || s.isEqual(a.getStart()))  &&  (e.isAfter(a.getEnd()) || e.isEqual(a.getEnd()))){//check if new datetime swallows old datetime
 
@@ -465,8 +465,8 @@ public class AddAppointmentController implements Initializable {
                 try {
                     PopUpFormController.setUpPopUp("ERROR!", "Appointment overlaps with other appointment.\n" +
                                                                                     "Date: " + LocalDate.from(a.getStart())  + "\n" +
-                                                                                        "Start: " + a.getStart().getHour() + "\n" +
-                                                                                            "End: " + a.getEnd().getHour());
+                                                                                        "Start: " + a.getStart().getHour() + ":" + a.getStart().getMinute()  + "\n" +
+                                                                                            "End: " + a.getEnd().getHour() + ":" + a.getEnd().getMinute());
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -486,8 +486,8 @@ public class AddAppointmentController implements Initializable {
                 try {
                     PopUpFormController.setUpPopUp("ERROR!", "Appointment overlaps with other appointment.\n" +
                                                                                     "Date: " + LocalDate.from(a.getStart())  + "\n" +
-                                                                                        "Start: " + a.getStart().getHour() + "\n" +
-                                                                                            "End: " + a.getEnd().getHour());
+                                                                                        "Start: " + a.getStart().getHour() + ":" + a.getStart().getMinute()  + "\n" +
+                                                                                            "End: " + a.getEnd().getHour() + ":" + a.getEnd().getMinute());
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -507,8 +507,8 @@ public class AddAppointmentController implements Initializable {
                 try {
                     PopUpFormController.setUpPopUp("ERROR!", "Appointment overlaps with other appointment.\n" +
                                                                                     "Date: " + LocalDate.from(a.getStart())  + "\n" +
-                                                                                        "Start: " + a.getStart().getHour() + "\n" +
-                                                                                            "End: " + a.getEnd().getHour());
+                                                                                        "Start: " + a.getStart().getHour() + ":" + a.getStart().getMinute() + "\n" +
+                                                                                            "End: " + a.getEnd().getHour() + ":" + a.getEnd().getMinute());
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
