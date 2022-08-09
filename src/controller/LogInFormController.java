@@ -1,7 +1,10 @@
 package controller;
 
+import DBAccess.AppointmentQuery;
 import DBAccess.UserAttemptQuery;
 import Database.DBConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +17,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import model.Appointment;
 import model.UserAttempt;
 
 import java.io.FileWriter;
@@ -73,7 +77,7 @@ public class LogInFormController implements Initializable {
         user = new UserAttempt(loginUserTextBox.getText());
 
 
-        if(!UserAttemptQuery.isPasswordCorrect(user, loginPasswordTextBox.getText())){
+        if(!UserAttemptQuery.isPasswordCorrect(user, loginPasswordTextBox.getText())){//check if user and password entered match
             loginUserTextBox.clear();
             loginPasswordTextBox.clear();
             user.setIsUserAttemptSuccessful(false);
@@ -86,13 +90,19 @@ public class LogInFormController implements Initializable {
 
             user.setIsUserAttemptSuccessful(true);
             saveLoginAttempt();
-            switchScene("/view/MainMenuForm.fxml", event);
+
+            String message = checkApptsForFifteen();
+            PopUpFormController.setUpPopUp("ALERT!",
+                                            message,"/view/MainMenuForm.fxml");
+            switchScene("/view/PopUpForm.fxml",event);
 
         }
 
 
 
     }
+
+
 
 
 
@@ -148,7 +158,6 @@ public class LogInFormController implements Initializable {
 
     private void checkInput(ActionEvent event) throws IOException {
 
-        //ArrayList<String> message = new ArrayList<String>();
         String message = "";
 
         if(loginUserTextBox.getText().isEmpty()){//checks if login textbox is empty
@@ -162,5 +171,43 @@ public class LogInFormController implements Initializable {
             PopUpFormController.setUpPopUp("ERROR!", message,"/view/LogInForm.fxml");
             switchScene("/view/PopUpForm.fxml",event);
         }
+    }
+
+    private String checkApptsForFifteen() throws SQLException {
+
+        String mFifteen = "";
+        ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
+        ObservableList<Appointment> relevantAppts = FXCollections.observableArrayList();
+        ObservableList<Appointment> fifteenAppts = FXCollections.observableArrayList();
+        allAppts.addAll(AppointmentQuery.getAllAppointments());//add all appointments to allappts
+
+        allAppts.forEach(a -> {//add user's appointments to relevantappts
+            if(a.getUserID() == user.getUserID()){//check if the appointment userid is the same as the user's id
+                relevantAppts.add(a);
+            }
+        });
+
+        fifteenAppts.addAll(relevantAppts);//add all relevantAppts to fifteenAppts
+        relevantAppts.forEach(a -> {//remove appointments that are not within 15 minutes of now
+
+            if(a.getStart().isAfter(LocalDateTime.now().plusMinutes(15))   || //check if appointment start is after 15 minutes
+                      a.getStart().isBefore(LocalDateTime.now())){//check if appointment start is before now
+
+                fifteenAppts.remove(a);
+            }
+        });
+
+        if(fifteenAppts.isEmpty()){//check if relevantappts is empty
+            mFifteen = "No appointments within 15 minutes.";
+        }else{//relevantappts is not empty
+
+            mFifteen = "You have (an) appointment(s) within 15 minutes.\n\n";
+
+            for(Appointment ap : fifteenAppts){
+                mFifteen += "Appointment ID: " + ap.getApptID() + ", DateTime: " + ap.getStart() + "\n";
+            }
+        }
+
+        return mFifteen;
     }
 }
