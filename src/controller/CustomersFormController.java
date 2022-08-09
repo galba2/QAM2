@@ -81,8 +81,8 @@ public class CustomersFormController implements Initializable {
 
             PopUpFormController.setUpPopUp("WARNING!",
                                                 "Customer and customer's appointment(s) will be deleted.\nAre you sure you want to delete this customer?",
-                                        "/view/CustomersForm.fxml",
-                                            customerTableView.getSelectionModel().getSelectedItem());
+                                                    "/view/CustomersForm.fxml",
+                                                        customerTableView.getSelectionModel().getSelectedItem());
             switchScene("/view/PopUpForm.fxml", event);
         }
     }

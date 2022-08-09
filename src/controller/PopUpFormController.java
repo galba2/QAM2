@@ -1,6 +1,9 @@
 package controller;
 
+import DBAccess.AppointmentQuery;
 import DBAccess.CustomerQuery;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -57,20 +60,31 @@ public class PopUpFormController implements Initializable {
     void onActionPopUpOkButton(ActionEvent event) throws IOException, SQLException {
 
         if(customerSetting){//check if deleting customer
+            ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
+            allAppts.addAll(AppointmentQuery.getAllAppointments());//add all appointments to allappts
+
+            allAppts.forEach(a -> {//delete all appointments that has the customer's to be deleted id
+
+                if(a.getCustomerID() == customerToBeDeleted.getCusID()){//check if appointment's customerid has the customer's to be deleted id
+                    try {
+                        AppointmentQuery.deleteAppointment(a.getApptID());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+            });
 
             CustomerQuery.deleteCustomer(customerToBeDeleted.getCusID());
             switchScene(viewPath,event);
         }else if(appointmentSetting){//check if deleting appointment
 
-
-
-
-
+            AppointmentQuery.deleteAppointment(appointmentToBeDeleted.getApptID());
+            switchScene(viewPath,event);
         }else if(justClose){//check if just closing stage
 
             stage = (Stage)((Button)event.getSource()).getScene().getWindow();
             stage.close();
-        }else{//not deleting customer or appointment
+        }else{//not deleting customer or appointment or justclose
 
             switchScene(viewPath,event);
         }

@@ -108,7 +108,20 @@ public class AppointmentsFormController implements Initializable {
     }
 
     @FXML
-    void onActionAppDeleteButton(ActionEvent event) throws SQLException {
+    void onActionAppDeleteButton(ActionEvent event) throws SQLException, IOException {
+
+        if(aRTableView.getSelectionModel().isEmpty()){//check if customer selection is empty
+
+            PopUpFormController.setUpPopUp("ERROR!", "No appointment  selected.", "/view/AppointmentsForm.fxml");
+            switchScene("/view/PopUpForm.fxml", event);
+        }else{//customer is selected
+
+            PopUpFormController.setUpPopUp("WARNING!",
+                                            "Customer and customer's appointment(s) will be deleted.\nAre you sure you want to delete this customer?",
+                                                "/view/CustomersForm.fxml",
+                                                    aRTableView.getSelectionModel().getSelectedItem());
+            switchScene("/view/PopUpForm.fxml", event);
+        }
 
         deleteAppointment(aRTableView.getSelectionModel().getSelectedItem().getApptID());
 
