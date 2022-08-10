@@ -3,12 +3,18 @@ package DBAccess;
 import Database.DBConnection;
 import controller.AppointmentsFormController;
 import controller.LogInFormController;
+import controller.PopUpFormController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
 import model.Appointment;
 
 
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,6 +23,9 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class AppointmentQuery {
+
+    private Stage stage;
+    private Parent scene;
 
     public static void deleteAppointment(int id) throws SQLException {
 
@@ -30,6 +39,21 @@ public class AppointmentQuery {
             System.out.println("Delete failed");
         }
 
+        //show confirmation popup
+        try {
+            PopUpFormController.setUpPopUp("ALERT!", "Appointment deleted.");
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        Stage popUpStage = new Stage();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(AppointmentQuery.class.getResource("/view/PopUpForm.fxml"));
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        popUpStage.setScene(new Scene(root, 400, 300));
+        popUpStage.show();
     }
 
     public static ObservableList getAllContactFormAppointments() throws SQLException {

@@ -12,8 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -28,11 +26,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.time.format.TextStyle;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
@@ -73,33 +66,32 @@ public class LogInFormController implements Initializable {
     @FXML
     void onActionLoginButton(ActionEvent event) throws IOException, SQLException {
 
-        checkInput(event);//checks textboxes for errors
-        user = new UserAttempt(loginUserTextBox.getText());
-
-
-        if(!UserAttemptQuery.isPasswordCorrect(user, loginPasswordTextBox.getText())){//check if user and password entered match
-            loginUserTextBox.clear();
-            loginPasswordTextBox.clear();
-            user.setIsUserAttemptSuccessful(false);
-            saveLoginAttempt();
-            PopUpFormController.setUpPopUp("ERROR!",
-                                        "No account found for that user or password.","/view/LogInForm.fxml");
-            switchScene("/view/PopUpForm.fxml",event);
-
+        if(checkInput(event)){//checks textboxes for errors
+            //do nothing
         }else{
 
-            user.setIsUserAttemptSuccessful(true);
-            saveLoginAttempt();
+            user = new UserAttempt(loginUserTextBox.getText());
 
-            String message = checkApptsForFifteen();
-            PopUpFormController.setUpPopUp("ALERT!",
-                                            message,"/view/MainMenuForm.fxml");
-            switchScene("/view/PopUpForm.fxml",event);
+            if(!UserAttemptQuery.isPasswordCorrect(user, loginPasswordTextBox.getText())){//check if user and password entered match
 
+                loginUserTextBox.clear();
+                loginPasswordTextBox.clear();
+                user.setIsUserAttemptSuccessful(false);
+                saveLoginAttempt();
+                PopUpFormController.setUpPopUp("ERROR!",
+                        "No account found for that user or password.","/view/LogInForm.fxml");
+                switchScene("/view/PopUpForm.fxml",event);
+            }else{
+
+                user.setIsUserAttemptSuccessful(true);
+                saveLoginAttempt();
+
+                String message = checkApptsForFifteen();//sets message for any appointments within 15 minutes
+                PopUpFormController.setUpPopUp("ALERT!",
+                        message,"/view/MainMenuForm.fxml");
+                switchScene("/view/PopUpForm.fxml",event);
+            }
         }
-
-
-
     }
 
 
@@ -139,7 +131,6 @@ public class LogInFormController implements Initializable {
     }
 
     private void switchScene(String newFXML, ActionEvent event) throws IOException {
-
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource(newFXML));
         stage.setScene(new Scene(scene));
@@ -156,21 +147,26 @@ public class LogInFormController implements Initializable {
         pw.close();
     }
 
-    private void checkInput(ActionEvent event) throws IOException {
+    private boolean checkInput(ActionEvent event) throws IOException {
 
-        String message = "";
+        boolean errors = false;
+        ObservableList<String> message = FXCollections.observableArrayList();
 
         if(loginUserTextBox.getText().isEmpty()){//checks if login textbox is empty
-            message += "Please enter a user.\n";
+            message.add("user");
+
         }
         if(loginPasswordTextBox.getText().isEmpty()){//checks if password textbox is empty
-            message += "Please enter a password.\n";
+            message.add("password");
         }
 
         if(!message.isEmpty()){//checks if there are errors
             PopUpFormController.setUpPopUp("ERROR!", message,"/view/LogInForm.fxml");
             switchScene("/view/PopUpForm.fxml",event);
+            errors = true;
         }
+
+        return errors;
     }
 
     private String checkApptsForFifteen() throws SQLException {

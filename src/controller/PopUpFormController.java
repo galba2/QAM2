@@ -19,6 +19,8 @@ import model.Customer;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 
@@ -34,6 +36,7 @@ public class PopUpFormController implements Initializable {
     private static Appointment appointmentToBeDeleted;
     private static String alertText;
     private static String descriptionText;
+    private static ResourceBundle rb = ResourceBundle.getBundle("Lang", Locale.getDefault());
 
     @FXML
     private Label popUpAlertLabel;
@@ -43,6 +46,7 @@ public class PopUpFormController implements Initializable {
     private Button popUpOkButton;
     @FXML
     private Button popUpCancelButton;
+
 
 
 
@@ -96,6 +100,12 @@ public class PopUpFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        if(Locale.getDefault().getLanguage().equals("fr") || Locale.getDefault().getLanguage().equals("en")){//check computer system's language
+
+            popUpOkButton.setText(rb.getString("OK"));
+            popUpCancelButton.setText(rb.getString("Cancel"));
+        }
+
         popUpAlertLabel.setText(alertText);
         popUpDescriptionLabel.setText(descriptionText);
     }
@@ -119,9 +129,16 @@ public class PopUpFormController implements Initializable {
         justClose = false;
         customerSetting = false;
         appointmentSetting = false;
-        alertText = typeOfAlert;
-        descriptionText = description;
         viewPath = parentViewPath;
+        
+        if(Locale.getDefault().getLanguage().equals("fr") && description.contains("account")){//check if computer system's language is set to french and if description is from login screen
+            alertText = rb.getString(typeOfAlert);
+            descriptionText = rb.getString("account");
+        }else{
+            alertText = typeOfAlert;
+            descriptionText = description;
+        }
+
     }
 
     public static void setUpPopUp(String typeOfAlert, String description, String parentViewPath, Customer deleteCustomer) throws IOException {
@@ -146,6 +163,27 @@ public class PopUpFormController implements Initializable {
         appointmentToBeDeleted = deleteAppointment;
     }
 
+    public static void setUpPopUp(String typeOfAlert, ObservableList<String> description, String parentViewPath) throws IOException {
+
+        justClose = false;
+        customerSetting = false;
+        appointmentSetting = false;
+
+        ObservableList<String> d = FXCollections.observableArrayList();//create observable list to store description parameter
+        d.addAll(description);
+        String descrip = "";
+
+        if(Locale.getDefault().getLanguage().equals("fr") || Locale.getDefault().getLanguage().equals("en")){//check computer system's language
+            alertText = rb.getString(typeOfAlert);//get alert in the computer system's language
+            for(String m : d){//assign message for popup description
+                descrip += rb.getString(m) + "\n";
+            }
+        }
+
+        descriptionText = descrip;
+        viewPath = parentViewPath;
+    }
+
     private void switchScene(String newFXML, ActionEvent event) throws IOException {
 
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -154,4 +192,3 @@ public class PopUpFormController implements Initializable {
         stage.show();
     }
 }
-

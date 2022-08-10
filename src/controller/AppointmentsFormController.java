@@ -117,13 +117,11 @@ public class AppointmentsFormController implements Initializable {
         }else{//customer is selected
 
             PopUpFormController.setUpPopUp("WARNING!",
-                                            "Customer and customer's appointment(s) will be deleted.\nAre you sure you want to delete this customer?",
-                                                "/view/CustomersForm.fxml",
+                                            "Are you sure you want to delete this appointment?",
+                                                "/view/AppointmentsForm.fxml",
                                                     aRTableView.getSelectionModel().getSelectedItem());
             switchScene("/view/PopUpForm.fxml", event);
         }
-
-        deleteAppointment(aRTableView.getSelectionModel().getSelectedItem().getApptID());
 
         try {
             aRTableView.setItems(AppointmentQuery.getAllAppointments());
