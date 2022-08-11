@@ -197,7 +197,6 @@ public class AppointmentsFormController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
     }
 
 

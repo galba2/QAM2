@@ -29,6 +29,19 @@ public class AppointmentQuery {
 
     public static void deleteAppointment(int id) throws SQLException {
 
+        //save appointment info for popup
+        int apptID = 0;
+        String apptType = "";
+        DBConnection.makePreparedStatement("SELECT Appointment_ID, Type FROM appointments WHERE Appointment_ID = ?",DBConnection.getConnection());
+        PreparedStatement psPopup = DBConnection.getPreparedStatement();
+        psPopup.setInt(1,id);
+        ResultSet rsPopUp = psPopup.executeQuery();
+        while(rsPopUp.next()){
+            apptID = rsPopUp.getInt("Appointment_ID");
+            apptType = rsPopUp.getString("Type");
+        }
+
+        //delete appointment of a certain ID
         DBConnection.makePreparedStatement("DELETE FROM appointments WHERE Appointment_ID = ?",DBConnection.getConnection());
         PreparedStatement ps = DBConnection.getPreparedStatement();
         ps.setInt(1,id);
@@ -41,7 +54,7 @@ public class AppointmentQuery {
 
         //show confirmation popup
         try {
-            PopUpFormController.setUpPopUp("ALERT!", "Appointment deleted.");
+            PopUpFormController.setUpPopUp("ALERT!", "APPOINTMENT DELETED\n Appointment ID: " + apptID + "\n" + " Type: " + apptType);
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -54,6 +67,7 @@ public class AppointmentQuery {
         }
         popUpStage.setScene(new Scene(root, 400, 300));
         popUpStage.show();
+        popUpStage.setAlwaysOnTop(true);
     }
 
     public static ObservableList getAllContactFormAppointments() throws SQLException {
@@ -243,6 +257,4 @@ public class AppointmentQuery {
         return apps;
 
     }
-
-
 }

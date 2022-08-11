@@ -1,11 +1,17 @@
 package DBAccess;
 
 import Database.DBConnection;
+import controller.PopUpFormController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
 
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDateTime;
 
@@ -15,6 +21,19 @@ public class CustomerQuery {
 
     public static void deleteCustomer(int id) throws SQLException {
 
+        //get customer info for popup
+        int customerID = 0;
+        String customerName = "";
+        DBConnection.makePreparedStatement("SELECT Customer_ID, Customer_Name FROM customers WHERE Customer_ID = ?",DBConnection.getConnection());
+        PreparedStatement psPopUp = DBConnection.getPreparedStatement();
+        psPopUp.setInt(1,id);
+        ResultSet rsPopUp = psPopUp.executeQuery();
+        while(rsPopUp.next()){
+            customerID = rsPopUp.getInt("Customer_ID");
+            customerName = rsPopUp.getString("Customer_Name");
+        }
+
+        //delete customer of a certain ID
         DBConnection.makePreparedStatement("DELETE FROM customers WHERE Customer_ID = ?",DBConnection.getConnection());
         PreparedStatement ps = DBConnection.getPreparedStatement();
         ps.setInt(1,id);
@@ -25,6 +44,22 @@ public class CustomerQuery {
             System.out.println("Delete failed");
         }
 
+        //show confirmation popup
+        try {
+            PopUpFormController.setUpPopUp("ALERT!", "CUSTOMER DELETED\n Customer ID: " + customerID + "\n" + " Name: " + customerName);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        Stage popUpStage = new Stage();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(AppointmentQuery.class.getResource("/view/PopUpForm.fxml"));
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        popUpStage.setScene(new Scene(root, 400, 300));
+        popUpStage.show();
+        popUpStage.setAlwaysOnTop(true);
     }
 
     public static void addCustomer(String cusName, String cusAddress, String cusPostal, String cusPhone,
@@ -216,7 +251,7 @@ public class CustomerQuery {
 
         ObservableList<String> customerIDs = FXCollections.observableArrayList();
 
-        DBConnection.makePreparedStatement("SELECT Customer_ID FROM customers",DBConnection.getConnection());
+        DBConnection.makePreparedStatement("SELECT Customer_ID FROM customers ORDER BY Customer_ID",DBConnection.getConnection());
         PreparedStatement ps = DBConnection.getPreparedStatement();
         ResultSet rs = ps.executeQuery();
 
