@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
+/** This class controls the javafx mainmenuform html class. */
 public class MainMenuController implements Initializable {
 
     private Stage stage;
@@ -72,10 +73,10 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button mainExitButton;
 
-
-
-
-
+    /** This method switches the screen to the customer report screen.
+     * @param event This event triggers this method.
+     * @throws IOException This throws an IOException.
+     */
     @FXML
     void onActionCustomerReportButton(ActionEvent event) throws IOException {
 
@@ -83,6 +84,10 @@ public class MainMenuController implements Initializable {
 
     }
 
+    /** This method switches the screen to the contact report screen.
+     * @param event This event triggers this method.
+     * @throws IOException This throws an IOException.
+     */
     @FXML
     void onActionContactReportButton(ActionEvent event) throws IOException {
 
@@ -90,6 +95,10 @@ public class MainMenuController implements Initializable {
 
     }
 
+    /** This method switches the screen to the country report screen.
+     * @param event This event triggers this method.
+     * @throws IOException This throws an IOException.
+     */
     @FXML
     void onActionCountryReportButton(ActionEvent event) throws IOException {
 
@@ -97,6 +106,11 @@ public class MainMenuController implements Initializable {
 
     }
 
+
+    /** This method switches the screen to the appointments screen.
+     * @param event This event triggers this method.
+     * @throws IOException This throws an IOException.
+     */
     @FXML
     void onActionMainAppButton(ActionEvent event) throws IOException {
 
@@ -104,6 +118,10 @@ public class MainMenuController implements Initializable {
 
     }
 
+    /** This method switches the screen to the customer report screen.
+     * @param event This event triggers this method.
+     * @throws IOException This throws an IOException.
+     */
     @FXML
     void onActionMainCusButton(ActionEvent event) throws IOException {
 
@@ -111,6 +129,9 @@ public class MainMenuController implements Initializable {
 
     }
 
+    /** This method exits the application.
+     * @param event This event triggers this method.
+     */
     @FXML
     void onActionMainExitButton(ActionEvent event) {
 
@@ -120,8 +141,10 @@ public class MainMenuController implements Initializable {
     }
 
 
-
-
+    /**This method initializes when this screen is called.
+     * @param url This is the url.
+     * @param resourceBundle This is the resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -131,13 +154,13 @@ public class MainMenuController implements Initializable {
         setMonthTwoColumns();
         AppointmentsFormController.setCurrentRadioButton("Monthly");
 
-        try {
+        try {//populate month1
             mainMonthOneTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
-        try {
+        try {//populate month2
             mainMonthTwoTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate.plusMonths(1)));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -149,11 +172,10 @@ public class MainMenuController implements Initializable {
 
     //METHODS
 
-    /**
-     * This method switches the scene that is shown to the user.
-     * @param newFXML is the path of the fxml file that is being switched to
-     * @param event is the ActionEvent that activates this method
-     * @throws IOException
+    /** This method switches the scene that is shown to the user.
+     * @param newFXML This is the file path where the screen is switching to.
+     * @param event This is the event that triggers this method.
+     * @throws IOException This throws an IOException.
      */
     private void switchScene(String newFXML, ActionEvent event) throws IOException {
 
@@ -164,6 +186,9 @@ public class MainMenuController implements Initializable {
 
     }
 
+    /**
+     * This method sets the columns for the monthone tableview.
+     */
     private void setMonthOneColumns(){
 
         mainOneCustomerColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("customerID"));
@@ -173,6 +198,9 @@ public class MainMenuController implements Initializable {
 
     }
 
+    /**
+     * This methods sets the columns for the monthtwo tableview.
+     */
     private void setMonthTwoColumns(){
 
         mainTwoCustomerColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("customerID"));
@@ -181,6 +209,9 @@ public class MainMenuController implements Initializable {
         mainTwoTitleColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("title"));
     }
 
+    /**
+     * This method sets up the labels for this screen.
+     */
     private void setLabels() {
         DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM");
         mainMonth1Label.setText(labelLocalDate.format(monthFormatter));

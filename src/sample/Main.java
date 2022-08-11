@@ -1,6 +1,5 @@
 package sample;
 
-import DBAccess.ContactQuery;
 import Database.DBConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,8 +8,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class Main extends Application {
 

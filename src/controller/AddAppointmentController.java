@@ -23,6 +23,9 @@ import java.time.*;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * This class controls the javafx mainmenuform html class.
+ */
 public class AddAppointmentController implements Initializable {
 
     private Stage stage;
@@ -82,6 +85,11 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private Label errorTypeLabel;
 
+
+    /**This method clears the text fields and goes back to the appointments form.
+     * @param event This event triggers this method.
+     * @throws IOException This throws an IOException.
+     */
     @FXML
     void onActionAppCancel(ActionEvent event) throws IOException {
 
@@ -93,6 +101,11 @@ public class AddAppointmentController implements Initializable {
 
     }
 
+    /**This method checks for errors and adds or updates an appointment. Then goes back to the appointments form.
+     * @param event This event triggers this method.
+     * @throws SQLException This throws an SQLException.
+     * @throws IOException This throws an IOException.
+     */
     @FXML
     void onActionAppSave(ActionEvent event) throws SQLException, IOException {
 
@@ -123,6 +136,10 @@ public class AddAppointmentController implements Initializable {
         }
     }
 
+    /** This method checks if datepicker is not selected and if a past day is selected. Triggers a popup if date is in the past.
+     * @param event This event triggers this method.
+     * @throws IOException This throws an IOException.
+     */
     @FXML
     void onActionDatePicker(ActionEvent event) throws IOException {
 
