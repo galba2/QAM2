@@ -16,25 +16,17 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="19.0">
+      <HBox alignment="CENTER" prefWidth="200.0" spacing="19.0">
          <children>
-            <TableView fx:id="customerReportTypeTableView" maxWidth="-Infinity" prefHeight="360.0" prefWidth="200.0">
+            <TableView fx:id="customerReportTableView" maxWidth="-Infinity">
               <columns>
-                <TableColumn fx:id="customerReportTypeColumn" prefWidth="120.0" text="Type" />
-                <TableColumn fx:id="customerReportTypeNumColumn" prefWidth="78.0" text="Number" />
+                <TableColumn fx:id="customerReportMonthColumn" prefWidth="120.0" text="Month" />
+                  <TableColumn fx:id="customerReportTypeColumn" prefWidth="120.0" text="Type" />
+                <TableColumn fx:id="customerReportNumColumn" prefWidth="78.0" text="Number" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
-            </TableView>
-            <TableView fx:id="customerReportMonthTableView" maxWidth="-Infinity" prefHeight="360.0" prefWidth="150.0">
-               <columns>
-                  <TableColumn fx:id="customerReportMonthColumn" prefWidth="75.0" text="Month" />
-                  <TableColumn fx:id="customerReportMonthNumColumn" prefWidth="75.0" text="Number" />
-               </columns>
-               <padding>
-                  <Insets bottom="13.0" />
-               </padding>
             </TableView>
          </children>
       </HBox>

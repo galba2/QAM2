@@ -1,8 +1,7 @@
 package controller;
 
 
-import DBAccess.AppointmentMonthQuery;
-import DBAccess.AppointmentTypeQuery;
+import DBAccess.CustomerReportQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,12 +14,10 @@ import javafx.scene.control.TableView;
 import javafx.fxml.Initializable;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.AppointmentMonth;
-import model.AppointmentType;
+import model.CustomerReport;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -30,19 +27,17 @@ public class CustomerReportFormController implements Initializable {
     private Parent scene;
 
     @FXML
+    private TableView<CustomerReport> customerReportTableView;
+    @FXML
+    private TableColumn<CustomerReport, String> customerReportMonthColumn;//
+    @FXML
+    private TableColumn<CustomerReport, String> customerReportTypeColumn;
+    @FXML
+    private TableColumn<CustomerReport, Integer> customerReportNumColumn;
+    @FXML
     private Button customerReportBackButton;
-    @FXML
-    private TableColumn<AppointmentMonth, Date> customerReportMonthColumn;
-    @FXML
-    private TableColumn<AppointmentMonth, Integer> customerReportMonthNumColumn;
-    @FXML
-    private TableView<AppointmentMonth> customerReportMonthTableView;
-    @FXML
-    private TableColumn<AppointmentType, String> customerReportTypeColumn;
-    @FXML
-    private TableColumn<AppointmentType, Integer> customerReportTypeNumColumn;
-    @FXML
-    private TableView<AppointmentType> customerReportTypeTableView;
+
+
 
     @FXML
     void onActionBackButton(ActionEvent event) throws IOException {
@@ -57,36 +52,25 @@ public class CustomerReportFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        setColumnsCustomerReportTypeTableView();
-        setColumnsCustomerReportMonthTableView();
+        setColumnsCustomerReportTableView();
 
         try {
-            customerReportTypeTableView.setItems(AppointmentTypeQuery.getAllCustomerReportType());
+            customerReportTableView.setItems(CustomerReportQuery.getAllCustomerReport());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-        try {
-            customerReportMonthTableView.setItems(AppointmentMonthQuery.getAllCustomerReportMonth());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
     }
 
 
     //METHODS
-    private void setColumnsCustomerReportTypeTableView() {
+    private void setColumnsCustomerReportTableView() {
 
-        customerReportTypeColumn.setCellValueFactory(new PropertyValueFactory<AppointmentType, String>("apptType"));
-        customerReportTypeNumColumn.setCellValueFactory(new PropertyValueFactory<AppointmentType, Integer>("apptTypeCount"));
+        customerReportMonthColumn.setCellValueFactory(new PropertyValueFactory<CustomerReport, String>("month"));
+        customerReportTypeColumn.setCellValueFactory(new PropertyValueFactory<CustomerReport, String>("type"));
+        customerReportNumColumn.setCellValueFactory(new PropertyValueFactory<CustomerReport, Integer>("count"));
     }
 
-    private void setColumnsCustomerReportMonthTableView() {
 
-        customerReportMonthColumn.setCellValueFactory(new PropertyValueFactory<AppointmentMonth, Date>("apptMonth"));
-        customerReportMonthNumColumn.setCellValueFactory(new PropertyValueFactory<AppointmentMonth, Integer>("apptMonthCount"));
-    }
 
 
 }
