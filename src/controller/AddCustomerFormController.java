@@ -131,6 +131,18 @@ public class AddCustomerFormController implements Initializable {
         cStateComboBox.setItems(CustomerQuery.getCustomerDivByCounIDList(getCounIDByCoun(cCountryComboBox.getSelectionModel().getSelectedItem())));
     }
 
+    @FXML
+    void onActionAddCusStateCombo(ActionEvent event) {
+
+    }
+
+
+
+
+
+
+
+
 
     /** This method initializes when the form is called and sets up the form.
      * @param url This the url.
@@ -222,6 +234,7 @@ public class AddCustomerFormController implements Initializable {
         cPostalTextBox.setText(c.getPostalCode());
         cPhoneTextbox.setText(c.getPhone());
         cCountryComboBox.getSelectionModel().select(CustomerQuery.getCounByDivID(c.getDivisionID()));
+        cStateComboBox.setItems(CustomerQuery.getCustomerDivByCounIDList(getCounIDByCoun(cCountryComboBox.getSelectionModel().getSelectedItem())));
         cStateComboBox.getSelectionModel().select(CustomerQuery.getDivByDivID(c.getDivisionID()));
     }
 
