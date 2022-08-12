@@ -131,6 +131,9 @@ public class AddCustomerFormController implements Initializable {
         cStateComboBox.setItems(CustomerQuery.getCustomerDivByCounIDList(getCounIDByCoun(cCountryComboBox.getSelectionModel().getSelectedItem())));
     }
 
+    /**This method is triggered when the state combo box is selected
+     * @param event This event triggers this method.
+     */
     @FXML
     void onActionAddCusStateCombo(ActionEvent event) {
 
