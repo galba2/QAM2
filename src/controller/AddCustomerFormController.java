@@ -24,6 +24,10 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+
+/**
+ * This class controls the javafx addcustomerform html class.
+ */
 public class AddCustomerFormController implements Initializable {
 
     private Stage stage;
@@ -65,7 +69,10 @@ public class AddCustomerFormController implements Initializable {
     private Label errorStreetLabel;
 
 
-
+    /** This method triggers when the cancel button is pressed and switches the screen to the customersform and clears the text fields.
+     * @param event This event triggers this method.
+     * @throws IOException Throws IOException.
+     */
     @FXML
     void onActionCusCancelButton(ActionEvent event) throws IOException {
 
@@ -79,6 +86,11 @@ public class AddCustomerFormController implements Initializable {
     }
 
 
+    /** This method triggers when the save button is pressed and then checks the form for mistakes and then adds or updates a customer. Clears textfields.
+     * @param event This event triggers this method.
+     * @throws SQLException Throws SQLException.
+     * @throws IOException Throws IOException.
+     */
     @FXML
     void onActionCusSaveButton(ActionEvent event) throws SQLException, IOException {
 
@@ -109,21 +121,21 @@ public class AddCustomerFormController implements Initializable {
         }
     }
 
+    /** This method updates the state combo box with a list from the country that is selected from the country combo box.
+     * @param event This event triggers this method.
+     * @throws SQLException Throws SQLException.
+     */
     @FXML
     void onActionAddCusCountryCombo(ActionEvent event) throws SQLException {
 
         cStateComboBox.setItems(CustomerQuery.getCustomerDivByCounIDList(getCounIDByCoun(cCountryComboBox.getSelectionModel().getSelectedItem())));
     }
 
-    @FXML
-    void onActionAddCusStateCombo(ActionEvent event) {
 
-    }
-
-
-
-
-
+    /** This method initializes when the form is called and sets up the form.
+     * @param url This the url.
+     * @param resourceBundle This is the resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -150,6 +162,11 @@ public class AddCustomerFormController implements Initializable {
 
 
     //METHODS
+
+
+    /**
+     * This method sets up the add or update label.
+     */
     @FXML
     public void setCusLabel(){
 
@@ -162,6 +179,9 @@ public class AddCustomerFormController implements Initializable {
 
     }
 
+    /**
+     * This method clears the text fields.
+     */
     private void clearFields() {
 
         cIDTextbox.clear();
@@ -171,17 +191,29 @@ public class AddCustomerFormController implements Initializable {
         cStreetTextBox.clear();
     }
 
+    /** This method sets up the combo boxes.
+     * @throws SQLException Throws SQLException.
+     */
     private void setComboBoxes() throws SQLException {
 
         cCountryComboBox.setItems(CustomerQuery.getCustomerCountryList());
         cStateComboBox.setItems(CustomerQuery.getCustomerDivByCounIDList(getCounIDByCoun(cCountryComboBox.getSelectionModel().getSelectedItem())));
     }
 
+    /** This method checks the database and gets a country id based on a country.
+     * @param country This the country to get the country id from.
+     * @return Returns the country id.
+     * @throws SQLException Throws SQLException.
+     */
     private int getCounIDByCoun(String country) throws SQLException {
 
         return CustomerQuery.getCounIDByCoun(country);
     }
 
+    /** This method sets up the text fields with update information.
+     * @param c This is the customer to be updated.
+     * @throws SQLException Throws SQLException.
+     */
     private void setUpdateTextFields(Customer c) throws SQLException {
 
         cIDTextbox.setText(Integer.toString(c.getCusID()));
@@ -193,6 +225,9 @@ public class AddCustomerFormController implements Initializable {
         cStateComboBox.getSelectionModel().select(CustomerQuery.getDivByDivID(c.getDivisionID()));
     }
 
+    /** This method checks if the text fields are empty.
+     * @return Returns true if there are errors.
+     */
     private boolean checkInput() {
 
         errors = false;

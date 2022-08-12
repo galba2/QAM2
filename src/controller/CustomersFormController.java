@@ -19,8 +19,10 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import static DBAccess.CustomerQuery.*;
 
+/**
+ * This class controls the javafx customersform html class.
+ */
 public class CustomersFormController implements Initializable {
 
     private Stage stage;
@@ -80,9 +82,9 @@ public class CustomersFormController implements Initializable {
         }else{//customer is selected
 
             PopUpFormController.setUpPopUp("WARNING!",
-                                                "Customer and customer's appointment(s) will be deleted.\nAre you sure you want to delete this customer?",
-                                                    "/view/CustomersForm.fxml",
-                                                        customerTableView.getSelectionModel().getSelectedItem());
+                    "Customer and customer's appointment(s) will be deleted.\nAre you sure you want to delete this customer?",
+                    "/view/CustomersForm.fxml",
+                    customerTableView.getSelectionModel().getSelectedItem());
             switchScene("/view/PopUpForm.fxml", event);
         }
     }

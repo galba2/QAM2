@@ -23,6 +23,9 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * This class controls the javafx appointmentsform html class.
+ */
 public class ContactReportFormController implements Initializable {
 
     private Stage stage;
@@ -51,6 +54,10 @@ public class ContactReportFormController implements Initializable {
     private Button contactFormBackButton;
 
 
+    /** This method switches screen to the mainmenu form.
+     * @param event This event triggers the method.
+     * @throws IOException Throws IOException.
+     */
     @FXML
     void onActionBackButton(ActionEvent event) throws IOException {
 
@@ -61,19 +68,23 @@ public class ContactReportFormController implements Initializable {
 
     }
 
+
+    /** This method gets the selection from the combo box refreshes the contact form table view.
+     * @param event This event triggers the method.
+     */
     @FXML
     void onActionContactReportComboBox(ActionEvent event) {
 
         String selected = contactFormComboBox.getSelectionModel().getSelectedItem();
 
-        if(selected.equals("All")){
+        if(selected.equals("All")){//checks if all is selected
 
             try {
                 contactFormTableView.setItems(AppointmentQuery.getAllContactFormAppointments());
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }else{
+        }else{//all not selected
 
             int contactID = getIDOnly(selected);
 
@@ -86,7 +97,10 @@ public class ContactReportFormController implements Initializable {
     }
 
 
-
+    /**This method initializes when the form is called and sets up form.
+     * @param url This is the url.
+     * @param resourceBundle This is the resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -111,6 +125,11 @@ public class ContactReportFormController implements Initializable {
 
 
     //METHODS
+
+
+    /**
+     * This method sets up the columns.
+     */
     private void setColumns(){
 
         contactFormIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("apptID"));
@@ -123,6 +142,10 @@ public class ContactReportFormController implements Initializable {
 
     }
 
+    /** This method gets ID from a string.
+     * @param rawString This is the string to get the ID from.
+     * @return Returns the id number.
+     */
     private int getIDOnly(String rawString) {
 
         int idInt;

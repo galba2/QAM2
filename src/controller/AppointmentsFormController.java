@@ -20,8 +20,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-import static DBAccess.AppointmentQuery.*;
 
+/**
+ * This class controls the javafx appointmentsform html class.
+ */
 public class AppointmentsFormController implements Initializable {
 
     private Stage stage;
@@ -77,6 +79,10 @@ public class AppointmentsFormController implements Initializable {
     private Button appDeleteButton;
 
 
+    /** This method triggers when the add button is pressed and switches to the add appointment form.
+     * @param event This is the event that triggers the method.
+     * @throws IOException Throws IOException.
+     */
     @FXML
     void onActionAppAddButton(ActionEvent event) throws IOException {
 
@@ -85,6 +91,10 @@ public class AppointmentsFormController implements Initializable {
 
     }
 
+    /** This method triggers when the back button is pressed and switches to the main menu form.
+     * @param event This is the event that triggers the method.
+     * @throws IOException Throws IOException.
+     */
     @FXML
     void onActionAppointmentsFormBackButton(ActionEvent event) throws IOException {
 
@@ -92,6 +102,10 @@ public class AppointmentsFormController implements Initializable {
 
     }
 
+    /** This method triggers when the update button is pressed and switches to the add apointment form only if something is selected.
+     * @param event This is the event that triggers the method.
+     * @throws IOException Throws IOException.
+     */
     @FXML
     void onActionAppUpdateButton(ActionEvent event) throws IOException {
 
@@ -99,7 +113,7 @@ public class AppointmentsFormController implements Initializable {
 
             PopUpFormController.setUpPopUp("ERROR!", "No appointment selected.", "/view/AppointmentsForm.fxml");
             switchScene("/view/PopUpForm.fxml", event);
-        }else{
+        }else{//customer selected
 
             isLabelAdd = false;
             setUpdateAppt(aRTableView.getSelectionModel().getSelectedItem());
@@ -107,6 +121,11 @@ public class AppointmentsFormController implements Initializable {
         }
     }
 
+    /** This method triggers when the delete button is pressed, checks if there is a selection, and triggers proper popup forms. Sets up aRtable view.
+     * @param event This is the event that triggers the method.
+     * @throws SQLException Throws SQLException.
+     * @throws IOException Throws IOException.
+     */
     @FXML
     void onActionAppDeleteButton(ActionEvent event) throws SQLException, IOException {
 
@@ -132,6 +151,10 @@ public class AppointmentsFormController implements Initializable {
     }
 
 
+    /** This method moves the month or week level back one. Refreshes aRTable view and label.
+     * @param event This is the event that triggers the method.
+     * @throws SQLException Throws SQLException.
+     */
     @FXML
     void onActionBackButton(ActionEvent event) throws SQLException {
 
@@ -145,6 +168,10 @@ public class AppointmentsFormController implements Initializable {
         aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
     }
 
+    /** This method moves the month or week level forward one. Refreshes aRTable view and label.
+     * @param event This is the event that triggers the method.
+     * @throws SQLException Throws SQLException.
+     */
     @FXML
     void onActionForwardButton(ActionEvent event) throws SQLException {
 
@@ -158,6 +185,10 @@ public class AppointmentsFormController implements Initializable {
         aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
     }
 
+    /** This method refreshes aRTable view with all appointments and sets label.
+     * @param event This is the event that triggers the method.
+     * @throws SQLException Throws SQLException.
+     */
     @FXML
     void onActionAllRadio(ActionEvent event) throws SQLException {
         currentRadioButton = "All";
@@ -165,6 +196,10 @@ public class AppointmentsFormController implements Initializable {
         aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
     }
 
+    /** This method refreshes aRTable view with all monthly appointments and sets label.
+     * @param event This is the event that triggers the method.
+     * @throws SQLException Throws SQLException.
+     */
     @FXML
     void onActionMonthlyRadio(ActionEvent event) throws SQLException {
         currentRadioButton = "Monthly";
@@ -172,6 +207,10 @@ public class AppointmentsFormController implements Initializable {
         aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
     }
 
+    /** This method refreshes aRTable view with all weekly appointments and sets label.
+     * @param event This is the event that triggers the method.
+     * @throws SQLException Throws SQLException.
+     */
     @FXML
     void onActionWeeklyRadio(ActionEvent event) throws SQLException {
         currentRadioButton = "Weekly";
@@ -180,10 +219,10 @@ public class AppointmentsFormController implements Initializable {
     }
 
 
-
-
-
-
+    /** This is method initializes when the form is called and sets up the form.
+     * @param url This the url.
+     * @param resourceBundle This is the resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -205,6 +244,13 @@ public class AppointmentsFormController implements Initializable {
 
 
     //METHODS
+
+
+    /** This method switches to a scene.
+     * @param newFXML This is the path of the new form.
+     * @param event This is the event that triggers the method.
+     * @throws IOException Throws IOException.
+     */
     private void switchScene(String newFXML, ActionEvent event) throws IOException {
 
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -213,6 +259,9 @@ public class AppointmentsFormController implements Initializable {
         stage.show();
     }
 
+    /** This method gets whether it is an add or update appointment.
+     * @return Returns true if adding appointment.
+     */
     public static Boolean getIsLabelAdd() {
 
         if (isLabelAdd) {
@@ -222,6 +271,9 @@ public class AppointmentsFormController implements Initializable {
         }
     }
 
+    /**
+     * This methods sets up the columns to the aRTable view.
+     */
     private void setColumns() {
 
         aRContactColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("contact"));
@@ -236,6 +288,9 @@ public class AppointmentsFormController implements Initializable {
         aRUserIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("userID"));
     }
 
+    /**
+     * This method sets the option label.
+     */
     private void setLabel() {
         if(currentRadioButton.compareTo("All") == 0){
             aRMonthWeekLabel.setText("--------");
@@ -250,18 +305,30 @@ public class AppointmentsFormController implements Initializable {
         }
     }
 
+    /** This method gets the appointment to be updated.
+     * @return Returns update appointment.
+     */
     public static Appointment getUpdateAppt() {
         return updateAppt;
     }
 
+    /** This method sets the appointment to be updated.
+     * @param updateAppt Appointment to be updated.
+     */
     public void setUpdateAppt(Appointment updateAppt) {
         this.updateAppt = updateAppt;
     }
 
+    /** This method gets the current radio button selected.
+     * @return Returns current selected radio button.
+     */
     public static String getCurrentRadioButton() {
         return currentRadioButton;
     }
 
+    /** This method sets the selected radio button.
+     * @param currentRadioButton This is the selected radio button.
+     */
     public static void setCurrentRadioButton(String currentRadioButton) {
         AppointmentsFormController.currentRadioButton = currentRadioButton;
     }

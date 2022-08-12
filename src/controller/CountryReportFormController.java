@@ -20,6 +20,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * This class controls the javafx countryreportform html class.
+ */
 public class CountryReportFormController implements Initializable {
 
     private Stage stage;
@@ -37,6 +40,10 @@ public class CountryReportFormController implements Initializable {
     @FXML
     private TableView<AreaCount> countryFormTableView;
 
+    /** This method triggers when the back button is pressed.
+     * @param event This is the event that triggers the method.
+     * @throws IOException Throws IOException.
+     */
     @FXML
     void onActionBackButton(ActionEvent event) throws IOException {
 
@@ -47,6 +54,12 @@ public class CountryReportFormController implements Initializable {
 
     }
 
+
+
+    /** This method initializes when the form is called sets up the form.
+     * @param url This is the url.
+     * @param resourceBundle This is the resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -61,6 +74,11 @@ public class CountryReportFormController implements Initializable {
     }
 
     //METHODS
+
+
+    /**
+     * This method sets up the columns for the table view.
+     */
     public void setColumns(){
 
         countryFormCountryColumn.setCellValueFactory(new PropertyValueFactory<AreaCount, String>("area"));

@@ -21,6 +21,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * This class controls the javafx customerreportform html class.
+ */
 public class CustomerReportFormController implements Initializable {
 
     private Stage stage;
@@ -38,7 +41,10 @@ public class CustomerReportFormController implements Initializable {
     private Button customerReportBackButton;
 
 
-
+    /** This method is triggered when the back button is pressed and switches the screen to the main menu.
+     * @param event This is the event that triggers the method.
+     * @throws IOException Throws IOException.
+     */
     @FXML
     void onActionBackButton(ActionEvent event) throws IOException {
 
@@ -49,6 +55,12 @@ public class CustomerReportFormController implements Initializable {
 
     }
 
+
+
+    /** This method initializes when the form is called and sets up the form.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -63,6 +75,11 @@ public class CustomerReportFormController implements Initializable {
 
 
     //METHODS
+
+
+    /**
+     * This method sets up the column for customer report form.
+     */
     private void setColumnsCustomerReportTableView() {
 
         customerReportMonthColumn.setCellValueFactory(new PropertyValueFactory<CustomerReport, String>("month"));
