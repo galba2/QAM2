@@ -194,7 +194,8 @@ public class LogInFormController implements Initializable {
         return errors;
     }
 
-    /** This method checks if the user has an appointment within 15 minutes
+    /** This method checks if the user has an appointment within 15 minutes. Lambdas are used in foreach because I can easily iterate through the list and
+     * because what i wanted to do with the code was not very complicated.
      * @return Returns message to input into the popup screen.
      * @throws SQLException Throws SQLException.
      */

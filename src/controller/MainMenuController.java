@@ -84,6 +84,10 @@ public class MainMenuController implements Initializable {
 
     }
 
+
+
+
+
     /** This method switches the screen to the contact report screen.
      * @param event This event triggers this method.
      * @throws IOException This throws an IOException.
