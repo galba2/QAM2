@@ -22,11 +22,18 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * This class connects with the database by appointment type.
+ */
 public class AppointmentQuery {
 
     private Stage stage;
     private Parent scene;
 
+    /** This method deletes an appointment by an ID.
+     * @param id This is the appointment id to be deleted.
+     * @throws SQLException Throws SQLException.
+     */
     public static void deleteAppointment(int id) throws SQLException {
 
         //save appointment info for popup
@@ -70,6 +77,10 @@ public class AppointmentQuery {
         popUpStage.setAlwaysOnTop(true);
     }
 
+    /** This method gets a list of all contacts.
+     * @return Return a list of all contacts.
+     * @throws SQLException Throws SQLException.
+     */
     public static ObservableList getAllContactFormAppointments() throws SQLException {
 
         ObservableList<Appointment> apps = FXCollections.observableArrayList();
@@ -94,6 +105,11 @@ public class AppointmentQuery {
         return apps;
     }
 
+    /** This method gets a list of all appointments of a certain contact id.
+     * @param contactID This is the contact id to get.
+     * @return Returns list of all appointments by contact id.
+     * @throws SQLException Throws SQLException.
+     */
     public static ObservableList getAllAppointmentsOfContactID(int contactID) throws SQLException {
 
         ObservableList<Appointment> apps = FXCollections.observableArrayList();
@@ -121,6 +137,10 @@ public class AppointmentQuery {
 
     }
 
+    /** This method gets a list of all appointments.
+     * @return Returns a list of all appointments.
+     * @throws SQLException Throws SQLException.
+     */
     public static ObservableList getAllAppointments() throws SQLException {
 
         ObservableList<Appointment> apps = FXCollections.observableArrayList();
@@ -146,6 +166,22 @@ public class AppointmentQuery {
     }
 
 
+    /** This method adds an appointment.
+     * @param title This is the title.
+     * @param description This is the description.
+     * @param location This is the location.
+     * @param type This is the type.
+     * @param start This is the start.
+     * @param end This is the end.
+     * @param createDate This is the createDate.
+     * @param createdBy This is the createdBy.
+     * @param lastUpdate This is the lastUpdate.
+     * @param lastUpdatedBy This is the lastUpdatedBy.
+     * @param customerID This is the customerID.
+     * @param userID This is the userID.
+     * @param contactID This is the contactID.
+     * @throws SQLException Throws SQLException.
+     */
     public static void addAppointment(String title, String description, String location, String type, Timestamp start, Timestamp end,
                                       Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy,
                                       int customerID, int userID, int contactID) throws SQLException {
@@ -176,6 +212,21 @@ public class AppointmentQuery {
         }
     }
 
+    /** This method updates an appointment.
+     * @param title This is the title.
+     * @param description This is the description.
+     * @param location This is the location.
+     * @param type This is the type.
+     * @param start This is the start.
+     * @param end This is the end.
+     * @param lastUpdate This is the lastUpdate.
+     * @param lastUpdatedBy This is the lastUpdatedBy.
+     * @param customerID This is the customerID.
+     * @param userID This is the userID.
+     * @param contactID This is the contactID.
+     * @param apptID This is the apptID.
+     * @throws SQLException Throws SQLException.
+     */
     public static void updateAppointment(String title,String description,String location,String type,Timestamp start,Timestamp end,
                                             Timestamp lastUpdate,String lastUpdatedBy,int customerID, int userID,int contactID, int apptID) throws SQLException {
 
@@ -204,6 +255,11 @@ public class AppointmentQuery {
         }
     }
 
+    /** This method gets a list of appointments by dat.
+     * @param date This is the date to match.
+     * @return Returns a list of appointments matching the date.
+     * @throws SQLException Throws SQLException.
+     */
     public static ObservableList<Appointment> populateTableItems(LocalDate date) throws SQLException {
 
         ObservableList<Appointment> apps = FXCollections.observableArrayList();

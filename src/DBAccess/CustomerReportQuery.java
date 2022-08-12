@@ -7,8 +7,15 @@ import model.CustomerReport;
 
 import java.sql.SQLException;
 
+/**
+ * This class connects with the database by customer report type.
+ */
 public class CustomerReportQuery {
 
+    /** This method gets a list of all customer report type.
+     * @return Returns a list of all customer report type.
+     * @throws SQLException Throws SQLException.
+     */
     public static ObservableList getAllCustomerReport() throws SQLException {
 
         int count = 0;

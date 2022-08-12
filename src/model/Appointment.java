@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * This class is the model for appointment.
+ */
 public class Appointment {
 
     private int apptID;

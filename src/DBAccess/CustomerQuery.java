@@ -15,10 +15,18 @@ import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDateTime;
 
+
+/**
+ * This class connects with the database by customer type.
+ */
 public class CustomerQuery {
 
     int customerID;
 
+    /** This method deletes a customer.
+     * @param id This is the customer id to be deleted.
+     * @throws SQLException Throw SQLException.
+     */
     public static void deleteCustomer(int id) throws SQLException {
 
         //get customer info for popup
@@ -62,6 +70,18 @@ public class CustomerQuery {
         popUpStage.setAlwaysOnTop(true);
     }
 
+    /** This method adds a customer.
+     * @param cusName This is the name.
+     * @param cusAddress This is the address.
+     * @param cusPostal This is the postal.
+     * @param cusPhone This is the phone.
+     * @param cusCreaDate This is the create date.
+     * @param cusCreaBy This is the create by.
+     * @param cusLastUpdate This is the last update.
+     * @param cusLastUpdateBy This is the last updated by.
+     * @param divID This is the division id.
+     * @throws SQLException Throws SQLException.
+     */
     public static void addCustomer(String cusName, String cusAddress, String cusPostal, String cusPhone,
                                    Timestamp cusCreaDate, String cusCreaBy, Timestamp cusLastUpdate,
                                    String cusLastUpdateBy, int divID) throws SQLException {
@@ -88,6 +108,17 @@ public class CustomerQuery {
         }
     }
 
+    /** This method updates a customer.
+     * @param name This is the name.
+     * @param Address This is the address.
+     * @param postal This is the postal.
+     * @param phone This is the phone.
+     * @param cusLastUpdate This is the cusLastUpdate.
+     * @param cusLastUpdatedBy This is the cusLastUpdatedBy.
+     * @param divID This is the divID.
+     * @param updateID This is the updateID.
+     * @throws SQLException Throws SQLException.
+     */
     public static void updateCustomer(String name, String Address, String postal, String phone,
                                       Timestamp cusLastUpdate, String cusLastUpdatedBy, int divID, int updateID) throws SQLException {
 
@@ -111,6 +142,10 @@ public class CustomerQuery {
 
     }
 
+    /** This method gets a list of all cutomers.
+     * @return Returns a list of all customers.
+     * @throws SQLException Throws SQLException.
+     */
     public static ObservableList getAllCustomers() throws SQLException {
 
         ObservableList<Customer> cus = FXCollections.observableArrayList();
@@ -128,11 +163,11 @@ public class CustomerQuery {
         return cus;
     }
 
-    public static void getCustomer(){
-
-    }
-
-
+    /** This method gets a list of country id from a division id
+     * @param divisionID This is division id to match.
+     * @return Returns a list of country id.
+     * @throws SQLException Throws SQLException.
+     */
     public static int getCountryIDFromDivID(int divisionID) throws SQLException {
 
         int cID = 0;
@@ -150,6 +185,10 @@ public class CustomerQuery {
     }
 
 
+    /** This method gets a list of countries.
+     * @return Returns a list of countries.
+     * @throws SQLException Throws SQLException.
+     */
     public static ObservableList<String> getCustomerCountryList() throws SQLException {
 
         ObservableList<String> ctry = FXCollections.observableArrayList();
@@ -166,6 +205,11 @@ public class CustomerQuery {
     }
 
 
+    /** This method gets a list customer division bu country list.
+     * @param countryID This the country id to match.
+     * @return Return a list of customer division.
+     * @throws SQLException Throws SQLException.
+     */
     public static ObservableList<String> getCustomerDivByCounIDList(int countryID) throws SQLException {
 
         ObservableList<String> sts = FXCollections.observableArrayList();
@@ -182,6 +226,11 @@ public class CustomerQuery {
         return sts;
     }
 
+    /** This method gets a list of country id by country.
+     * @param country This is the country to match.
+     * @return Returns a list of country ids.
+     * @throws SQLException Throws SQLException.
+     */
     public static int getCounIDByCoun(String country) throws SQLException {
 
         int counID = 1;//Default to U.S country
@@ -198,6 +247,11 @@ public class CustomerQuery {
         return counID;
     }
 
+    /** This method gets a list of countries by division id.
+     * @param divID This is the division id to match.
+     * @return Returns a list of countries.
+     * @throws SQLException Throws SQLException.
+     */
     public static String getCounByDivID(int divID) throws SQLException {
 
         String coun = "";
@@ -215,6 +269,11 @@ public class CustomerQuery {
     }
 
 
+    /** This method gets a list of division id by division.
+     * @param div This is the division to match.
+     * @return Returns a list of division id.
+     * @throws SQLException Throws SQLException.
+     */
     public static int getDivIDByDiv(String div) throws SQLException {
 
         int divID = 1;//Default to U.S country
@@ -231,6 +290,11 @@ public class CustomerQuery {
         return divID;
     }
 
+    /** This method gets a list of division by division id.
+     * @param divID This is the division id to match.
+     * @return Returns a list of divisions.
+     * @throws SQLException Throws SQLException.
+     */
     public static String getDivByDivID(int divID) throws SQLException {
 
         String div = "";
@@ -247,6 +311,10 @@ public class CustomerQuery {
         return div;
     }
 
+    /** This method gets a list of all customer ids.
+     * @return Returns a list of all customer ids.
+     * @throws SQLException Throws SQLException.
+     */
     public static ObservableList<String> getAllCustomerIDs() throws SQLException {
 
         ObservableList<String> customerIDs = FXCollections.observableArrayList();

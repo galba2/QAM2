@@ -14,8 +14,15 @@ import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+/**
+ * This class connects with the database by appointmentmonth type.
+ */
 public class AppointmentMonthQuery {
 
+    /** This method gets all appointment month types.
+     * @return Returns list of all appointment month types.
+     * @throws SQLException Throws SQLException.
+     */
     public static ObservableList getAllCustomerReportMonth() throws SQLException {
 
         ObservableList<AppointmentMonth> cRptMon = FXCollections.observableArrayList();

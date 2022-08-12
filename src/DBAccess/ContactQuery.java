@@ -10,8 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class connects with the database by appointment type.
+ */
 public abstract class ContactQuery {
 
+    /** This method gets a list of all contacts.
+     * @return Return a list of all contacts.
+     * @throws SQLException Throws SQLException.
+     */
     public static ObservableList<String> getAllContactsList() throws SQLException {
 
         ObservableList<String > conRptLis = FXCollections.observableArrayList();
@@ -32,6 +39,11 @@ public abstract class ContactQuery {
 
     }
 
+    /** This method add a contact.
+     * @param contactName This is the name.
+     * @param email This is the email.
+     * @throws SQLException Throws SQLException.
+     */
     public static void addContact(String contactName, String email) throws SQLException {
 
         DBConnection.makePreparedStatement("INSERT INTO contacts (Contact_Name,Email) VALUE (?,?)",DBConnection.getConnection());
@@ -42,6 +54,11 @@ public abstract class ContactQuery {
 
     }
 
+    /** This method gets a list of contact names from contact id.
+     * @param contactID This is the contact id to look for.
+     * @return Returns list of contact names from id.
+     * @throws SQLException Throw SQLException.
+     */
     public static String getContactByContactID(int contactID) throws SQLException {
 
         String contact = "";
@@ -60,6 +77,11 @@ public abstract class ContactQuery {
     }
 
 
+    /** This method gets a list of contact id from contact name.
+     * @param contact This is the name to look for.
+     * @return Returns a list of contact id from name.
+     * @throws SQLException Throws SQLException.
+     */
     public static int getContactIDByContact(String contact) throws SQLException {
 
         int contactID = 0;
@@ -78,6 +100,11 @@ public abstract class ContactQuery {
     }
 
 
+    /** This method gets a list of contact index from contact name.
+     * @param contact This is the contact name.
+     * @return Returns a list of contact indexes.
+     * @throws SQLException Throws SQLException.
+     */
     public static int getContactIndexFromContact(String contact) throws SQLException {
 
         ObservableList<String > contactList = getAllContactsList();

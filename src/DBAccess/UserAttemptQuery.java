@@ -8,9 +8,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class connects with the database by user attempt type.
+ */
 public class UserAttemptQuery {
 
 
+    /** This method gets a user id from a user name.
+     * @param userName This is the name to match.
+     * @return Returns a user id.
+     * @throws SQLException Throws SQLException.
+     */
     public static int getUserID(String userName) throws SQLException {
 
         int userID = 0;
@@ -28,6 +36,11 @@ public class UserAttemptQuery {
         return userID;
     }
 
+    /** This method gets a user password from a user name.
+     * @param userName This is the name to match.
+     * @return Returns a user name.
+     * @throws SQLException Throws SQLException.
+     */
     public static String getUserPassword(String userName) throws SQLException {
 
         String userPW = "";
@@ -46,6 +59,12 @@ public class UserAttemptQuery {
     }
 
 
+    /** This method checks if the password matches the user.
+     * @param user This is the user to match.
+     * @param passwordToTest This is the password to match.
+     * @return Returns true if password matches user.
+     * @throws SQLException Throw SQLException.
+     */
     public static boolean isPasswordCorrect(UserAttempt user, String passwordToTest) throws SQLException {
 
         boolean isCorrect = false;//password not correct for security

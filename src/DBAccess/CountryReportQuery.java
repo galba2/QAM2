@@ -13,8 +13,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+/**
+ * This class connects with the database by country report type.
+ */
 public class CountryReportQuery {
 
+    /** This method gets a list countries.
+     * @return Returns a list of countries.
+     * @throws SQLException Throws SQLException.
+     */
     public static ObservableList getCountryReport() throws SQLException {
 
 
@@ -28,7 +35,10 @@ public class CountryReportQuery {
     }
 
 
-
+    /** This method gets a count list of division id.
+     * @return Returns a list of division id count.
+     * @throws SQLException Throws SQLException.
+     */
     public static ArrayList<DivisionIDCount> getDivisionIDCount() throws SQLException {
 
         ArrayList<DivisionIDCount> arLi = new ArrayList<DivisionIDCount>();
@@ -47,6 +57,10 @@ public class CountryReportQuery {
 
     }
 
+    /** This method gets a list of country id.
+     * @return Returns a list of country id.
+     * @throws SQLException Throws SQLException.
+     */
     public static ArrayList<AreaCount> getCountryIDList() throws SQLException {
 
         ArrayList<AreaCount> arLi1 = new ArrayList<AreaCount>();
@@ -66,6 +80,12 @@ public class CountryReportQuery {
 
     }
 
+    /** This method gets a list of country report.
+     * @param divIDCountList This is a list of division id.
+     * @param counIDList This is a list of country id.
+     * @return Returns a list of country report.
+     * @throws SQLException Throws SQLException.
+     */
     public static ObservableList getCountryReport(ArrayList<DivisionIDCount> divIDCountList, ArrayList<AreaCount> counIDList) throws SQLException {
 
         ObservableList<AreaCount> cRpt = FXCollections.observableArrayList();
