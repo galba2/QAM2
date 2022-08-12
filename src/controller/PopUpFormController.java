@@ -23,7 +23,9 @@ import java.time.LocalDate;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-
+/**
+ * This class controls the javafx popupform html class.
+ */
 public class PopUpFormController implements Initializable {
 
     private static String viewPath;
@@ -48,8 +50,10 @@ public class PopUpFormController implements Initializable {
     private Button popUpCancelButton;
 
 
-
-
+    /** This method triggers when the cancel button is pressed and switches or closes the screen.
+     * @param event This event triggers the method.
+     * @throws IOException Throws IOException.
+     */
     @FXML
     void onActionPopUpCancelButton(ActionEvent event) throws IOException {
         if(justClose){//check if just closing stage
@@ -60,6 +64,12 @@ public class PopUpFormController implements Initializable {
         }
     }
 
+    /** This method triggers when the ok button is pressed, checks if it is a customer,appointment,just close or switch screen situation and
+     *  deals with it accordingly.
+     * @param event This event triggers the method.
+     * @throws IOException Throws IOException.
+     * @throws SQLException Throws SQLException.
+     */
     @FXML
     void onActionPopUpOkButton(ActionEvent event) throws IOException, SQLException {
 
@@ -95,8 +105,10 @@ public class PopUpFormController implements Initializable {
     }
 
 
-
-
+    /** This method initializes when form is called and sets up form based on language default.
+     * @param url This is the url.
+     * @param resourceBundle This is the resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -115,6 +127,13 @@ public class PopUpFormController implements Initializable {
 
 
     //METHODS
+
+
+    /** This method overload setting up the form to be an alert type.
+     * @param typeOfAlert This is the alert entered onto the title label.
+     * @param description This is the message entered onto the body of the screen.
+     * @throws IOException Throws IOException.
+     */
     public static void setUpPopUp(String typeOfAlert, String description) throws IOException {
 
         justClose = true;
@@ -124,6 +143,12 @@ public class PopUpFormController implements Initializable {
         descriptionText = description;
     }
 
+    /** This method overload setting up the form to be a switch type and checks the language default.
+     * @param typeOfAlert This is the alert entered onto the title label.
+     * @param description This is the message entered onto the body of the screen.
+     * @param parentViewPath This is the path to go back to the old screen.
+     * @throws IOException Throws IOException.
+     */
     public static void setUpPopUp(String typeOfAlert, String description, String parentViewPath) throws IOException {
 
         justClose = false;
@@ -141,6 +166,13 @@ public class PopUpFormController implements Initializable {
 
     }
 
+    /** This method overload setting up the form to be a customer type.
+     * @param typeOfAlert This is the alert entered onto the title label.
+     * @param description This is the message entered onto the body of the screen.
+     * @param parentViewPath This is the path to go back to the old screen.
+     * @param deleteCustomer This is the customer to be deleted.
+     * @throws IOException Throws IOException.
+     */
     public static void setUpPopUp(String typeOfAlert, String description, String parentViewPath, Customer deleteCustomer) throws IOException {
 
         justClose = false;
@@ -152,6 +184,13 @@ public class PopUpFormController implements Initializable {
         customerToBeDeleted = deleteCustomer;
     }
 
+    /** This method overload setting up the form to be an appointment type.
+     * @param typeOfAlert This is the alert entered onto the title label.
+     * @param description This is the message entered onto the body of the screen.
+     * @param parentViewPath This is the path to go back to the old screen.
+     * @param deleteAppointment This is the appointment to be deleted.
+     * @throws IOException Throws IOException.
+     */
     public static void setUpPopUp(String typeOfAlert, String description, String parentViewPath, Appointment deleteAppointment) throws IOException {
 
         justClose = false;
@@ -163,6 +202,12 @@ public class PopUpFormController implements Initializable {
         appointmentToBeDeleted = deleteAppointment;
     }
 
+    /** This method overload setting up the form to be a switch screen type and checks default language.
+     * @param typeOfAlert This is the alert entered onto the title label.
+     * @param description This is the message entered onto the body of the screen.
+     * @param parentViewPath This is the path to go back to the old screen.
+     * @throws IOException Throws IOException.
+     */
     public static void setUpPopUp(String typeOfAlert, ObservableList<String> description, String parentViewPath) throws IOException {
 
         justClose = false;
@@ -184,6 +229,11 @@ public class PopUpFormController implements Initializable {
         viewPath = parentViewPath;
     }
 
+    /** This method switches the screen to the new screen.
+     * @param newFXML This the path to the new form.
+     * @param event This event triggers the method.
+     * @throws IOException Throws IOException.
+     */
     private void switchScene(String newFXML, ActionEvent event) throws IOException {
 
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();

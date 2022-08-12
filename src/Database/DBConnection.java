@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * This class connects with the database.
+ */
 public class DBConnection {
 
     private static final String protocol = "jdbc";
@@ -18,6 +21,9 @@ public class DBConnection {
     private static Connection connection = null;  // Connection Interface
     private static PreparedStatement preparedStatement;
 
+    /**
+     * This method makes a connection with the database,
+     */
     public static void makeConnection() {
 
         try {
@@ -43,6 +49,11 @@ public class DBConnection {
         }
     }
 
+    /** This method makes a prepared statement.
+     * @param sqlStatement This is the sql command.
+     * @param conn This is the connection.
+     * @throws SQLException Throws SQLException.
+     */
     public static void makePreparedStatement(String sqlStatement, Connection conn) throws SQLException {
         if (conn != null)
             preparedStatement = conn.prepareStatement(sqlStatement);
@@ -50,6 +61,10 @@ public class DBConnection {
             System.out.println("Prepared Statement Creation Failed!");
     }
 
+    /** This method gets the prepared statement.
+     * @return Returns prepared statement.
+     * @throws SQLException Throws SQLException.
+     */
     public static PreparedStatement getPreparedStatement() throws SQLException {
         if (preparedStatement != null)
             return preparedStatement;

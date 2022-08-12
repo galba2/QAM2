@@ -56,7 +56,10 @@ public class CustomersFormController implements Initializable {
     private TableView<Customer> customerTableView;
 
 
-
+    /** This method switches screen to the add customer form.
+     * @param event This event triggers the method.
+     * @throws IOException Throws IOException.
+     */
     @FXML
     void onActionCusAddButton(ActionEvent event) throws IOException {
 
@@ -65,6 +68,10 @@ public class CustomersFormController implements Initializable {
 
     }
 
+    /** This method switches screen to the main menu form.
+     * @param event This event triggers the method.
+     * @throws IOException Throws IOException.
+     */
     @FXML
     void onActionCusBackButton(ActionEvent event) throws IOException {
 
@@ -72,6 +79,11 @@ public class CustomersFormController implements Initializable {
 
     }
 
+    /** This method triggers when the delete button is pressed, checks if there is a selection, and then deletes the selected customer.
+     * @param event This event triggers the method.
+     * @throws SQLException Throws SQLException.
+     * @throws IOException Throws IOException.
+     */
     @FXML
     void onActionCusDeleteButton(ActionEvent event) throws SQLException, IOException {
 
@@ -89,6 +101,10 @@ public class CustomersFormController implements Initializable {
         }
     }
 
+    /** This method triggers when the update button is pressed, checks for a selection, and switches to the add customer form.
+     * @param event This event triggers the method.
+     * @throws IOException Throws IOException.
+     */
     @FXML
     void onActionCusUpdateButton(ActionEvent event) throws IOException {
 
@@ -108,7 +124,10 @@ public class CustomersFormController implements Initializable {
     }
 
 
-
+    /** This method initializes when the form is called and sets up form.
+     * @param url This is the url.
+     * @param resourceBundle This is the resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -126,6 +145,11 @@ public class CustomersFormController implements Initializable {
 
 
     //METHODS
+
+
+    /**
+     * This method sets up the columns for the customers form table view.
+     */
     private void setColumns(){
 
         customerIDTableColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("cusID"));
@@ -138,6 +162,11 @@ public class CustomersFormController implements Initializable {
 
     }
 
+    /** This method switches the screen to the new form.
+     * @param newFXML This is the path to the new screen.
+     * @param event This event triggers the method.
+     * @throws IOException Throws IOException.
+     */
     private void switchScene(String newFXML, ActionEvent event) throws IOException {
 
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -146,6 +175,9 @@ public class CustomersFormController implements Initializable {
         stage.show();
     }
 
+    /** This method gets if adding or updating customer.
+     * @return Returns true if adding customer.
+     */
     public static Boolean getIsLabelAdd(){
 
         if(isLabelAdd){

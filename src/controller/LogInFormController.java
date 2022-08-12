@@ -30,6 +30,9 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
+/**
+ * This class controls the javafx loginform html class.
+ */
 public class LogInFormController implements Initializable {
 
     private Stage stage;
@@ -55,6 +58,9 @@ public class LogInFormController implements Initializable {
     @FXML
     private Button loginLogInButton;
 
+    /** This method exits the application.
+     * @param event This event triggers the method.
+     */
     @FXML
     void onActionExitButton(ActionEvent event) {
 
@@ -63,6 +69,12 @@ public class LogInFormController implements Initializable {
 
     }
 
+    /** This method triggers when the login button is pressed, checks for empty text fields, checks user and password log in,
+     *  saves user attempt, switches screen to main menu form if successful, popup notifing if appointment is within 15 minutes.
+     * @param event This event triggers the method.
+     * @throws IOException Throws IOException.
+     * @throws SQLException Throws SQLException.
+     */
     @FXML
     void onActionLoginButton(ActionEvent event) throws IOException, SQLException {
 
@@ -95,10 +107,10 @@ public class LogInFormController implements Initializable {
     }
 
 
-
-
-
-
+    /** This method initializes when form is called and sets up form including language default.
+     * @param url This is the url.
+     * @param resourceBundle This is the resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -130,6 +142,11 @@ public class LogInFormController implements Initializable {
         this.user = user;
     }
 
+    /** This method switches screen to the new screen.
+     * @param newFXML This is the path to the new screen.
+     * @param event This event triggers the method.
+     * @throws IOException Throws IOException.
+     */
     private void switchScene(String newFXML, ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource(newFXML));
@@ -137,6 +154,9 @@ public class LogInFormController implements Initializable {
         stage.show();
     }
 
+    /** This method saves the user log in attempt to an external file.
+     * @throws IOException Throws IOException.
+     */
     private void saveLoginAttempt() throws IOException {
         String fileName = "src/File/login_activity.txt", userAttemptLine;
 
@@ -147,6 +167,11 @@ public class LogInFormController implements Initializable {
         pw.close();
     }
 
+    /** This method checks for empty text fields.
+     * @param event This event triggers the method.
+     * @return Returns true if errors are found.
+     * @throws IOException Throws IOException.
+     */
     private boolean checkInput(ActionEvent event) throws IOException {
 
         boolean errors = false;
@@ -169,6 +194,10 @@ public class LogInFormController implements Initializable {
         return errors;
     }
 
+    /** This method checks if the user has an appointment within 15 minutes
+     * @return Returns message to input into the popup screen.
+     * @throws SQLException Throws SQLException.
+     */
     private String checkApptsForFifteen() throws SQLException {
 
         String mFifteen = "";
