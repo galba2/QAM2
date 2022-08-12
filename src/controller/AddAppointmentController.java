@@ -155,10 +155,14 @@ public class AddAppointmentController implements Initializable {
         }
     }
 
+    /**This method checks to see if the last hour is selected on the start hour combo box and then loads the end minute combo box with only the
+     * value of "00" if it is. If it is not, it loads it with the regular minute list.
+     * @param event This event triggers this method.
+     */
     @FXML
     void onActionEndHourComboBox(ActionEvent event) {
 
-        if(endHourComboBox.getSelectionModel().getSelectedItem().compareTo(String.valueOf(adjustedLocalZDT.plusHours(14).getHour())) == 0){
+        if(endHourComboBox.getSelectionModel().getSelectedItem().compareTo(String.valueOf(adjustedLocalZDT.plusHours(14).getHour())) == 0){//
             ObservableList<String> m = FXCollections.observableArrayList();
             m.add("00");
             endMinuteComboBox.setItems(m);
@@ -168,9 +172,10 @@ public class AddAppointmentController implements Initializable {
     }
 
 
-
-
-
+    /**This method initializes the form.
+     * @param url This is the url.
+     * @param resourceBundle This is the resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -199,7 +204,13 @@ public class AddAppointmentController implements Initializable {
 
 
 
+
+
     //METHODS
+
+    /**
+     * This method sets the label of the form based on where it was called from.
+     */
     @FXML
     private void setCusLabel(){
 
@@ -211,6 +222,9 @@ public class AddAppointmentController implements Initializable {
         }
     }
 
+    /** This method sets up all the form combo boxes.
+     * @throws SQLException Throws a SQLException.
+     */
     private void setComboBoxes() throws SQLException {
 
         typeComboBox.setItems(getTypesList());
@@ -222,6 +236,10 @@ public class AddAppointmentController implements Initializable {
         endHourComboBox.setItems(getHourList(false));
     }
 
+    /** This method grabs only the ID number of the string
+     * @param rawString This is the string with the ID number.
+     * @return Returns the ID number as an int.
+     */
     private int getIDOnly(String rawString) {
 
         int idInt;
@@ -233,6 +251,9 @@ public class AddAppointmentController implements Initializable {
         return idInt;
     }
 
+    /**
+     * This method clears all textfields.
+     */
     private void clearFields() {
 
         descriptionTextfield.clear();
@@ -241,6 +262,10 @@ public class AddAppointmentController implements Initializable {
         titleTextfield.clear();
     }
 
+    /** This method sets up all the form text fields with update information.
+     * @param updateAppt This is the appointment to be updated.
+     * @throws SQLException Throws SQLException.
+     */
     private void setUpTextfields(Appointment updateAppt) throws SQLException {
 
         String startMinuteString;
@@ -286,19 +311,30 @@ public class AddAppointmentController implements Initializable {
         endMinuteComboBox.getSelectionModel().select(endMinuteString);
     }
 
+    /** This method gets a static list of different types.
+     * @return Returns an observable list of types.
+     */
     private ObservableList<String> getTypesList() {
         ObservableList<String > types = FXCollections.observableArrayList();
         types.addAll("Planning Session","De-Briefing","Briefing","Brainstorm Session","Appointment Making","Introduction","Other");
         return types;
     }
 
+    /** This method gets a static list of minutes.
+     * @return Returns an observable list of minutes.
+     */
     private ObservableList<String> getMinuteList() {
         ObservableList<String > m = FXCollections.observableArrayList();
         m.addAll("00","15","30","45");
         return m;
     }
 
+    /**This method returns the adjusted hour list for the start combo box or end combo box.
+     * @param isStart This notifies if it returns the hours for the start combo box or end combo box.
+     * @return Returns an observable list of hours for the start combo box or end combo box.
+     */
     private ObservableList<String> getHourList(Boolean isStart) {
+
         ObservableList<String > h = FXCollections.observableArrayList();
 
         LocalDate businessLocationDate = LocalDate.now();
@@ -333,6 +369,9 @@ public class AddAppointmentController implements Initializable {
     }
 
 
+    /** This method gets the start localdatetime from the datepicker, start hour combo box, and start minute combo box.
+     * @return Returns the localdatetime.
+     */
     private LocalDateTime getStartLocalDateTime() {
 
         return LocalDateTime.of(datePicker.getValue(),LocalTime.parse(startHourComboBox.getSelectionModel().getSelectedItem() + ":"
@@ -340,12 +379,20 @@ public class AddAppointmentController implements Initializable {
     }
 
 
+    /** This method gets the end localdatetime from the datepicker, end hour combo box, and end minute combo box.
+     * @return Returns the localdatetime.
+     */
     private LocalDateTime getEndLocalDateTime() {
 
         return LocalDateTime.of(datePicker.getValue(),LocalTime.parse(endHourComboBox.getSelectionModel().getSelectedItem() + ":"
                                                                         + endMinuteComboBox.getSelectionModel().getSelectedItem()));
     }
 
+    /** This method checks for empty text fields and triggers a popup form if it finds one while activating an error label.
+     * @return Returns true if errors found.
+     * @throws SQLException Throws SQLException.
+     * @throws IOException Throws IOException.
+     */
     private boolean checkInput() throws SQLException, IOException {
 
         boolean errors = false;
@@ -395,6 +442,7 @@ public class AddAppointmentController implements Initializable {
             if(timeComboBoxesSelected() && !customerIDComboBox.getSelectionModel().isEmpty()){//check if time combo boxes and customerid combo box have been selected
 
                 if(getStartLocalDateTime().isAfter(getEndLocalDateTime()) || getStartLocalDateTime().isEqual(getEndLocalDateTime())){//check if start time is after end time or both times are equal
+                    //show popup
                     PopUpFormController.setUpPopUp("ERROR!", "Please choose an end time that is after the start time.");
                     Stage popUpStage = new Stage();
                     Parent root = FXMLLoader.load(getClass().getResource("/view/PopUpForm.fxml"));
@@ -411,6 +459,9 @@ public class AddAppointmentController implements Initializable {
         return errors;
     }
 
+    /** This method checks for empty combo boxes.
+     * @return Returns true if all time combo boxes are selected.
+     */
     private boolean timeComboBoxesSelected() {
 
         boolean selected = true;
@@ -443,6 +494,11 @@ public class AddAppointmentController implements Initializable {
         return selected;
     }
 
+    /** This method checks if there is an appointment time overlap with another appointment for the same customer.
+     * The lambda expression is used by foreach methods in order to go through the make the code easier to read.
+     * @return Returns true if there is an error of an appointment overlap.
+     * @throws SQLException Throws SQLException.
+     */
     private boolean checkAppointmentOverlap() throws SQLException {
 
         AtomicBoolean err = new AtomicBoolean(false);
