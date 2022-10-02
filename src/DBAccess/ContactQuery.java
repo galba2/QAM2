@@ -1,10 +1,8 @@
 package DBAccess;
 
 import Database.DBConnection;
-import controller.ContactReportFormController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Appointment;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

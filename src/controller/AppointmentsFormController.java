@@ -77,6 +77,19 @@ public class AppointmentsFormController implements Initializable {
     private Button appointmentsFormBackButton;
     @FXML
     private Button appDeleteButton;
+    @FXML
+    private RadioButton appApptIDRadio;
+    @FXML
+    private RadioButton appContactRadio;
+    @FXML
+    private RadioButton appCusIDRadio;
+    @FXML
+    private ToggleGroup appSearchToggle;
+    @FXML
+    private Button appSearchButton;
+    @FXML
+    private TextField appSearchTextfield;
+
 
 
     /** This method triggers when the add button is pressed and switches to the add appointment form.
@@ -217,6 +230,27 @@ public class AppointmentsFormController implements Initializable {
         setLabel();
         aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
     }
+
+    @FXML
+    void onActionCusIDRadio(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionContactRadio(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionApptIDRadio(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionSearchButton(ActionEvent event) {
+
+    }
+
 
 
     /** This is method initializes when the form is called and sets up the form.

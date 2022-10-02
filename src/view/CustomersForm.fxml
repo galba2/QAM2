@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -15,6 +18,19 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
+      <HBox alignment="CENTER" spacing="33.0">
+         <padding>
+            <Insets bottom="15.0" />
+         </padding>
+         <children>
+            <TextField fx:id="customerSearchTextField" onAction="#onActionCustomerSearch" promptText="Search..." />
+            <Label text="Search by:" />
+            <RadioButton fx:id="customerSearchNameRadio" mnemonicParsing="false" onAction="#onActionCustomerNameRadio" text="Name" />
+            <RadioButton fx:id="customerSearchCountIDRadio" mnemonicParsing="false" onAction="#onActionCustomerCountIDRadio" text="Country ID" />
+            <RadioButton fx:id="customerSearchCusIDRadio" mnemonicParsing="false" onAction="#onActioncustomerCusIDRadio" text="Customer ID" />
+            <Button fx:id="customerSearchButton" mnemonicParsing="false" onAction="#onActionCustomerSearchButton" text="Search" />
+         </children>
+      </HBox>
       <TableView fx:id="customerTableView" prefHeight="200.0" prefWidth="200.0">
         <columns>
           <TableColumn fx:id="customerIDTableColumn" prefWidth="75.0" text="ID" />

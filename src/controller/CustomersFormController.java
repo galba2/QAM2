@@ -7,9 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Customer;
@@ -54,6 +52,19 @@ public class CustomersFormController implements Initializable {
     private TableColumn<Customer, String> customerAddressTableColumn;
     @FXML
     private TableView<Customer> customerTableView;
+    @FXML
+    private RadioButton customerSearchCountIDRadio;
+    @FXML
+    private RadioButton customerSearchCusIDRadio;
+    @FXML
+    private RadioButton customerSearchNameRadio;
+    @FXML
+    private ToggleGroup customerSearchToggle;
+    @FXML
+    private TextField customerSearchTextField;
+    @FXML
+    private Button customerSearchButton;
+
 
 
     /** This method switches screen to the add customer form.
@@ -118,10 +129,36 @@ public class CustomersFormController implements Initializable {
             isLabelAdd = false;
             switchScene("/view/AddCustomerForm.fxml",event);
         }
+    }
 
-
+    @FXML
+    void onActionCustomerCountIDRadio(ActionEvent event) {
 
     }
+
+    @FXML
+    void onActionCustomerNameRadio(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActioncustomerCusIDRadio(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionCustomerSearchButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionCustomerSearch(ActionEvent event) {
+
+    }
+
+
+
+
 
 
     /** This method initializes when the form is called and sets up form.
