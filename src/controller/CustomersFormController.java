@@ -15,6 +15,7 @@ import model.Customer;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
@@ -27,6 +28,7 @@ public class CustomersFormController implements Initializable {
     private Parent scene;
     private static boolean isLabelAdd = true;
     private static Customer updateCustomer;
+    private String currentCustomerRadio;
 
     @FXML
     private Button customerAddButton;
@@ -132,28 +134,55 @@ public class CustomersFormController implements Initializable {
     }
 
     @FXML
-    void onActionCustomerCountIDRadio(ActionEvent event) {
+    void onActionCustomerNameRadio(ActionEvent event) {
+        currentCustomerRadio = "Name";
 
     }
 
     @FXML
-    void onActionCustomerNameRadio(ActionEvent event) {
-
+    void onActionCustomerCountIDRadio(ActionEvent event) {
+        currentCustomerRadio = "Country ID";
     }
 
     @FXML
     void onActioncustomerCusIDRadio(ActionEvent event) {
+        currentCustomerRadio = "Customer ID";
 
     }
 
     @FXML
-    void onActionCustomerSearchButton(ActionEvent event) {
+    void onActionCustomerSearchButton(ActionEvent event) throws SQLException {
 
-    }
+        ArrayList<Customer> allCustomers = new ArrayList<>();
+        ArrayList<Customer> vettedCustomers = new ArrayList<>();
+        vettedCustomers.clear();
+        allCustomers.clear();
+        allCustomers.addAll(CustomerQuery.getAllCustomers());
 
-    @FXML
-    void onActionCustomerSearch(ActionEvent event) {
+        if(currentCustomerRadio.compareTo("Name") == 0){
+            for(Customer c: allCustomers){
+                if(c.getCustomerName().contains(customerSearchTextField.getText())){
+                    vettedCustomers.add(c);
+                }
+            }
+        }else if(currentCustomerRadio.compareTo("Country ID") == 0){
+            for(Customer c: allCustomers){
+                if(c.getCountryID() == Integer.valueOf(customerSearchTextField.getText())){
+                    vettedCustomers.add(c);
+                }
+            }
+        }else{
+            for(Customer c: allCustomers){
+                if(c.getCusID() == Integer.valueOf(customerSearchTextField.getText())){
+                    vettedCustomers.add(c);
+                }
+            }
+        }
 
+        for(Customer c: vettedCustomers){
+            System.out.println("Name: " + c.getCustomerName() + "~~~CountryID: " + c.getCountryID()
+                                    + "~~~CustomerID: " + c.getCusID());
+        }
     }
 
 

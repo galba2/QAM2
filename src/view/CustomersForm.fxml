@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -23,11 +24,15 @@
             <Insets bottom="15.0" />
          </padding>
          <children>
-            <TextField fx:id="customerSearchTextField" onAction="#onActionCustomerSearch" promptText="Search..." />
+            <TextField fx:id="customerSearchTextField" promptText="Search..." />
             <Label text="Search by:" />
-            <RadioButton fx:id="customerSearchNameRadio" mnemonicParsing="false" onAction="#onActionCustomerNameRadio" text="Name" />
-            <RadioButton fx:id="customerSearchCountIDRadio" mnemonicParsing="false" onAction="#onActionCustomerCountIDRadio" text="Country ID" />
-            <RadioButton fx:id="customerSearchCusIDRadio" mnemonicParsing="false" onAction="#onActioncustomerCusIDRadio" text="Customer ID" />
+            <RadioButton fx:id="customerSearchNameRadio" mnemonicParsing="false" onAction="#onActionCustomerNameRadio" text="Name">
+               <toggleGroup>
+                  <ToggleGroup fx:id="customerSearchToggle" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="customerSearchCountIDRadio" mnemonicParsing="false" onAction="#onActionCustomerCountIDRadio" text="Country ID" toggleGroup="$customerSearchToggle" />
+            <RadioButton fx:id="customerSearchCusIDRadio" mnemonicParsing="false" onAction="#onActioncustomerCusIDRadio" text="Customer ID" toggleGroup="$customerSearchToggle" />
             <Button fx:id="customerSearchButton" mnemonicParsing="false" onAction="#onActionCustomerSearchButton" text="Search" />
          </children>
       </HBox>

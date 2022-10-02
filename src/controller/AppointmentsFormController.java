@@ -274,9 +274,6 @@ public class AppointmentsFormController implements Initializable {
 
 
 
-
-
-
     //METHODS
 
 
