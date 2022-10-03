@@ -1,6 +1,8 @@
 package controller;
 
 import DBAccess.CustomerQuery;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -153,8 +155,12 @@ public class CustomersFormController implements Initializable {
     @FXML
     void onActionCustomerSearchButton(ActionEvent event) throws SQLException {
 
+        while(testSearch()){
+
+        }
+
         ArrayList<Customer> allCustomers = new ArrayList<>();
-        ArrayList<Customer> vettedCustomers = new ArrayList<>();
+        ObservableList<Customer> vettedCustomers = FXCollections.observableArrayList();
         vettedCustomers.clear();
         allCustomers.clear();
         allCustomers.addAll(CustomerQuery.getAllCustomers());
@@ -178,6 +184,8 @@ public class CustomersFormController implements Initializable {
                 }
             }
         }
+
+        customerTableView.setItems(vettedCustomers);
 
         for(Customer c: vettedCustomers){
             System.out.println("Name: " + c.getCustomerName() + "~~~CountryID: " + c.getCountryID()
@@ -239,6 +247,17 @@ public class CustomersFormController implements Initializable {
         scene = FXMLLoader.load(getClass().getResource(newFXML));
         stage.setScene(new Scene(scene));
         stage.show();
+    }
+
+    private boolean testSearch(){
+        boolean isCorrect = false;
+
+        if(currentCustomerRadio.compareTo("Country ID") == 0 || currentCustomerRadio.compareTo("Customer ID") == 0){
+            //if(customerSearchTextField.getText().h)
+
+        }
+
+        return isCorrect;
     }
 
     /** This method gets if adding or updating customer.
