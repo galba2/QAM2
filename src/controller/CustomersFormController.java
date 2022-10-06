@@ -68,6 +68,8 @@ public class CustomersFormController implements Initializable {
     private TextField customerSearchTextField;
     @FXML
     private Button customerSearchButton;
+    @FXML
+    private Label customerErrorLabel;
 
 
 
@@ -155,10 +157,15 @@ public class CustomersFormController implements Initializable {
     @FXML
     void onActionCustomerSearchButton(ActionEvent event) throws SQLException {
 
-        while(testSearch()){
+        customerTableView.getItems().clear();
+        customerErrorLabel.setVisible(false);
 
+        if(isSearchError()){
+            System.out.println("Inside if(isSearchError)");
+            return;
         }
 
+        System.out.println("After while loop!");
         ArrayList<Customer> allCustomers = new ArrayList<>();
         ObservableList<Customer> vettedCustomers = FXCollections.observableArrayList();
         vettedCustomers.clear();
@@ -167,7 +174,7 @@ public class CustomersFormController implements Initializable {
 
         if(currentCustomerRadio.compareTo("Name") == 0){
             for(Customer c: allCustomers){
-                if(c.getCustomerName().contains(customerSearchTextField.getText())){
+                if(c.getCustomerName().toLowerCase().contains(customerSearchTextField.getText().toLowerCase())){
                     vettedCustomers.add(c);
                 }
             }
@@ -193,7 +200,21 @@ public class CustomersFormController implements Initializable {
         }
     }
 
+    @FXML
+    void onActionCusClearButton(ActionEvent event) {
 
+        customerSearchTextField.clear();
+        customerTableView.getItems().clear();
+        customerSearchNameRadio.setSelected(false);
+        customerSearchCountIDRadio.setSelected(false);
+        customerSearchCusIDRadio.setSelected(false);
+
+        try {
+            customerTableView.setItems(CustomerQuery.getAllCustomers());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 
 
 
@@ -249,15 +270,24 @@ public class CustomersFormController implements Initializable {
         stage.show();
     }
 
-    private boolean testSearch(){
-        boolean isCorrect = false;
+    private boolean isSearchError(){
+        System.out.println("Inside isSearchError()!");
+        boolean isWrong = true;
 
         if(currentCustomerRadio.compareTo("Country ID") == 0 || currentCustomerRadio.compareTo("Customer ID") == 0){
-            //if(customerSearchTextField.getText().h)
-
+            System.out.println("Inside if radio!");
+            try{
+                Integer.valueOf(customerSearchTextField.getText());
+                isWrong = false;
+            }catch(NumberFormatException e){
+                System.out.println("Caught");
+                customerErrorLabel.setVisible(true);
+            }
+        }else{
+            isWrong = false;
         }
 
-        return isCorrect;
+        return isWrong;
     }
 
     /** This method gets if adding or updating customer.
