@@ -30,7 +30,7 @@ public class CustomersFormController implements Initializable {
     private Parent scene;
     private static boolean isLabelAdd = true;
     private static Customer updateCustomer;
-    private String currentCustomerRadio;
+    private String currentCustomerRadio = null;
 
     @FXML
     private Button customerAddButton;
@@ -70,6 +70,8 @@ public class CustomersFormController implements Initializable {
     private Button customerSearchButton;
     @FXML
     private Label customerErrorLabel;
+    @FXML
+    private Label customerTypeLabel;
 
 
 
@@ -159,6 +161,7 @@ public class CustomersFormController implements Initializable {
 
         customerTableView.getItems().clear();
         customerErrorLabel.setVisible(false);
+        customerTypeLabel.setVisible(false);
 
         if(isSearchError()){
             System.out.println("Inside if(isSearchError)");
@@ -208,6 +211,7 @@ public class CustomersFormController implements Initializable {
         customerSearchNameRadio.setSelected(false);
         customerSearchCountIDRadio.setSelected(false);
         customerSearchCusIDRadio.setSelected(false);
+        currentCustomerRadio = null;
 
         try {
             customerTableView.setItems(CustomerQuery.getAllCustomers());
@@ -274,7 +278,12 @@ public class CustomersFormController implements Initializable {
         System.out.println("Inside isSearchError()!");
         boolean isWrong = true;
 
-        if(currentCustomerRadio.compareTo("Country ID") == 0 || currentCustomerRadio.compareTo("Customer ID") == 0){
+        if(currentCustomerRadio == null){
+
+            System.out.println("Inside if null!");
+            customerTypeLabel.setVisible(true);
+        }else if(currentCustomerRadio.compareTo("Country ID") == 0 || currentCustomerRadio.compareTo("Customer ID") == 0) {
+
             System.out.println("Inside if radio!");
             try{
                 Integer.valueOf(customerSearchTextField.getText());
@@ -284,7 +293,7 @@ public class CustomersFormController implements Initializable {
                 customerErrorLabel.setVisible(true);
             }
         }else{
-            isWrong = false;
+                isWrong = false;
         }
 
         return isWrong;
