@@ -164,11 +164,9 @@ public class CustomersFormController implements Initializable {
         customerTypeLabel.setVisible(false);
 
         if(isSearchError()){
-            System.out.println("Inside if(isSearchError)");
             return;
         }
 
-        System.out.println("After while loop!");
         ArrayList<Customer> allCustomers = new ArrayList<>();
         ObservableList<Customer> vettedCustomers = FXCollections.observableArrayList();
         vettedCustomers.clear();
@@ -196,11 +194,6 @@ public class CustomersFormController implements Initializable {
         }
 
         customerTableView.setItems(vettedCustomers);
-
-        for(Customer c: vettedCustomers){
-            System.out.println("Name: " + c.getCustomerName() + "~~~CountryID: " + c.getCountryID()
-                                    + "~~~CustomerID: " + c.getCusID());
-        }
     }
 
     @FXML
@@ -275,21 +268,17 @@ public class CustomersFormController implements Initializable {
     }
 
     private boolean isSearchError(){
-        System.out.println("Inside isSearchError()!");
         boolean isWrong = true;
 
         if(currentCustomerRadio == null){
 
-            System.out.println("Inside if null!");
             customerTypeLabel.setVisible(true);
         }else if(currentCustomerRadio.compareTo("Country ID") == 0 || currentCustomerRadio.compareTo("Customer ID") == 0) {
 
-            System.out.println("Inside if radio!");
             try{
                 Integer.valueOf(customerSearchTextField.getText());
                 isWrong = false;
             }catch(NumberFormatException e){
-                System.out.println("Caught");
                 customerErrorLabel.setVisible(true);
             }
         }else{

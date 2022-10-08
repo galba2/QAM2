@@ -1,6 +1,8 @@
 package controller;
 
 import DBAccess.AppointmentQuery;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.Customer;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,6 +21,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
@@ -32,6 +36,7 @@ public class AppointmentsFormController implements Initializable {
     private static Appointment updateAppt;
     private LocalDate labelLocalDate;
     private static String currentRadioButton;
+    private static String currentSearchRadioButton = null;
 
     @FXML
     private  static RadioButton aRAllRadio;
@@ -89,6 +94,12 @@ public class AppointmentsFormController implements Initializable {
     private Button appSearchButton;
     @FXML
     private TextField appSearchTextfield;
+    @FXML
+    private Label appTypeLabel;
+    @FXML
+    private Label appErrorLabel;
+    @FXML
+    private Button appClearButton;
 
 
 
@@ -178,7 +189,8 @@ public class AppointmentsFormController implements Initializable {
         }
 
         setLabel();
-        aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
+        onActionAppClearButton(event);
+        //aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
     }
 
     /** This method moves the month or week level forward one. Refreshes aRTable view and label.
@@ -195,7 +207,8 @@ public class AppointmentsFormController implements Initializable {
         }
 
         setLabel();
-        aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
+        onActionAppClearButton(event);
+        //aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
     }
 
     /** This method refreshes aRTable view with all appointments and sets label.
@@ -206,7 +219,8 @@ public class AppointmentsFormController implements Initializable {
     void onActionAllRadio(ActionEvent event) throws SQLException {
         currentRadioButton = "All";
         setLabel();
-        aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
+        onActionAppClearButton(event);
+        //aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
     }
 
     /** This method refreshes aRTable view with all monthly appointments and sets label.
@@ -217,7 +231,8 @@ public class AppointmentsFormController implements Initializable {
     void onActionMonthlyRadio(ActionEvent event) throws SQLException {
         currentRadioButton = "Monthly";
         setLabel();
-        aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
+        onActionAppClearButton(event);
+        //aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
     }
 
     /** This method refreshes aRTable view with all weekly appointments and sets label.
@@ -228,26 +243,95 @@ public class AppointmentsFormController implements Initializable {
     void onActionWeeklyRadio(ActionEvent event) throws SQLException {
         currentRadioButton = "Weekly";
         setLabel();
-        aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
+        onActionAppClearButton(event);
+        //aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
     }
 
     @FXML
     void onActionCusIDRadio(ActionEvent event) {
-
+        currentSearchRadioButton = "Customer ID";
     }
 
     @FXML
     void onActionContactRadio(ActionEvent event) {
-
+        currentSearchRadioButton = "Contact ID";
     }
 
     @FXML
     void onActionApptIDRadio(ActionEvent event) {
-
+        currentSearchRadioButton = "Appointment ID";
     }
 
     @FXML
     void onActionSearchButton(ActionEvent event) {
+
+        aRTableView.getItems().clear();
+        appErrorLabel.setVisible(false);
+        appTypeLabel.setVisible(false);
+
+        if(isSearchError()){
+            System.out.println("Inside if(isSearchError)");
+            return;
+        }
+
+        ArrayList<Appointment> shownAppts = new ArrayList<Appointment>();
+        ObservableList<Appointment> vettedAppts = FXCollections.observableArrayList();
+        shownAppts.clear();
+        vettedAppts.clear();
+
+        try {
+            shownAppts.addAll(AppointmentQuery.populateTableItems(labelLocalDate));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
+        if(currentSearchRadioButton.compareTo("Customer ID") == 0){
+            for(Appointment a: shownAppts){
+                if(a.getCustomerID() == Integer.valueOf(appSearchTextfield.getText())){
+                    vettedAppts.add(a);
+                }
+            }
+        }else if(currentSearchRadioButton.compareTo("Contact ID") == 0){
+            for(Appointment a: shownAppts){
+                if(a.getContactID() == Integer.valueOf(appSearchTextfield.getText())){
+                    vettedAppts.add(a);
+                }
+            }
+        }else {
+            for(Appointment a: shownAppts){
+                if(a.getApptID() == Integer.valueOf(appSearchTextfield.getText())){
+                    vettedAppts.add(a);
+                }
+            }
+        }
+
+        aRTableView.setItems(vettedAppts);
+
+    }
+
+    @FXML
+    void onActionAppClearButton(ActionEvent event) {
+        appSearchTextfield.clear();
+        appErrorLabel.setVisible(false);
+        appTypeLabel.setVisible(false);
+        appCusIDRadio.setSelected(false);
+        appContactRadio.setSelected(false);
+        appApptIDRadio.setSelected(false);
+        currentSearchRadioButton = null;
+        aRTableView.getItems().clear();
+
+
+        //labelLocalDate = LocalDate.now();
+        //setLabel();
+        //setColumns();
+
+        try {
+            aRTableView.setItems(AppointmentQuery.populateTableItems(labelLocalDate));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
 
     }
 
@@ -334,6 +418,26 @@ public class AppointmentsFormController implements Initializable {
             DateTimeFormatter weekNumFormatter = DateTimeFormatter.ofPattern("w");
             aRMonthWeekLabel.setText("Week " + labelLocalDate.format(weekNumFormatter));
         }
+    }
+
+    private boolean isSearchError(){
+        boolean isWrong = true;
+
+        if(currentSearchRadioButton == null){
+            appTypeLabel.setVisible(true);
+        }else if(currentSearchRadioButton.compareTo("Customer ID") == 0 || currentSearchRadioButton.compareTo("Appointment ID") == 0){
+
+            try{
+                Integer.valueOf(appSearchTextfield.getText());
+                isWrong = false;
+            }catch(NumberFormatException e){
+                appErrorLabel.setVisible(true);
+            }
+        }else{
+            isWrong = false;
+        }
+
+        return isWrong;
     }
 
     /** This method gets the appointment to be updated.
